@@ -6,15 +6,16 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
-#include <time.h>
-#include <ctype.h>
 
-#define P1 50
-#define P2 10
+#include <time.h>     /* random value */
+#include <ctype.h>    /* atoi function */
+
+#define P1 50       /* denominator */
+#define P2 10				/* numerator */
 
 char act[10];
 char bad[20] = "Time Out ";
-void alpha9(int);
+void int2char(int);
 
 struct sockaddr_in ser,cli;   /* server & client */
 int s, err, sock, total;
@@ -22,7 +23,6 @@ unsigned int sseed;
 
 int main()
 {
-	int i,j,c=1,n;
 
 	s = socket(AF_INET,SOCK_STREAM,0); /* use TCP protocol */
 	if(s == -1){
@@ -41,8 +41,8 @@ int main()
 	}
 
 	listen(s,1);
-	n=sizeof(cli);
-	sock = accept(s, (struct sockaddr *)&cli, &n);
+	int len = sizeof(cli);
+	sock = accept(s, (struct sockaddr *)&cli, &len);
 	puts("TCP Connection Established.");
 
 	sseed = (unsigned int)time(NULL); /* initial the random value */
@@ -51,43 +51,29 @@ int main()
 	recv(sock, act, sizeof(act), 0);
 	total = atoi(act);
 	printf("total = %d\n", total);
+
+/************************* stop and wait *****************************/
 	while(1){
 		recv(sock, act, sizeof(act), 0);
-		//printf("act = %s\n", act);
-		if(strcmp(act, bad) != 0 && c <= total){	
-			j = rand() % P1;
-			if(j < P2){
+		printf("recv act = %s check it out whether it's a time-out, if time-out then do nothing(there exists some bugs...) \n", act);
+		if(strcmp(act, bad) != 0){    /* if not time-out */
+			int random = rand() % P1;   /* have a certain probability to send the ACK with the time-out */
+			if(random < P2){						/* 20% */
 				send(sock, bad, sizeof(bad), 0);
 			}
-			else {
-				printf("\nFrame %s Received \n",act);
-				send(sock, act, sizeof(act), 0);
+			else {											/* 80% */
+				printf("Frame %s Received \n",act);
+				send(sock, act, sizeof(act), 0);  /* send the ACK */
 			}
 		}
-		//if(c == f)break;
 	}
 	close(sock);
 	close(s);
 	return 0;
 }
 
-void alpha9(int z)
+void int2char(int z)
 {
-	int k,i=0,j,g;
-	k=z;
-	while(k>0)
-	{
-		i++;
-		k=k/10;
-	}
-	g=i;
-	i--;
-	while(z>0)
-	{
-		k=z%10;
-		act[i]=k+48;
-		i--;
-		z=z/10;
-	}
-	act[g]='\0';
+	memset(act, 0, sizeof(act));
+	sprintf(act, "%d", z);
 }

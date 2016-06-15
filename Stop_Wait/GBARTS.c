@@ -6,15 +6,16 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+
 #include <time.h>
 #include <ctype.h>
 
 char act[10];
 char bad[10] = "Time Out ";
-void alpha9(int);
+void int2char(int);
 
-struct sockaddr_in ser;
-int s, c = 1, total;
+struct sockaddr_in ser;                  /* define the server */
+int s, total;
 
 int main()
 {
@@ -34,49 +35,35 @@ int main()
 	puts("Enter the number of Frames: ");
 	scanf("%d",&total);
 
-	alpha9(total);
+	int2char(total);
 	send(s, act, sizeof(act),0);
-	int i = 0;
+
+	int c = 1;
+/************************ stop and wait ****************************/
 	while(1)
 	{
 		if(c <= total){
-			alpha9(c);
+			int2char(c);
 			send(s, act, sizeof(act), 0);
-			printf("\nFrame %d Sent\n", c);
-		}
+			printf("Frame %d Sent\n", c);
 
-		recv(s, act, sizeof(act), 0);
-		printf("act = %s\n", act);
-		if(strcmp(act, bad) == 0){
-			printf("\nTime Out, Resent Frame %d onwards\n",c);	
-		}
-		else if (c <= total){
-			i++;
-			c++;	
+			recv(s, act, sizeof(act), 0);
+			printf("recv from receiver AS ACK act = %s\n", act);
+
+			if(strcmp(act, bad) == 0){
+				printf("Time Out, Resent Frame %d onwards\n",c);
+			}
+			else if (c <= total){
+				c++;
+			}
 		}
 	}
 	close(s);
 	return 0;
 }
 
-void alpha9(int z)
+void int2char(int z)
 {
-	int k,i=0,j,g;
-	k=z;
-	while(k>0)
-	{
-		i++;
-		k=k/10;
-	}
-	g=i;
-	i--;
-	while(z>0)
-	{
-		k=z%10;
-		act[i]=k+48;
-		i--;
-		z=z/10;
-	}
-	act[g]='\0';
+	memset(act, 0, sizeof(act));
+	sprintf(act, "%d", z);
 }
-
