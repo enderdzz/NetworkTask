@@ -6,76 +6,85 @@
 #include<time.h>
 #include<stdlib.h>
 #include<ctype.h>
-#include<arpa/inet.h>
 
-#define W 5    /* W is defined as WindowSize */
-#define P1 50
-#define P2 10
+#define W 5
 
 char a[10];
 char b[10];
+
 void alpha9(int);
 
 int main()
 {
-    struct sockaddr_in ser,cli;
-    int s,n,sock,i,j,c=1,f;
-    unsigned int s1;
+    int s,f,wl,c=1,x,i=0,j,n,p=0,e=0;
+    struct sockaddr_in ser;
     s=socket(AF_INET,SOCK_STREAM,0);
     ser.sin_family=AF_INET;
     ser.sin_port=6500;
     ser.sin_addr.s_addr=inet_addr("127.0.0.1");
-    bind(s,(struct sockaddr *) &ser, sizeof(ser));
-    listen(s,1);
-    n=sizeof(cli);
-    sock=accept(s,(struct sockaddr *)&cli, &n);
+    connect(s,(struct sockaddr *) &ser, sizeof(ser));
     printf("\nTCP Connection Established.\n");
-    s1=(unsigned int) time(NULL);
-    srand(s1);
+    printf("\nEnter the number of Frames: ");
+    scanf("%d",&f);
+    alpha9(f);
+    send(s,a,sizeof(a),0);
     strcpy(b,"Time Out ");
-    recv(sock,a,sizeof(a),0);
-    f=atoi(a);
     while(1)
     {
         for(i=0;i<W;i++)
         {
-            recv(sock,a,sizeof(a),0);
-            if(strcmp(a,b)==0)
+            alpha9(c);
+            send(s,a,sizeof(a),0);
+            if(c<=f)
             {
-                break;
+                printf("\nFrame %d Sent",c);
+                c++;
             }
         }
         i=0;
+        wl=W;
         while(i<W)
         {
-            j=rand()%P1;
-            if(j<P2)
+            recv(s,a,sizeof(a),0);
+            p=atoi(a);
+            if(strcmp(a,b)==0)
             {
-                send(sock,b,sizeof(b),0);
-                break;
+                e=c-wl;
+		if(e<f)
+		{
+		    printf("\nTime Out, Resent Frame %d onwards",e);
+		}
+		break;
             }
             else
             {
-                alpha9(c);
-                if(c<=f)
+                if(p<=f)
                 {
-                    printf("\nFrame %s Received ",a);
-                    send(sock,a,sizeof(a),0);
+                    printf("\nFrame %s Acknowledged",a);
+                    wl--;
                 }
                 else
                 {
                     break;
                 }
-                c++;
             }
-            if(c>f)
+            if(p>f)
             {
                 break;
             }
             i++;
         }
+        if(wl==0 && c>f)
+        {
+            send(s,b,sizeof(b),0);
+            break;
+        }
+        else
+        {
+            c=c-wl;
+            wl=W;
+        }
     }
-    close(sock);
     close(s);
     return 0;
 }
@@ -100,3 +109,4 @@ void alpha9(int z)
     }
     a[g]='\0';
 }
+

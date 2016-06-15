@@ -8,7 +8,7 @@
 #include<ctype.h>
 #include<arpa/inet.h>
 
-#define W 5    /* W is defined as WindowSize */
+#define WindowSize 5
 #define P1 50
 #define P2 10
 

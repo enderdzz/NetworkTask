@@ -17,12 +17,12 @@ char bad[20] = "Time Out ";
 void alpha9(int);
 
 struct sockaddr_in ser,cli;   /* server & client */
-int s, err, sock, total;
+int s, err, sock;
 unsigned int sseed;
 
 int main()
 {
-	int i,j,c=1,n;
+	int i,j,c=1,f;
 
 	s = socket(AF_INET,SOCK_STREAM,0); /* use TCP protocol */
 	if(s == -1){
@@ -49,22 +49,34 @@ int main()
 	srand(sseed);
 
 	recv(sock, act, sizeof(act), 0);
-	total = atoi(act);
-	printf("total = %d\n", total);
-	while(1){
-		recv(sock, act, sizeof(act), 0);
-		//printf("act = %s\n", act);
-		if(strcmp(act, bad) != 0 && c <= total){	
-			j = rand() % P1;
-			if(j < P2){
+	f=atoi(act);
+
+	while(1)
+	{
+		while(c<f)
+		{
+			j=rand()%P1;
+			if(j<P2)
+			{
 				send(sock, bad, sizeof(bad), 0);
+				break;
 			}
-			else {
-				printf("\nFrame %s Received \n",act);
-				send(sock, act, sizeof(act), 0);
+			else
+			{
+				alpha9(c);
+				if(c<=f)
+				{
+					printf("\nFrame %s Received ",act);
+					send(sock, act, sizeof(act), 0);
+				}
+				else
+				{
+					break;
+				}
+				c++;
 			}
 		}
-		//if(c == f)break;
+		if(c == f)break;
 	}
 	close(sock);
 	close(s);
