@@ -38,23 +38,27 @@ int main()
 	int2char(total);
 	send(s, act, sizeof(act),0);
 
-	int c = 1;
+	int cur = 1;
 /************************ stop and wait ****************************/
 	while(1)
 	{
-		if(c <= total){
-			int2char(c);
+		if(cur <= total){
+			int2char(cur);
 			send(s, act, sizeof(act), 0);
-			printf("Frame %d Sent\n", c);
+			printf("Frame %d Sent\n", cur);
 
 			recv(s, act, sizeof(act), 0);
-			printf("recv from receiver AS ACK act = %s\n", act);
-
-			if(strcmp(act, bad) == 0){
-				printf("Time Out, Resent Frame %d onwards\n",c);
-			}
-			else if (c <= total){
-				c++;
+			if(strlen(act) != 0){
+				if(strcmp(act, bad) == 0){
+					printf("Time Out, Resent Frame %d onwards\n", cur);
+				}
+				else {
+					int check = atoi(act);
+					if(check == cur){
+						printf("recv from receiver AS ACK act = %s\n", act);
+						cur++;
+					}
+				}
 			}
 		}
 	}
