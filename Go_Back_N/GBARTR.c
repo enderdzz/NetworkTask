@@ -14,7 +14,7 @@
 
 char a[10];
 char b[10];
-void alpha9(int);
+void int2char(int);
 
 int main()
 {
@@ -56,7 +56,7 @@ int main()
             }
             else
             {
-                alpha9(c);
+                int2char(c);
                 if(c<=f)
                 {
                     printf("\nFrame %s Received ",a);
@@ -80,23 +80,8 @@ int main()
     return 0;
 }
 
-void alpha9(int z)
+void int2char(int z)
 {
-    int k,i=0,j,g;
-    k=z;
-    while(k>0)
-    {
-        i++;
-        k=k/10;
-    }
-    g=i;
-    i--;
-    while(z>0)
-    {
-        k=z%10;
-        a[i]=k+48;
-        i--;
-        z=z/10;
-    }
-    a[g]='\0';
+	memset(a, 0, sizeof(a));
+	sprintf(a, "%d", z);
 }

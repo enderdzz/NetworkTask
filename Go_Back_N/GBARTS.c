@@ -12,7 +12,7 @@
 char a[10];
 char b[10];
 
-void alpha9(int);
+void int2char(int);
 
 int main()
 {
@@ -26,14 +26,14 @@ int main()
     printf("\nTCP Connection Established.\n");
     printf("\nEnter the number of Frames: ");
     scanf("%d",&f);
-    alpha9(f);
+    int2char(f);
     send(s,a,sizeof(a),0);
     strcpy(b,"Time Out ");
     while(1)
     {
         for(i=0;i<W;i++)
         {
-            alpha9(c);
+            int2char(c);
             send(s,a,sizeof(a),0);
             if(c<=f)
             {
@@ -89,24 +89,8 @@ int main()
     return 0;
 }
 
-void alpha9(int z)
+void int2char(int z)
 {
-    int k,i=0,j,g;
-    k=z;
-    while(k>0)
-    {
-        i++;
-        k=k/10;
-    }
-    g=i;
-    i--;
-    while(z>0)
-    {
-        k=z%10;
-        a[i]=k+48;
-        i--;
-        z=z/10;
-    }
-    a[g]='\0';
+	memset(a, 0, sizeof(a));
+	sprintf(a, "%d", z);
 }
-
