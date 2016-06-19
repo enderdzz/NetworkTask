@@ -10,12 +10,16 @@
 #include <time.h>
 #include <ctype.h>
 
+#define P1 50       /* denominator */
+#define P2 10				/* numerator */
+
 char act[10];
 char bad[10] = "Time Out ";
 void int2char(int);
 
 struct sockaddr_in ser;                  /* define the server */
 int s, total;
+unsigned int sseed;
 
 int main()
 {
@@ -35,29 +39,43 @@ int main()
 	puts("Enter the number of Frames: ");
 	scanf("%d",&total);
 
+	sseed = (unsigned int)time(NULL); /* initial the random value */
+	srand(sseed);
+
 	int2char(total);
 	send(s, act, sizeof(act),0);
-
-	int cur = 1;
 /************************ stop and wait ****************************/
+	int cur = 1, canSend = 1;
 	while(1)
 	{
-		if(cur <= total){
-			int2char(cur);
-			send(s, act, sizeof(act), 0);
-			printf("Frame %d Sent\n", cur);
+		if(canSend){
+			int random = rand() % P1;
+			if(random < P2){						    /* 20% */
+				printf("Frame %d Sent\n", cur);
+				send(s, bad, sizeof(bad), 0);
+				canSend = 0;
+			}
+			else {						/* 80% */
+				int2char(cur);
+				send(s, act, sizeof(act), 0);
+				printf("Frame %d Sent\n", cur);
+				canSend = 0;
+			}
+		}
 
-			recv(s, act, sizeof(act), 0);
-			if(strlen(act) != 0){
-				if(strcmp(act, bad) == 0){
-					printf("Time Out, Resent Frame %d onwards\n", cur);
-				}
-				else {
-					int check = atoi(act);
-					if(check == cur){
-						printf("recv from receiver AS ACK act = %s\n", act);
-						cur++;
-					}
+		recv(s, act, sizeof(act), 0);
+		if(strlen(act) != 0){
+			if(strcmp(act, bad) == 0){
+				printf("Time Out, Resent Frame %d onwards\n", cur);
+				canSend = 1;
+			}
+			else {
+				int check = atoi(act);
+				if(check == cur){
+					printf("recv from receiver as ACK act = %s\n", act);
+					cur++;
+					if(cur > total) canSend = 0;
+					else canSend = 1;
 				}
 			}
 		}

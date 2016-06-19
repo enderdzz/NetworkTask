@@ -50,25 +50,27 @@ int main()
 
 	recv(sock, act, sizeof(act), 0);
 	total = atoi(act);
-	printf("total = %d\n", total);
+	printf("total frame = %d\n", total);
 
 /************************* stop and wait *****************************/
 int cur = 1;
 	while(1){
 		recv(sock, act, sizeof(act), 0);
-		printf("recv act = %s \n", act);
-		if(strcmp(act, bad) != 0){    /* if not time-out */
-			int random = rand() % P1;   /* have a certain probability to send the ACK with the time-out */
+		/// printf("recv act = %s \n", act);
+		if(strcmp(act, bad) != 0 && strlen(act) != 0){    /* if not time-out */
+			int random = rand() % P1;       /* have a certain probability to send the ACK with the time-out */
 			int check = atoi(act);
-			if(random < P2){						/* 20% */
+			if(random < P2){						    /* 20% */
 				send(sock, bad, sizeof(bad), 0);
 			}
-			else if(check == cur){											/* 80% */
+			else if(check == cur){						/* 80% */
 				printf("Frame %s Received \n", act);
 				send(sock, act, sizeof(act), 0);  /* send the ACK */
 				cur++;
 			}
-
+		}
+		else if(strcmp(act, bad) == 0){
+			send(sock, bad, sizeof(bad), 0);
 		}
 	}
 	close(sock);
