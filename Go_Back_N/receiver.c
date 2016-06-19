@@ -10,7 +10,7 @@
 #include <time.h>     /* random value */
 #include <ctype.h>    /* atoi function */
 
-#define W 5    /* W is defined as WindowSize */
+#define WindowSize 15
 #define P1 50
 #define P2 10
 
@@ -24,7 +24,7 @@ unsigned int sseed;
 
 int main()
 {
-    s = socket(AF_INET,SOCK_STREAM,0); /* use TCP protocol */
+    s = socket(AF_INET, SOCK_STREAM, 0); /* use TCP protocol */
   	if(s == -1){
   		puts("Building a socket failed!");
   		return 0;
@@ -53,14 +53,14 @@ int main()
 /************************* go back n **************************/
     int i, j, cur = 1;
     while(1) {
-        for(i = 0; i < W; i++) {
+        for(i = 0; i < WindowSize; i++) {
             recv(sock, act, sizeof(act), 0);
             if(strcmp(act, bad) == 0) {
                 break;
             }
         }
         i = 0;
-        while(i < W)
+        while(i < WindowSize)
         {
             j = rand()%P1;
             if(j < P2)

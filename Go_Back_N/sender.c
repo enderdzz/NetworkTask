@@ -10,7 +10,7 @@
 #include <time.h>     /* random value */
 #include <ctype.h>    /* atoi function */
 
-#define W 5
+#define WindowSize 15
 
 char act[10];
 char bad[20] = "Time-out ";
@@ -22,7 +22,7 @@ int s, total;
 
 int main()
 {
-    s = socket(AF_INET,SOCK_STREAM,0); /* use TCP protocol */
+    s = socket(AF_INET, SOCK_STREAM, 0); /* use TCP protocol */
   	if(s == -1){
   		puts("Building a socket failed!");
   		return 0;
@@ -43,7 +43,7 @@ int main()
 /************************* go back n **************************/
     int w_tmp, cur = 1, i, j, p = 0, e = 0;
     while(1) {
-        for(i = 0; i < W; i++) {
+        for(i = 0; i < WindowSize; i++) {
             int2char(cur);
             send(s, act, sizeof(act), 0);
             if(cur <= total) {
@@ -52,8 +52,8 @@ int main()
             }
         }
         i = 0;
-        w_tmp = W;
-        while(i < W)
+        w_tmp = WindowSize;
+        while(i < WindowSize)
         {
             recv(s, act, sizeof(act), 0);
             p = atoi(act);
@@ -84,7 +84,7 @@ int main()
         }
         else {
             cur = cur - w_tmp;
-            w_tmp = W;
+            w_tmp = WindowSize;
         }
     }
     close(s);
