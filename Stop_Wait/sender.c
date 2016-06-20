@@ -45,9 +45,10 @@ int main()
 	int2char(total);
 	send(s, act, sizeof(act),0);
 /************************ stop and wait ****************************/
-	int cur = 1, canSend = 1;
+	int cur = 0, canSend = 1;
 	while(1)
 	{
+		if(cur >= total) {canSend = 0; break;}
 		if(canSend){
 			int random = rand() % P1;
 			if(random < P2){						    /* 20% */
@@ -71,10 +72,11 @@ int main()
 			}
 			else {
 				int check = atoi(act);
+
 				if(check == cur){
 					printf("recv from receiver as ACK act = %s\n", act);
 					cur++;
-					if(cur > total) canSend = 0;
+					if(cur >= total) {canSend = 0; break;}
 					else canSend = 1;
 				}
 			}
