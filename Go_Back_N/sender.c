@@ -11,6 +11,8 @@
 #include <ctype.h>    /* atoi function */
 
 #define WindowSize 15
+#define P1 50
+#define P2 10
 
 char act[10];
 char bad[20] = "Time-out ";
@@ -41,50 +43,43 @@ int main()
     send(s, act, sizeof(act), 0);
 
 /************************* go back n **************************/
-    int w_tmp, cur = 1, i, j, p = 0, e = 0;
+    int i, cur = 1, origin = 1;
     while(1) {
-        for(i = 0; i < WindowSize; i++) {
-            int2char(cur);
-            send(s, act, sizeof(act), 0);
-            if(cur <= total) {
-                printf("Frame %d Sent\n",cur);
-                cur++;
-            }
-        }
-        i = 0;
-        w_tmp = WindowSize;
-        while(i < WindowSize)
-        {
+        if(cur <= total){
+          for(i = 0; i < WindowSize; i++) {
+              int random = rand() % P1;
+              if(random < P2){
+                send(s, bad, sizeof(bad), 0);
+              }
+              else {
+                int2char(cur);
+                send(s, act, sizeof(act), 0);
+              }
+
+              if(cur <= total) {
+                  printf("Frame %d Sent\n",cur);
+                  cur++;
+              }
+          }
+
+          for(i = 0; i < WindowSize; i++){
             recv(s, act, sizeof(act), 0);
-            p = atoi(act);
-            if(strcmp(act,bad) == 0) {
-                e = cur - w_tmp;
-		            if(e < total) {
-		                printf("Time Out, Resent Frame %d onwards.\n", e);
-		            }
-		            break;
+            if(strcmp(act, bad) == 0){
+              printf("Time out. Resent the %d Frame\n", origin);
+              cur = origin;
+              break;
             }
             else {
-                if(p <= total) {
-                    printf("Frame %s Acknowledged\n", act);
-                    w_tmp--;
-                }
-                else {
-                    break;
-                }
+              int now = atoi(act);
+              int left = cur - WindowSize, right = cur;
+              //printf("l = %d, r = %d\n", left, right);
+              if(now >= left && now < right){
+                printf("The %d frame got ACK.\n", now);
+                origin++;
+              }
             }
-            if(p > total) {
-                break;
-            }
-            i++;
-        }
-        if(w_tmp == 0 && cur > total) {
-            send(s, bad, sizeof(bad), 0);
-            break;
-        }
-        else {
-            cur = cur - w_tmp;
-            w_tmp = WindowSize;
+            if(origin > total) break;
+          }
         }
     }
     close(s);

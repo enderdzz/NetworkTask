@@ -42,49 +42,34 @@ int main()
 
     listen(s, 1);
     int len = sizeof(cli);
-    sock = accept(s, (struct sockaddr *)&cli, &len);
+    sock = accept(s, (struct sockaddr *) &cli, &len);
     puts("TCP Connection Established.");
 
     sseed=(unsigned int) time(NULL);
     srand(sseed);
-    recv(sock,act,sizeof(act),0);
+    recv(sock, act, sizeof(act), 0);
     total = atoi(act);
 
 /************************* go back n **************************/
-    int i, j, cur = 1;
+    int i, cur = 1;
     while(1) {
-        for(i = 0; i < WindowSize; i++) {
-            recv(sock, act, sizeof(act), 0);
-            if(strcmp(act, bad) == 0) {
-                break;
-            }
+        recv(sock,act,sizeof(act),0);
+        if(strcmp(act, bad) == 0){
+          send(sock, bad, sizeof(bad), 0);
+          continue;
         }
-        i = 0;
-        while(i < WindowSize)
-        {
-            j = rand()%P1;
-            if(j < P2)
-            {
-                send(sock, bad, sizeof(bad), 0);
-                break;
-            }
-            else
-            {
-                int2char(cur);
-                if(cur <= total) {
-                    printf("Frame %s Received \n", act);
-                    send(sock, act, sizeof(act),0);
-                }
-                else {
-                    break;
-                }
-                cur++;
-            }
-            if(cur > total) {
-                break;
-            }
-            i++;
+
+        int check = atoi(act);
+        int random = rand() % P1;
+        if(random < P2){
+          send(sock, bad, sizeof(bad), 0);
         }
+        else if(check == cur && cur <= total){
+          send(sock, act, sizeof(act), 0);
+          printf("Frame %s Received \n", act);
+          cur++;
+        }
+
     }
     close(sock);
     close(s);
