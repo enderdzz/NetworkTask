@@ -268,7 +268,8 @@ DIST          = /usr/lib/qt/mkspecs/features/spec_pre.prf \
 		/usr/lib/qt/mkspecs/features/exceptions.prf \
 		/usr/lib/qt/mkspecs/features/yacc.prf \
 		/usr/lib/qt/mkspecs/features/lex.prf \
-		../netsim_ui/netsim_ui.pro ../netsim_ui/netsim_mainwindow.h ../netsim_ui/main.cpp \
+		../netsim_ui/netsim_ui.pro ../netsim_ui/netsim_mainwindow.h \
+		../netsim_ui/including.h ../netsim_ui/main.cpp \
 		../netsim_ui/netsim_mainwindow.cpp
 QMAKE_TARGET  = netsim_ui
 DESTDIR       = 
@@ -734,7 +735,7 @@ dist: distdir FORCE
 distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
-	$(COPY_FILE) --parents ../netsim_ui/netsim_mainwindow.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../netsim_ui/netsim_mainwindow.h ../netsim_ui/including.h $(DISTDIR)/
 	$(COPY_FILE) --parents ../netsim_ui/main.cpp ../netsim_ui/netsim_mainwindow.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../netsim_ui/netsim_mainwindow.ui ../netsim_ui/dialog_setvalue.ui $(DISTDIR)/
 
@@ -764,7 +765,8 @@ compiler_rcc_clean:
 compiler_moc_header_make_all: moc_netsim_mainwindow.cpp
 compiler_moc_header_clean:
 	-$(DEL_FILE) moc_netsim_mainwindow.cpp
-moc_netsim_mainwindow.cpp: ../netsim_ui/netsim_mainwindow.h
+moc_netsim_mainwindow.cpp: ../netsim_ui/including.h \
+		../netsim_ui/netsim_mainwindow.h
 	/usr/lib/qt/bin/moc $(DEFINES) -I/usr/lib/qt/mkspecs/linux-g++ -I/home/bbmagnum/FinalWork2016B/NetworkTask/UI/netsim_ui -I/usr/include/qt -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtGui -I/usr/include/qt/QtCore -I. -I/usr/include/c++/6.1.1 -I/usr/include/c++/6.1.1/x86_64-pc-linux-gnu -I/usr/include/c++/6.1.1/backward -I/usr/lib/gcc/x86_64-pc-linux-gnu/6.1.1/include -I/usr/local/include -I/usr/lib/gcc/x86_64-pc-linux-gnu/6.1.1/include-fixed -I/usr/include ../netsim_ui/netsim_mainwindow.h -o moc_netsim_mainwindow.cpp
 
 compiler_moc_source_make_all:
@@ -788,10 +790,12 @@ compiler_clean: compiler_moc_header_clean compiler_uic_clean
 
 ####### Compile
 
-main.o: ../netsim_ui/main.cpp ../netsim_ui/netsim_mainwindow.h
+main.o: ../netsim_ui/main.cpp ../netsim_ui/netsim_mainwindow.h \
+		../netsim_ui/including.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../netsim_ui/main.cpp
 
 netsim_mainwindow.o: ../netsim_ui/netsim_mainwindow.cpp ../netsim_ui/netsim_mainwindow.h \
+		../netsim_ui/including.h \
 		ui_netsim_mainwindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o netsim_mainwindow.o ../netsim_ui/netsim_mainwindow.cpp
 

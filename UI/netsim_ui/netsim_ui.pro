@@ -15,7 +15,8 @@ TEMPLATE = app
 SOURCES += main.cpp\
         netsim_mainwindow.cpp
 
-HEADERS  += netsim_mainwindow.h
+HEADERS  += netsim_mainwindow.h \
+    including.h
 
 FORMS    += netsim_mainwindow.ui \
     dialog_setvalue.ui

@@ -1,5 +1,6 @@
 #include "netsim_mainwindow.h"
 #include <QApplication>
+#include "including.h"
 
 int main(int argc, char *argv[])
 {

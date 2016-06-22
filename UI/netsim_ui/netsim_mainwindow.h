@@ -2,8 +2,7 @@
 #define NETSIM_MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QMessageBox>
-
+#include "including.h"
 extern int showmsg();
 
 namespace Ui {

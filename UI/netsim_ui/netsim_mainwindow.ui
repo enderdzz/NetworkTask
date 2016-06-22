@@ -46,127 +46,6 @@
      </item>
     </layout>
    </widget>
-   <widget class="QWidget" name="verticalLayoutWidget">
-    <property name="geometry">
-     <rect>
-      <x>510</x>
-      <y>0</y>
-      <width>143</width>
-      <height>341</height>
-     </rect>
-    </property>
-    <layout class="QVBoxLayout" name="layoutConfig">
-     <item>
-      <widget class="QGroupBox" name="gpDatasource">
-       <property name="title">
-        <string>Datasource</string>
-       </property>
-       <widget class="QRadioButton" name="radioDataRand">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>30</y>
-          <width>101</width>
-          <height>20</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Rando&amp;m</string>
-        </property>
-        <property name="checked">
-         <bool>true</bool>
-        </property>
-       </widget>
-       <widget class="QRadioButton" name="radioDataInput">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>50</y>
-          <width>101</width>
-          <height>20</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>User Input</string>
-        </property>
-       </widget>
-      </widget>
-     </item>
-     <item>
-      <widget class="QGroupBox" name="groupBox_3">
-       <property name="title">
-        <string>Data Length</string>
-       </property>
-       <widget class="QSpinBox" name="spinDataLength">
-        <property name="geometry">
-         <rect>
-          <x>20</x>
-          <y>30</y>
-          <width>111</width>
-          <height>29</height>
-         </rect>
-        </property>
-       </widget>
-      </widget>
-     </item>
-     <item>
-      <widget class="QGroupBox" name="groupBox_2">
-       <property name="title">
-        <string>ARQ Type</string>
-       </property>
-       <widget class="QRadioButton" name="radioArqSw">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>20</y>
-          <width>101</width>
-          <height>20</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Stop-Wait</string>
-        </property>
-        <property name="checked">
-         <bool>true</bool>
-        </property>
-       </widget>
-       <widget class="QRadioButton" name="radioArqBn">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>40</y>
-          <width>101</width>
-          <height>20</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Bac&amp;k N</string>
-        </property>
-       </widget>
-      </widget>
-     </item>
-     <item>
-      <widget class="QGroupBox" name="groupBox_4">
-       <property name="title">
-        <string>Simulation Speed</string>
-       </property>
-       <widget class="QSlider" name="slidSimSpeed">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>40</y>
-          <width>121</width>
-          <height>20</height>
-         </rect>
-        </property>
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-       </widget>
-      </widget>
-     </item>
-    </layout>
-   </widget>
    <widget class="QProgressBar" name="progressBar">
     <property name="geometry">
      <rect>
@@ -179,6 +58,137 @@
     <property name="value">
      <number>24</number>
     </property>
+   </widget>
+   <widget class="QWidget" name="widgetConfig" native="true">
+    <property name="geometry">
+     <rect>
+      <x>500</x>
+      <y>-20</y>
+      <width>171</width>
+      <height>361</height>
+     </rect>
+    </property>
+    <widget class="QWidget" name="verticalLayoutWidget">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>143</width>
+       <height>341</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="layoutConfig">
+      <item>
+       <widget class="QGroupBox" name="gpDatasource">
+        <property name="title">
+         <string>Datasource</string>
+        </property>
+        <widget class="QRadioButton" name="radioDataRand">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>30</y>
+           <width>101</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Rando&amp;m</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QRadioButton" name="radioDataInput">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>50</y>
+           <width>101</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>User Input</string>
+         </property>
+        </widget>
+       </widget>
+      </item>
+      <item>
+       <widget class="QGroupBox" name="groupBox_3">
+        <property name="title">
+         <string>Data Length</string>
+        </property>
+        <widget class="QSpinBox" name="spinDataLength">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>30</y>
+           <width>111</width>
+           <height>29</height>
+          </rect>
+         </property>
+        </widget>
+       </widget>
+      </item>
+      <item>
+       <widget class="QGroupBox" name="groupBox_2">
+        <property name="title">
+         <string>ARQ Type</string>
+        </property>
+        <widget class="QRadioButton" name="radioArqSw">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>20</y>
+           <width>101</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Stop-Wait</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QRadioButton" name="radioArqBn">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>40</y>
+           <width>101</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Bac&amp;k N</string>
+         </property>
+        </widget>
+       </widget>
+      </item>
+      <item>
+       <widget class="QGroupBox" name="groupBox_4">
+        <property name="title">
+         <string>Simulation Speed</string>
+        </property>
+        <widget class="QSlider" name="slidSimSpeed">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>40</y>
+           <width>121</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </widget>
+      </item>
+     </layout>
+    </widget>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">

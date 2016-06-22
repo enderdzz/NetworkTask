@@ -19,13 +19,14 @@ void Netsim_MainWindow::on_btnQuit_pressed()
 }
 
 void Netsim_MainWindow::on_btnOnOff_pressed(){
-    QMessageBox msgBox;
-    msgBox.setText("Name");
-    msgBox.setInformativeText("Do you want to save your changes?");
-    msgBox.setStandardButtons(QMessageBox::Save | QMessageBox::Discard |
-                              QMessageBox::Cancel);
-    msgBox.setDefaultButton(QMessageBox::Save);
-    msgBox.exec();
+    //convert status and refresh global var
+    ui->widgetConfig->setEnabled(!ui->widgetConfig->isEnabled());
+    isSimulationStarted = ui->widgetConfig->isEnabled();
+
+    //this is an example of how to use emit
+    //see more about signal and slot at
+    // https://doc.qt.io/qt-4.8/signalsandslots.html
+    emit on_btnQuit_pressed();
 }
 
 int Netsim_MainWindow::on_radioArqBn_pressed(){
@@ -34,4 +35,6 @@ int Netsim_MainWindow::on_radioArqBn_pressed(){
     else
         ui->radioArqSw->setChecked(true);
 
+
+    return 0;
 }
