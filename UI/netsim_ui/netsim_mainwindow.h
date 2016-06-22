@@ -15,6 +15,9 @@ public:
     explicit Netsim_MainWindow(QWidget *parent = 0);
     ~Netsim_MainWindow();
 
+private slots:
+    void on_btnQuit_pressed();
+
 private:
     Ui::Netsim_MainWindow *ui;
 };

@@ -12,3 +12,8 @@ Netsim_MainWindow::~Netsim_MainWindow()
 {
     delete ui;
 }
+
+void Netsim_MainWindow::on_btnQuit_pressed()
+{
+    qApp->exit();
+}

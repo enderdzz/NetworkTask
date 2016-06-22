@@ -278,7 +278,7 @@ TARGET        = netsim_ui
 first: all
 ####### Build rules
 
-$(TARGET): ui_netsim_mainwindow.h $(OBJECTS)  
+$(TARGET): ui_netsim_mainwindow.h ui_dialog_setvalue.h $(OBJECTS)  
 	$(LINK) $(LFLAGS) -o $(TARGET) $(OBJECTS) $(OBJCOMP) $(LIBS)
 
 Makefile: ../netsim_ui/netsim_ui.pro /usr/lib/qt/mkspecs/linux-g++/qmake.conf /usr/lib/qt/mkspecs/features/spec_pre.prf \
@@ -736,7 +736,7 @@ distdir: FORCE
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents ../netsim_ui/netsim_mainwindow.h $(DISTDIR)/
 	$(COPY_FILE) --parents ../netsim_ui/main.cpp ../netsim_ui/netsim_mainwindow.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../netsim_ui/netsim_mainwindow.ui $(DISTDIR)/
+	$(COPY_FILE) --parents ../netsim_ui/netsim_mainwindow.ui ../netsim_ui/dialog_setvalue.ui $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -769,11 +769,14 @@ moc_netsim_mainwindow.cpp: ../netsim_ui/netsim_mainwindow.h
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
-compiler_uic_make_all: ui_netsim_mainwindow.h
+compiler_uic_make_all: ui_netsim_mainwindow.h ui_dialog_setvalue.h
 compiler_uic_clean:
-	-$(DEL_FILE) ui_netsim_mainwindow.h
+	-$(DEL_FILE) ui_netsim_mainwindow.h ui_dialog_setvalue.h
 ui_netsim_mainwindow.h: ../netsim_ui/netsim_mainwindow.ui
 	/usr/lib/qt/bin/uic ../netsim_ui/netsim_mainwindow.ui -o ui_netsim_mainwindow.h
+
+ui_dialog_setvalue.h: ../netsim_ui/dialog_setvalue.ui
+	/usr/lib/qt/bin/uic ../netsim_ui/dialog_setvalue.ui -o ui_dialog_setvalue.h
 
 compiler_yacc_decl_make_all:
 compiler_yacc_decl_clean:

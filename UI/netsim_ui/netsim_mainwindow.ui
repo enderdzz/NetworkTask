@@ -95,7 +95,7 @@
      <item>
       <widget class="QGroupBox" name="groupBox_3">
        <property name="title">
-        <string>Frame Length</string>
+        <string>Data Length</string>
        </property>
        <widget class="QSpinBox" name="spinBox">
         <property name="geometry">

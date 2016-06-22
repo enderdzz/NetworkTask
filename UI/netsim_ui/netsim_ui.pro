@@ -17,4 +17,5 @@ SOURCES += main.cpp\
 
 HEADERS  += netsim_mainwindow.h
 
-FORMS    += netsim_mainwindow.ui
+FORMS    += netsim_mainwindow.ui \
+    dialog_setvalue.ui
