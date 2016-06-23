@@ -49,10 +49,14 @@ OBJECTS_DIR   = ./
 ####### Files
 
 SOURCES       = ../netsim_ui/main.cpp \
-		../netsim_ui/netsim_mainwindow.cpp moc_netsim_mainwindow.cpp
+		../netsim_ui/netsim_mainwindow.cpp \
+		../netsim_ui/statuswidget.cpp moc_netsim_mainwindow.cpp \
+		moc_statuswidget.cpp
 OBJECTS       = main.o \
 		netsim_mainwindow.o \
-		moc_netsim_mainwindow.o
+		statuswidget.o \
+		moc_netsim_mainwindow.o \
+		moc_statuswidget.o
 DIST          = /usr/lib/qt/mkspecs/features/spec_pre.prf \
 		/usr/lib/qt/mkspecs/common/unix.conf \
 		/usr/lib/qt/mkspecs/common/linux.conf \
@@ -133,8 +137,6 @@ DIST          = /usr/lib/qt/mkspecs/features/spec_pre.prf \
 		/usr/lib/qt/mkspecs/modules/qt_KNotifyConfig.pri \
 		/usr/lib/qt/mkspecs/modules/qt_KNTLM.pri \
 		/usr/lib/qt/mkspecs/modules/qt_KParts.pri \
-		/usr/lib/qt/mkspecs/modules/qt_KPeople.pri \
-		/usr/lib/qt/mkspecs/modules/qt_KPeopleWidgets.pri \
 		/usr/lib/qt/mkspecs/modules/qt_KPlotting.pri \
 		/usr/lib/qt/mkspecs/modules/qt_KPty.pri \
 		/usr/lib/qt/mkspecs/modules/qt_KrossCore.pri \
@@ -153,7 +155,6 @@ DIST          = /usr/lib/qt/mkspecs/features/spec_pre.prf \
 		/usr/lib/qt/mkspecs/modules/qt_KWidgetsAddons.pri \
 		/usr/lib/qt/mkspecs/modules/qt_KWindowSystem.pri \
 		/usr/lib/qt/mkspecs/modules/qt_KXmlGui.pri \
-		/usr/lib/qt/mkspecs/modules/qt_KXmlRpcClient.pri \
 		/usr/lib/qt/mkspecs/modules/qt_lib_bootstrap_private.pri \
 		/usr/lib/qt/mkspecs/modules/qt_lib_clucene_private.pri \
 		/usr/lib/qt/mkspecs/modules/qt_lib_concurrent.pri \
@@ -269,8 +270,10 @@ DIST          = /usr/lib/qt/mkspecs/features/spec_pre.prf \
 		/usr/lib/qt/mkspecs/features/yacc.prf \
 		/usr/lib/qt/mkspecs/features/lex.prf \
 		../netsim_ui/netsim_ui.pro ../netsim_ui/netsim_mainwindow.h \
-		../netsim_ui/including.h ../netsim_ui/main.cpp \
-		../netsim_ui/netsim_mainwindow.cpp
+		../netsim_ui/including.h \
+		../netsim_ui/statuswidget.h ../netsim_ui/main.cpp \
+		../netsim_ui/netsim_mainwindow.cpp \
+		../netsim_ui/statuswidget.cpp
 QMAKE_TARGET  = netsim_ui
 DESTDIR       = 
 TARGET        = netsim_ui
@@ -279,7 +282,7 @@ TARGET        = netsim_ui
 first: all
 ####### Build rules
 
-$(TARGET): ui_netsim_mainwindow.h ui_dialog_setvalue.h $(OBJECTS)  
+$(TARGET): ui_netsim_mainwindow.h ui_dialog_setvalue.h ui_statuswidget.h $(OBJECTS)  
 	$(LINK) $(LFLAGS) -o $(TARGET) $(OBJECTS) $(OBJCOMP) $(LIBS)
 
 Makefile: ../netsim_ui/netsim_ui.pro /usr/lib/qt/mkspecs/linux-g++/qmake.conf /usr/lib/qt/mkspecs/features/spec_pre.prf \
@@ -362,8 +365,6 @@ Makefile: ../netsim_ui/netsim_ui.pro /usr/lib/qt/mkspecs/linux-g++/qmake.conf /u
 		/usr/lib/qt/mkspecs/modules/qt_KNotifyConfig.pri \
 		/usr/lib/qt/mkspecs/modules/qt_KNTLM.pri \
 		/usr/lib/qt/mkspecs/modules/qt_KParts.pri \
-		/usr/lib/qt/mkspecs/modules/qt_KPeople.pri \
-		/usr/lib/qt/mkspecs/modules/qt_KPeopleWidgets.pri \
 		/usr/lib/qt/mkspecs/modules/qt_KPlotting.pri \
 		/usr/lib/qt/mkspecs/modules/qt_KPty.pri \
 		/usr/lib/qt/mkspecs/modules/qt_KrossCore.pri \
@@ -382,7 +383,6 @@ Makefile: ../netsim_ui/netsim_ui.pro /usr/lib/qt/mkspecs/linux-g++/qmake.conf /u
 		/usr/lib/qt/mkspecs/modules/qt_KWidgetsAddons.pri \
 		/usr/lib/qt/mkspecs/modules/qt_KWindowSystem.pri \
 		/usr/lib/qt/mkspecs/modules/qt_KXmlGui.pri \
-		/usr/lib/qt/mkspecs/modules/qt_KXmlRpcClient.pri \
 		/usr/lib/qt/mkspecs/modules/qt_lib_bootstrap_private.pri \
 		/usr/lib/qt/mkspecs/modules/qt_lib_clucene_private.pri \
 		/usr/lib/qt/mkspecs/modules/qt_lib_concurrent.pri \
@@ -582,8 +582,6 @@ Makefile: ../netsim_ui/netsim_ui.pro /usr/lib/qt/mkspecs/linux-g++/qmake.conf /u
 /usr/lib/qt/mkspecs/modules/qt_KNotifyConfig.pri:
 /usr/lib/qt/mkspecs/modules/qt_KNTLM.pri:
 /usr/lib/qt/mkspecs/modules/qt_KParts.pri:
-/usr/lib/qt/mkspecs/modules/qt_KPeople.pri:
-/usr/lib/qt/mkspecs/modules/qt_KPeopleWidgets.pri:
 /usr/lib/qt/mkspecs/modules/qt_KPlotting.pri:
 /usr/lib/qt/mkspecs/modules/qt_KPty.pri:
 /usr/lib/qt/mkspecs/modules/qt_KrossCore.pri:
@@ -602,7 +600,6 @@ Makefile: ../netsim_ui/netsim_ui.pro /usr/lib/qt/mkspecs/linux-g++/qmake.conf /u
 /usr/lib/qt/mkspecs/modules/qt_KWidgetsAddons.pri:
 /usr/lib/qt/mkspecs/modules/qt_KWindowSystem.pri:
 /usr/lib/qt/mkspecs/modules/qt_KXmlGui.pri:
-/usr/lib/qt/mkspecs/modules/qt_KXmlRpcClient.pri:
 /usr/lib/qt/mkspecs/modules/qt_lib_bootstrap_private.pri:
 /usr/lib/qt/mkspecs/modules/qt_lib_clucene_private.pri:
 /usr/lib/qt/mkspecs/modules/qt_lib_concurrent.pri:
@@ -735,9 +732,9 @@ dist: distdir FORCE
 distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
-	$(COPY_FILE) --parents ../netsim_ui/netsim_mainwindow.h ../netsim_ui/including.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../netsim_ui/main.cpp ../netsim_ui/netsim_mainwindow.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../netsim_ui/netsim_mainwindow.ui ../netsim_ui/dialog_setvalue.ui $(DISTDIR)/
+	$(COPY_FILE) --parents ../netsim_ui/netsim_mainwindow.h ../netsim_ui/including.h ../netsim_ui/statuswidget.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../netsim_ui/main.cpp ../netsim_ui/netsim_mainwindow.cpp ../netsim_ui/statuswidget.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../netsim_ui/netsim_mainwindow.ui ../netsim_ui/dialog_setvalue.ui ../netsim_ui/statuswidget.ui $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -762,23 +759,30 @@ benchmark: first
 
 compiler_rcc_make_all:
 compiler_rcc_clean:
-compiler_moc_header_make_all: moc_netsim_mainwindow.cpp
+compiler_moc_header_make_all: moc_netsim_mainwindow.cpp moc_statuswidget.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_netsim_mainwindow.cpp
+	-$(DEL_FILE) moc_netsim_mainwindow.cpp moc_statuswidget.cpp
 moc_netsim_mainwindow.cpp: ../netsim_ui/including.h \
 		../netsim_ui/netsim_mainwindow.h
 	/usr/lib/qt/bin/moc $(DEFINES) -I/usr/lib/qt/mkspecs/linux-g++ -I/home/bbmagnum/FinalWork2016B/NetworkTask/UI/netsim_ui -I/usr/include/qt -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtGui -I/usr/include/qt/QtCore -I. -I/usr/include/c++/6.1.1 -I/usr/include/c++/6.1.1/x86_64-pc-linux-gnu -I/usr/include/c++/6.1.1/backward -I/usr/lib/gcc/x86_64-pc-linux-gnu/6.1.1/include -I/usr/local/include -I/usr/lib/gcc/x86_64-pc-linux-gnu/6.1.1/include-fixed -I/usr/include ../netsim_ui/netsim_mainwindow.h -o moc_netsim_mainwindow.cpp
 
+moc_statuswidget.cpp: ../netsim_ui/statuswidget.h
+	/usr/lib/qt/bin/moc $(DEFINES) -I/usr/lib/qt/mkspecs/linux-g++ -I/home/bbmagnum/FinalWork2016B/NetworkTask/UI/netsim_ui -I/usr/include/qt -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtGui -I/usr/include/qt/QtCore -I. -I/usr/include/c++/6.1.1 -I/usr/include/c++/6.1.1/x86_64-pc-linux-gnu -I/usr/include/c++/6.1.1/backward -I/usr/lib/gcc/x86_64-pc-linux-gnu/6.1.1/include -I/usr/local/include -I/usr/lib/gcc/x86_64-pc-linux-gnu/6.1.1/include-fixed -I/usr/include ../netsim_ui/statuswidget.h -o moc_statuswidget.cpp
+
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
-compiler_uic_make_all: ui_netsim_mainwindow.h ui_dialog_setvalue.h
+compiler_uic_make_all: ui_netsim_mainwindow.h ui_dialog_setvalue.h ui_statuswidget.h
 compiler_uic_clean:
-	-$(DEL_FILE) ui_netsim_mainwindow.h ui_dialog_setvalue.h
-ui_netsim_mainwindow.h: ../netsim_ui/netsim_mainwindow.ui
+	-$(DEL_FILE) ui_netsim_mainwindow.h ui_dialog_setvalue.h ui_statuswidget.h
+ui_netsim_mainwindow.h: ../netsim_ui/netsim_mainwindow.ui \
+		../netsim_ui/statuswidget.h
 	/usr/lib/qt/bin/uic ../netsim_ui/netsim_mainwindow.ui -o ui_netsim_mainwindow.h
 
 ui_dialog_setvalue.h: ../netsim_ui/dialog_setvalue.ui
 	/usr/lib/qt/bin/uic ../netsim_ui/dialog_setvalue.ui -o ui_dialog_setvalue.h
+
+ui_statuswidget.h: ../netsim_ui/statuswidget.ui
+	/usr/lib/qt/bin/uic ../netsim_ui/statuswidget.ui -o ui_statuswidget.h
 
 compiler_yacc_decl_make_all:
 compiler_yacc_decl_clean:
@@ -796,11 +800,19 @@ main.o: ../netsim_ui/main.cpp ../netsim_ui/netsim_mainwindow.h \
 
 netsim_mainwindow.o: ../netsim_ui/netsim_mainwindow.cpp ../netsim_ui/netsim_mainwindow.h \
 		../netsim_ui/including.h \
-		ui_netsim_mainwindow.h
+		ui_netsim_mainwindow.h \
+		../netsim_ui/statuswidget.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o netsim_mainwindow.o ../netsim_ui/netsim_mainwindow.cpp
+
+statuswidget.o: ../netsim_ui/statuswidget.cpp ../netsim_ui/statuswidget.h \
+		ui_statuswidget.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o statuswidget.o ../netsim_ui/statuswidget.cpp
 
 moc_netsim_mainwindow.o: moc_netsim_mainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_netsim_mainwindow.o moc_netsim_mainwindow.cpp
+
+moc_statuswidget.o: moc_statuswidget.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_statuswidget.o moc_statuswidget.cpp
 
 ####### Install
 

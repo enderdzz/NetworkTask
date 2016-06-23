@@ -13,10 +13,13 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        netsim_mainwindow.cpp
+        netsim_mainwindow.cpp \
+    statuswidget.cpp
 
 HEADERS  += netsim_mainwindow.h \
-    including.h
+    including.h \
+    statuswidget.h
 
 FORMS    += netsim_mainwindow.ui \
-    dialog_setvalue.ui
+    dialog_setvalue.ui \
+    statuswidget.ui

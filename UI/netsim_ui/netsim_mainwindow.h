@@ -21,9 +21,12 @@ private slots:
     void on_btnQuit_pressed();
     void on_btnOnOff_pressed();
     int on_radioArqBn_pressed();
+    void widget_repaint();
+
 
 private:
     Ui::Netsim_MainWindow *ui;
+    QTimer* widget_refresh_timer;
 };
 
 #endif // NETSIM_MAINWINDOW_H
