@@ -12,7 +12,7 @@
 
 #define WindowSize 15
 #define P1 50
-#define P2 10
+#define P2 5
 
 char act[10];
 char bad[20] = "Time-out ";
@@ -51,24 +51,29 @@ int main()
     total = atoi(act);
 
 /************************* go back n **************************/
-    int i, cur = 1;
+    int i, cur = 0;
     while(1) {
+
         recv(sock,act,sizeof(act),0);
-        if(strcmp(act, bad) == 0){
-          send(sock, bad, sizeof(bad), 0);
+        sleep(1);
+        if(strcmp(act, bad) == 0){ // if sender send bad, then receiver do nothing.
+
           continue;
         }
 
         int check = atoi(act);
         int random = rand() % P1;
-        if(random < P2){
-          send(sock, bad, sizeof(bad), 0);
+        if(random < P2 && check == cur && cur < total){
+
+          printf("Frame %s Received \n", act);
+          cur++;
         }
-        else if(check == cur && cur <= total){
+        if(check == cur && cur < total){
           send(sock, act, sizeof(act), 0);
           printf("Frame %s Received \n", act);
           cur++;
         }
+        if(cur >= total) break;
 
     }
     close(sock);
