@@ -52,7 +52,6 @@ void Netsim_MainWindow::on_btnOnOff_pressed(){
 
 }
 
-
 int Netsim_MainWindow::on_radioArqBn_pressed(){
     if (showmsg())
         ui->radioArqBn->setChecked(true);

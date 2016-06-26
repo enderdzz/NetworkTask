@@ -23,8 +23,8 @@
    <widget class="QWidget" name="gridLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>500</x>
-      <y>360</y>
+      <x>520</x>
+      <y>370</y>
       <width>176</width>
       <height>41</height>
      </rect>
@@ -51,7 +51,7 @@
      <rect>
       <x>530</x>
       <y>340</y>
-      <width>118</width>
+      <width>131</width>
       <height>23</height>
      </rect>
     </property>
@@ -62,17 +62,17 @@
    <widget class="QWidget" name="widgetConfig" native="true">
     <property name="geometry">
      <rect>
-      <x>500</x>
-      <y>-20</y>
-      <width>171</width>
-      <height>361</height>
+      <x>520</x>
+      <y>0</y>
+      <width>151</width>
+      <height>341</height>
      </rect>
     </property>
     <widget class="QWidget" name="verticalLayoutWidget">
      <property name="geometry">
       <rect>
-       <x>10</x>
-       <y>10</y>
+       <x>0</x>
+       <y>0</y>
        <width>143</width>
        <height>341</height>
       </rect>
@@ -87,7 +87,7 @@
          <property name="geometry">
           <rect>
            <x>10</x>
-           <y>30</y>
+           <y>20</y>
            <width>101</width>
            <height>20</height>
           </rect>
@@ -103,7 +103,7 @@
          <property name="geometry">
           <rect>
            <x>10</x>
-           <y>50</y>
+           <y>40</y>
            <width>101</width>
            <height>20</height>
           </rect>
@@ -122,11 +122,37 @@
         <widget class="QSpinBox" name="spinDataLength">
          <property name="geometry">
           <rect>
-           <x>20</x>
-           <y>30</y>
+           <x>16</x>
+           <y>23</y>
            <width>111</width>
            <height>29</height>
           </rect>
+         </property>
+         <property name="minimum">
+          <number>1</number>
+         </property>
+         <property name="maximum">
+          <number>999</number>
+         </property>
+        </widget>
+       </widget>
+      </item>
+      <item>
+       <widget class="QGroupBox" name="groupBox">
+        <property name="title">
+         <string>Window size</string>
+        </property>
+        <widget class="QSpinBox" name="spinDataLength_2">
+         <property name="geometry">
+          <rect>
+           <x>16</x>
+           <y>24</y>
+           <width>111</width>
+           <height>29</height>
+          </rect>
+         </property>
+         <property name="minimum">
+          <number>1</number>
          </property>
         </widget>
        </widget>
@@ -176,7 +202,7 @@
          <property name="geometry">
           <rect>
            <x>10</x>
-           <y>40</y>
+           <y>30</y>
            <width>121</width>
            <height>20</height>
           </rect>
@@ -190,15 +216,28 @@
      </layout>
     </widget>
    </widget>
-   <widget class="StatusWidget" name="widget" native="true">
+   <widget class="QGroupBox" name="groupBox_5">
     <property name="geometry">
      <rect>
-      <x>50</x>
-      <y>90</y>
-      <width>411</width>
-      <height>41</height>
+      <x>0</x>
+      <y>0</y>
+      <width>511</width>
+      <height>411</height>
      </rect>
     </property>
+    <property name="title">
+     <string>Send Status</string>
+    </property>
+    <widget class="StatusWidget" name="widghtStatus" native="true">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>30</y>
+       <width>471</width>
+       <height>41</height>
+      </rect>
+     </property>
+    </widget>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">

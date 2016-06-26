@@ -49,5 +49,12 @@ void StatusWidget::paintEvent(QPaintEvent *event)
         txtopt.setAlignment(Qt::AlignCenter | Qt::AlignHCenter);
         painter.drawText(rectangle, QString::number(i+block_start_num),txtopt);
     }
+    QBrush bsh;
+    bsh.setColor(Qt::red);
+    bsh.setStyle(Qt::Dense7Pattern);
+    painter.setBrush(bsh);
+    rectangle.setX(3*block_width);
+    rectangle.setWidth(4*block_width);
+    painter.drawRect(rectangle);
 
 }
