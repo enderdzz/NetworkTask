@@ -857,8 +857,7 @@ main.o: ../netsim_ui/main.cpp ../netsim_ui/netsim_mainwindow.h \
 
 netsim_mainwindow.o: ../netsim_ui/netsim_mainwindow.cpp ../netsim_ui/netsim_mainwindow.h \
 		../netsim_ui/including.h \
-		ui_netsim_mainwindow.h \
-		../netsim_ui/statuswidget.h
+		ui_netsim_mainwindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o netsim_mainwindow.o ../netsim_ui/netsim_mainwindow.cpp
 
 statuswidget.o: ../netsim_ui/statuswidget.cpp ../netsim_ui/statuswidget.h \

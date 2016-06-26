@@ -52,17 +52,20 @@ void Netsim_MainWindow::on_btnOnOff_pressed(){
 
 }
 
-int Netsim_MainWindow::on_radioArqBn_pressed(){
-    if (showmsg())
-        ui->radioArqBn->setChecked(true);
-    else
-        ui->radioArqSw->setChecked(true);
+int Netsim_MainWindow::on_radioArqSw_pressed()
+{
+    ui->groupWindowSize->setEnabled(false);
+    ui->spinWindowSize->setValue(1);
+    return 0;
+}
 
+int Netsim_MainWindow::on_radioArqBn_pressed(){
+    ui->groupWindowSize->setEnabled(true);
     return 0;
 }
 
 void Netsim_MainWindow::widget_repaint(){
-    ui->widget->repaint();
+    ui->widgetStatus->repaint();
 }
 
 void Netsim_MainWindow::frame_send()
@@ -79,12 +82,12 @@ void Netsim_MainWindow::paint_recalculate()
     //this function will recalculate the bitmap
 
     //get device status
-    int height = ui->widget->height();
-    int width = ui->widget->width();
+    int height = ui->widgetStatus->height();
+    int width = ui->widgetStatus->width();
 
     //calculate longest font
     QString longest_str = QString::number(frame_end);
-    QFontMetrics fm = ui->widget->fontMetrics();
+    QFontMetrics fm = ui->widgetStatus->fontMetrics();
     int longest_text_length = fm.width(longest_str);
 
     //calculate block size
@@ -96,8 +99,38 @@ void Netsim_MainWindow::paint_recalculate()
     //calculate block count
     int block_count = width/block_width;
 
-    ui->widget->widget_update_paint_value(block_width, block_height, current_frame,block_count);
+    ui->widgetStatus->widget_update_paint_value(block_width, block_height, current_frame,block_count);
 
     //send block_count out for a try
 
+}
+
+void Netsim_MainWindow::on_spinDataLength_editingFinished()
+{
+    if (ui->spinDataLength->value() < ui->spinWindowSize->value())
+    {
+        QMessageBox msgBox;
+        msgBox.setText("Invaild DataLength!");
+        msgBox.setInformativeText("Window size should be larget than length of data!");
+        msgBox.setStandardButtons(QMessageBox::Ok |
+                                  QMessageBox::Cancel);
+        msgBox.setDefaultButton(QMessageBox::Save);
+        msgBox.exec();
+        ui->spinDataLength->setValue(ui->spinWindowSize->value()-1);
+    }
+}
+
+void Netsim_MainWindow::on_spinWindowSize_editingFinished()
+{
+    if (ui->spinDataLength->value() < ui->spinWindowSize->value())
+    {
+        QMessageBox msgBox;
+        msgBox.setText("Invaild DataLength!");
+        msgBox.setInformativeText("Window size should be larget than length of data!");
+        msgBox.setStandardButtons(QMessageBox::Ok |
+                                  QMessageBox::Cancel);
+        msgBox.setDefaultButton(QMessageBox::Save);
+        msgBox.exec();
+        ui->spinWindowSize->setValue(ui->spinDataLength->value()-1);
+    }
 }

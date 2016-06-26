@@ -20,11 +20,16 @@ public:
 private slots:
     void on_btnQuit_pressed();
     void on_btnOnOff_pressed();
+    int on_radioArqSw_pressed();
     int on_radioArqBn_pressed();
     void widget_repaint();
     void frame_send(void);
     void paint_recalculate(void);
 
+
+    void on_spinDataLength_editingFinished();
+
+    void on_spinWindowSize_editingFinished();
 
 private:
     Ui::Netsim_MainWindow *ui;
