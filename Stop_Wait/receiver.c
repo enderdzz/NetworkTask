@@ -12,6 +12,7 @@
 
 #define P1 50       /* denominator */
 #define P2 10				/* numerator */
+#define Mod 2
 
 char act[10];
 char bad[20] = "Time Out ";
@@ -67,7 +68,7 @@ int cur = 0;
 				send(sock, bad, sizeof(bad), 0);
 			}
 			else if(check == cur){						/* 80% */
-				printf("Frame %s Received \n", act);
+				printf("Frame %d Received \n", cur % Mod);
 
 				send(sock, act, sizeof(act), 0);  /* send the ACK */
 				cur++;
