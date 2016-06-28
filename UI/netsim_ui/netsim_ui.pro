@@ -15,12 +15,16 @@ TEMPLATE = app
 SOURCES += main.cpp\
         netsim_mainwindow.cpp \
     statuswidget.cpp \
-    dlgabout.cpp
+    dlgabout.cpp \
+    simsender.cpp \
+    simreceiver.cpp
 
 HEADERS  += netsim_mainwindow.h \
     including.h \
     statuswidget.h \
-    dlgabout.h
+    dlgabout.h \
+    simsender.h \
+    simreceiver.h
 
 FORMS    += netsim_mainwindow.ui \
     statuswidget.ui \
