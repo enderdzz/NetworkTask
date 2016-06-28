@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>693</width>
-    <height>445</height>
+    <width>702</width>
+    <height>476</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -23,9 +23,9 @@
    <widget class="QWidget" name="gridLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>513</x>
-      <y>366</y>
-      <width>176</width>
+      <x>518</x>
+      <y>400</y>
+      <width>171</width>
       <height>41</height>
      </rect>
     </property>
@@ -50,7 +50,7 @@
     <property name="geometry">
      <rect>
       <x>536</x>
-      <y>341</y>
+      <y>370</y>
       <width>131</width>
       <height>23</height>
      </rect>
@@ -65,7 +65,7 @@
       <x>526</x>
       <y>0</y>
       <width>151</width>
-      <height>341</height>
+      <height>371</height>
      </rect>
     </property>
     <widget class="QWidget" name="verticalLayoutWidget">
@@ -73,8 +73,8 @@
       <rect>
        <x>0</x>
        <y>0</y>
-       <width>143</width>
-       <height>341</height>
+       <width>151</width>
+       <height>371</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="layoutConfig">
@@ -87,7 +87,7 @@
          <property name="geometry">
           <rect>
            <x>16</x>
-           <y>30</y>
+           <y>22</y>
            <width>111</width>
            <height>29</height>
           </rect>
@@ -110,7 +110,7 @@
          <property name="geometry">
           <rect>
            <x>16</x>
-           <y>30</y>
+           <y>25</y>
            <width>111</width>
            <height>29</height>
           </rect>
@@ -122,6 +122,8 @@
           <number>199</number>
          </property>
         </widget>
+        <zorder>spinWindowSize</zorder>
+        <zorder>groupDataLength</zorder>
        </widget>
       </item>
       <item>
@@ -133,7 +135,7 @@
          <property name="geometry">
           <rect>
            <x>10</x>
-           <y>50</y>
+           <y>40</y>
            <width>101</width>
            <height>20</height>
           </rect>
@@ -149,7 +151,7 @@
          <property name="geometry">
           <rect>
            <x>10</x>
-           <y>30</y>
+           <y>20</y>
            <width>101</width>
            <height>20</height>
           </rect>
@@ -159,6 +161,77 @@
          </property>
          <property name="checked">
           <bool>true</bool>
+         </property>
+        </widget>
+       </widget>
+      </item>
+      <item>
+       <widget class="QGroupBox" name="groupErrorCon">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>100</height>
+         </size>
+        </property>
+        <property name="title">
+         <string>Error Percentage</string>
+        </property>
+        <widget class="QDoubleSpinBox" name="spinUpError">
+         <property name="geometry">
+          <rect>
+           <x>70</x>
+           <y>30</y>
+           <width>69</width>
+           <height>29</height>
+          </rect>
+         </property>
+         <property name="maximum">
+          <double>0.800000000000000</double>
+         </property>
+         <property name="singleStep">
+          <double>0.100000000000000</double>
+         </property>
+        </widget>
+        <widget class="QDoubleSpinBox" name="spinDownError">
+         <property name="geometry">
+          <rect>
+           <x>70</x>
+           <y>60</y>
+           <width>69</width>
+           <height>29</height>
+          </rect>
+         </property>
+         <property name="maximum">
+          <double>0.800000000000000</double>
+         </property>
+         <property name="singleStep">
+          <double>0.100000000000000</double>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label">
+         <property name="geometry">
+          <rect>
+           <x>16</x>
+           <y>38</y>
+           <width>41</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Uplink</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_2">
+         <property name="geometry">
+          <rect>
+           <x>8</x>
+           <y>67</y>
+           <width>61</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Downlink</string>
          </property>
         </widget>
        </widget>
@@ -186,67 +259,79 @@
      </layout>
     </widget>
    </widget>
-   <widget class="QGroupBox" name="groupBox_5">
+   <widget class="QGroupBox" name="groupTransStatus">
     <property name="geometry">
      <rect>
-      <x>0</x>
+      <x>7</x>
       <y>0</y>
       <width>511</width>
       <height>411</height>
      </rect>
     </property>
     <property name="title">
-     <string>Send Status</string>
+     <string>Tx/Rx Connection Status</string>
     </property>
-    <widget class="StatusWidget" name="widgetStatus" native="true">
+    <widget class="StatusWidget" name="widgetWindowStatus" native="true">
      <property name="geometry">
       <rect>
-       <x>10</x>
-       <y>30</y>
-       <width>471</width>
+       <x>50</x>
+       <y>50</y>
+       <width>451</width>
        <height>41</height>
       </rect>
      </property>
     </widget>
+    <widget class="QLabel" name="label_3">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>30</y>
+       <width>131</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Receiver's Window</string>
+     </property>
+    </widget>
+    <widget class="QTreeView" name="treeView">
+     <property name="geometry">
+      <rect>
+       <x>70</x>
+       <y>140</y>
+       <width>256</width>
+       <height>192</height>
+      </rect>
+     </property>
+    </widget>
    </widget>
+   <zorder>gridLayoutWidget</zorder>
+   <zorder>progressBar</zorder>
+   <zorder>widgetConfig</zorder>
+   <zorder>groupTransStatus</zorder>
+   <zorder>verticalLayoutWidget</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>693</width>
+     <width>702</width>
      <height>27</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_Operation">
     <property name="title">
-     <string>Sta&amp;rt/Stop</string>
+     <string>Ope&amp;ration</string>
     </property>
-   </widget>
-   <widget class="QMenu" name="menuAbout">
-    <property name="title">
-     <string>Abo&amp;ut</string>
-    </property>
-   </widget>
-   <widget class="QMenu" name="menuHelp">
-    <property name="title">
-     <string>He&amp;lp</string>
-    </property>
-   </widget>
-   <widget class="QMenu" name="menuQuit">
-    <property name="title">
-     <string>&amp;Quit</string>
-    </property>
+    <addaction name="actionAbout"/>
+    <addaction name="actionQuit"/>
    </widget>
    <addaction name="menu_Operation"/>
-   <addaction name="menuHelp"/>
-   <addaction name="menuAbout"/>
-   <addaction name="menuQuit"/>
   </widget>
-  <action name="actionStart_Stop">
+  <action name="actionAbout">
    <property name="text">
-    <string>Start/Stop</string>
+    <string>About</string>
    </property>
   </action>
   <action name="actionQuit">

@@ -31,6 +31,10 @@ private slots:
 
     void on_spinWindowSize_editingFinished();
 
+    void on_actionQuit_triggered();
+
+    void on_actionAbout_triggered();
+
 private:
     Ui::Netsim_MainWindow *ui;
     QTimer* widget_refresh_timer;
