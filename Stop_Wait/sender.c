@@ -12,6 +12,7 @@
 
 #define P1 50       /* denominator */
 #define P2 10				/* numerator */
+#define Mod 2
 
 char act[10];
 char bad[10] = "Time Out ";
@@ -45,20 +46,21 @@ int main()
 	int2char(total);
 	send(s, act, sizeof(act),0);
 /************************ stop and wait ****************************/
-	int cur = 1, canSend = 1;
+	int cur = 0, canSend = 1;
 	while(1)
 	{
+		if(cur >= total) {canSend = 0; break;}
 		if(canSend){
 			int random = rand() % P1;
 			if(random < P2){						    /* 20% */
-				printf("Frame %d Sent\n", cur);
+				printf("Frame %d Sent\n", cur % Mod);
 				send(s, bad, sizeof(bad), 0);
 				canSend = 0;
 			}
 			else {						/* 80% */
 				int2char(cur);
 				send(s, act, sizeof(act), 0);
-				printf("Frame %d Sent\n", cur);
+				printf("Frame %d Sent\n", cur % Mod);
 				canSend = 0;
 			}
 		}
@@ -66,15 +68,16 @@ int main()
 		recv(s, act, sizeof(act), 0);
 		if(strlen(act) != 0){
 			if(strcmp(act, bad) == 0){
-				printf("Time Out, Resent Frame %d onwards\n", cur);
+				printf("Time Out, Resent Frame %d onwards\n", cur % Mod);
 				canSend = 1;
 			}
 			else {
 				int check = atoi(act);
+
 				if(check == cur){
-					printf("recv from receiver as ACK act = %s\n", act);
+					printf("recv from receiver as ACK act = %d\n", cur % Mod);
 					cur++;
-					if(cur > total) canSend = 0;
+					if(cur >= total) {canSend = 0; break;}
 					else canSend = 1;
 				}
 			}

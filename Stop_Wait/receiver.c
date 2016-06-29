@@ -12,6 +12,7 @@
 
 #define P1 50       /* denominator */
 #define P2 10				/* numerator */
+#define Mod 2
 
 char act[10];
 char bad[20] = "Time Out ";
@@ -53,10 +54,13 @@ int main()
 	printf("total frame = %d\n", total);
 
 /************************* stop and wait *****************************/
-int cur = 1;
+int cur = 0;
 	while(1){
+		if(cur >= total){
+				break;
+		}
 		recv(sock, act, sizeof(act), 0);
-		/// printf("recv act = %s \n", act);
+
 		if(strcmp(act, bad) != 0 && strlen(act) != 0){    /* if not time-out */
 			int random = rand() % P1;       /* have a certain probability to send the ACK with the time-out */
 			int check = atoi(act);
@@ -64,7 +68,8 @@ int cur = 1;
 				send(sock, bad, sizeof(bad), 0);
 			}
 			else if(check == cur){						/* 80% */
-				printf("Frame %s Received \n", act);
+				printf("Frame %d Received \n", cur % Mod);
+
 				send(sock, act, sizeof(act), 0);  /* send the ACK */
 				cur++;
 			}
