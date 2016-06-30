@@ -13,8 +13,19 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        netsim_mainwindow.cpp
+        netsim_mainwindow.cpp \
+    statuswidget.cpp \
+    dlgabout.cpp \
+    simsender.cpp \
+    simreceiver.cpp
 
-HEADERS  += netsim_mainwindow.h
+HEADERS  += netsim_mainwindow.h \
+    including.h \
+    statuswidget.h \
+    dlgabout.h \
+    simsender.h \
+    simreceiver.h
 
-FORMS    += netsim_mainwindow.ui
+FORMS    += netsim_mainwindow.ui \
+    statuswidget.ui \
+    dlgabout.ui
