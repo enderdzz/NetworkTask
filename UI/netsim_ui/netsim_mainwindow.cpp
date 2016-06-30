@@ -6,6 +6,7 @@
 #include <QPaintEvent>
 #include <QStandardItemModel>
 #include <QModelIndex>
+#include <QThread>
 
 Netsim_MainWindow::Netsim_MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -24,6 +25,8 @@ Netsim_MainWindow::Netsim_MainWindow(QWidget *parent) :
     //this is an example of how to use emit
     //see more about signal and slot at
     // https://doc.qt.io/qt-4.8/signalsandslots.html
+
+    //ui->treeView->setModel(model);
 }
 
 Netsim_MainWindow::~Netsim_MainWindow()
@@ -56,6 +59,7 @@ void Netsim_MainWindow::on_btnOnOff_pressed(){
         //During the process of event, do remeber to recalculate
         //blocks. Originial as:
         //connect(frame_sender, &QTimer::timeout, this, &Netsim_MainWindow::paint_recalculate);
+
         frame_sender->start();
     }else{
         frame_sender->stop();

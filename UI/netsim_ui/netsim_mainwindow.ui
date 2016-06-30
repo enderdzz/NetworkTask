@@ -25,7 +25,7 @@
      <rect>
       <x>518</x>
       <y>400</y>
-      <width>171</width>
+      <width>176</width>
       <height>41</height>
      </rect>
     </property>
@@ -122,8 +122,6 @@
           <number>199</number>
          </property>
         </widget>
-        <zorder>spinWindowSize</zorder>
-        <zorder>groupDataLength</zorder>
        </widget>
       </item>
       <item>
@@ -297,19 +295,14 @@
     <widget class="QTreeView" name="treeView">
      <property name="geometry">
       <rect>
-       <x>70</x>
-       <y>140</y>
+       <x>100</x>
+       <y>130</y>
        <width>256</width>
        <height>192</height>
       </rect>
      </property>
     </widget>
    </widget>
-   <zorder>gridLayoutWidget</zorder>
-   <zorder>progressBar</zorder>
-   <zorder>widgetConfig</zorder>
-   <zorder>groupTransStatus</zorder>
-   <zorder>verticalLayoutWidget</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -331,12 +324,12 @@
   </widget>
   <action name="actionAbout">
    <property name="text">
-    <string>About</string>
+    <string>&amp;About</string>
    </property>
   </action>
   <action name="actionQuit">
    <property name="text">
-    <string>Quit</string>
+    <string>&amp;Quit</string>
    </property>
   </action>
  </widget>
