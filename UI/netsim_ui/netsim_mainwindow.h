@@ -43,6 +43,8 @@ private:
     const int frame_end = 15;
     const int window_size = 4;
     int current_frame = 0;
+    //demo threader
+    QThread* athread;
 };
 
 #endif // NETSIM_MAINWINDOW_H

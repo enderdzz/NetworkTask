@@ -8,7 +8,7 @@
 #include <QModelIndex>
 #include <QThread>
 
-#include "simreceiver.h"
+//#include "simreceiver.h"
 #include "simsender.h"
 
 Netsim_MainWindow::Netsim_MainWindow(QWidget *parent) :
@@ -43,7 +43,8 @@ void Netsim_MainWindow::on_btnQuit_pressed()
 }
 
 void Netsim_MainWindow::on_btnOnOff_pressed(){
-    SimSender a;
+
+
  //   SimReceiver b;
     //convert status and refresh global var
     ui->widgetConfig->setEnabled(!ui->widgetConfig->isEnabled());
@@ -65,14 +66,23 @@ void Netsim_MainWindow::on_btnOnOff_pressed(){
         //blocks. Originial as:
         //connect(frame_sender, &QTimer::timeout, this, &Netsim_MainWindow::paint_recalculate);
 
-        frame_sender->start();
-
-
+       // frame_sender->start();
+        athread = new QThread();
+         SimSender* worker = new SimSender;
+        worker->moveToThread(athread);
+        //worker.connect(athread, SIGNAL(started()), SLOT(work()));
+        connect(athread, SIGNAL(started()), worker, SLOT(work()));
+        connect(worker, SIGNAL(something_need_to_announce(QString)), this, SLOT(setWindowTitle(QString)));
       //  b.start();
-     //   a.start();
+        athread->start(QThread::LowestPriority);
+
+      //  athread->wait();
 
     }else{
-        frame_sender->stop();
+       // frame_sender->stop();
+       athread->quit();
+      //   athread->deleteLater();
+        delete athread;
     }
 
 }
