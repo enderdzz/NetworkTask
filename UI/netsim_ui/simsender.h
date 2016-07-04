@@ -19,6 +19,7 @@
 #include <unistd.h>
 #include <QMutex>
 #include <QThread>
+#include <QTimer>
 
 
 class SimSender : public QThread
@@ -35,18 +36,25 @@ private:
 
     struct sockaddr_in ser;  // 代表server
     struct Initial sender;
+    QTimer* myTimer[TimerNum];
+    /*
     struct Timer {
         int left_time;       // 剩余时间
-    }myTimer[TimerNum];      // 计时器个数上限50
+    }myTimer[TimerNum];      // 计时器个数上限50*/
 
     void go_back_n();
     void int2char(int);
     void timer_on(int);      /*打开计时器(标号)*/
-    void setTimer(int, int); /*设定计时器(时限, 标号)*/
-    void timeout();          /*计时器的唯一操作*/
-    void process();          /*运行计时器*/
+//    void setTimer(int, int); /*设定计时器(时限, 标号)*/
+//    void timeout();          /*计时器的唯一操作*/
+//    void process();          /*运行计时器*/
     void reset_process(int); /*重启计时器(标号)*/
     int judge(int, int);     /*判断窗口内超时的第一个帧(窗口左,窗口右)*/
+
+    char ss_act[10];
+    char ss_bad[20] = "Time-out ";
+signals:
+    void query();
 
 
 

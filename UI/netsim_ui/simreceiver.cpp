@@ -2,8 +2,8 @@
 
 void SimReceiver::int2char(int z)
 {
-    memset(act, 0, sizeof(act));
-    sprintf(act, "%d", z);
+    memset(ss_act, 0, sizeof(ss_act));
+    sprintf(ss_act, "%d", z);
 }
 
 void SimReceiver::run(){
@@ -30,8 +30,8 @@ void SimReceiver::run(){
 
     // sseed=(unsigned int) time(NULL);
     // srand(sseed);
-    recv(sock, act, sizeof(act), 0);
-    total = atoi(act);
+    recv(sock, ss_act, sizeof(ss_act), 0);
+    total = atoi(ss_act);
     printf("Recv from the sender: total frame is %d.\n", total);
     receiver.total_frame = total;
     P1 = 100;
@@ -47,15 +47,15 @@ void SimReceiver::run(){
 }
 
 void SimReceiver::go_back_n(){
-        recv(sock,act,sizeof(act), MSG_DONTWAIT);
-        //recv(sock,act,sizeof(act), 0);
+        recv(sock,ss_act,sizeof(ss_act), MSG_DONTWAIT);
+        //recv(sock,ss_act,sizeof(ss_act), 0);
         sleep(1);
-        if(strcmp(act, bad) == 0){
-            /* if sender send bad, then receiver do nothing. */
+        if(strcmp(ss_act, ss_bad) == 0){
+            /* if sender send ss_bad, then receiver do nothing. */
             return ;
         }
 
-        int check = atoi(act);
+        int check = atoi(ss_act);
         int random = rand() % P1;
         //printf("check = %d, random = %d\n", check, random);
         if(random < P2 && check == cur && cur < total){
@@ -64,17 +64,17 @@ void SimReceiver::go_back_n(){
             cur++;
         }
         if(check == cur && cur < total){
-            send(sock, act, sizeof(act), 0);
+            send(sock, ss_act, sizeof(ss_act), 0);
             printf("Frame %d Received \n", check % Mod);
             cur++;
         }
         if(cur >= total) {
             int2char(cur-1);
-            send(sock, act, sizeof(act), 0);
+            send(sock, ss_act, sizeof(ss_act), 0);
             sleep(1);
-            send(sock, act, sizeof(act), 0);
+            send(sock, ss_act, sizeof(ss_act), 0);
             sleep(1);
-            send(sock, act, sizeof(act), 0);
+            send(sock, ss_act, sizeof(ss_act), 0);
 
         }
         //TODO: change to emit

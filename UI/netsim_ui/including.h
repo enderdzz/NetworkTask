@@ -1,12 +1,10 @@
- #ifndef INCLUDING_H
+#ifndef INCLUDING_H
 #define INCLUDING_H
 
 #include <QMessageBox>
 
 static bool isSimulationStarted = false;
 
-char act[10];
-char bad[20] = "Time-out ";
 
 struct Initial {
     int windowSize;     // 窗口大小

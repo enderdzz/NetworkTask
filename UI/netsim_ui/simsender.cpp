@@ -17,7 +17,8 @@ void SimSender::run(){
     ser.sin_port = htons(6500);
     ser.sin_addr.s_addr = inet_addr("127.0.0.1");
 
-    connect(s, (struct sockaddr *) &ser, sizeof(ser));
+
+    ::connect(s, (struct sockaddr *) &ser, sizeof(ser));
     puts("TCP Connection Established.");
 
     sseed=(unsigned int) time(NULL);
@@ -29,7 +30,7 @@ void SimSender::run(){
     P1 = 100;
     P2 = sender.error_rate * P1;
     int2char(total);
-    send(s, act, sizeof(act), 0);
+    send(s, ss_act, sizeof(ss_act), 0);
     printf("P1 = %d, P2 = %d\n", P1, P2);
 
     while(1){
@@ -58,9 +59,9 @@ void SimSender::go_back_n(){
                     /* 一定概率丢包 */
                     // printf("cur = %d, random = %d\n", cur, random);
                     if(random < P2)
-                        send(s, bad, sizeof(bad), 0);
+                        send(s, ss_bad, sizeof(ss_bad), 0);
                     else
-                        send(s, act, sizeof(act), 0);
+                        send(s, ss_act, sizeof(ss_act), 0);
 
                     /* 打开标号为cur的timer */
                     timer_on(cur);
@@ -97,16 +98,16 @@ void SimSender::go_back_n(){
             /* 每次最多进行WindowSize次操作 */
             for(i = 0; i < WindowSize; i++) {
                 // 维持timer工作
-                process();
+                //process();
 
-                if(recv(s, act, sizeof(act), MSG_DONTWAIT) < 0) {
+                if(recv(s, ss_act, sizeof(ss_act), MSG_DONTWAIT) < 0) {
                     sleep(1);
-                    recv(s, act, sizeof(act), MSG_DONTWAIT);
+                    recv(s, ss_act, sizeof(ss_act), MSG_DONTWAIT);
 
                 }
                 /* 我想查看下是否收到东西 */
-                // puts(act);
-                int now = atoi(act);
+                // puts(ss_act);
+                int now = atoi(ss_act);
 
                 // printf("left = %d right = %d\n", left, right);
 
@@ -168,12 +169,12 @@ void SimSender::go_back_n(){
 /*****************************************************
  * int2char()
  * return: void
- * purpose: turn the int z into a char[](act)
+ * purpose: turn the int z into a char[](ss_act)
  ******************************************************/
 void SimSender::int2char(int z)
 {
-    memset(act, 0, sizeof(act));
-    sprintf(act, "%d", z);
+    memset(ss_act, 0, sizeof(ss_act));
+    sprintf(ss_act, "%d", z);
 }
 
 /*****************************************************
@@ -182,59 +183,64 @@ void SimSender::int2char(int z)
  * purpose: turn on a timer indexed cur
  ******************************************************/
 void SimSender::timer_on(int cur){
-    /* 时限为5 */
-    setTimer(5, cur);
+    myTimer[cur] = new QTimer();
+    myTimer[cur]->setSingleShot(true);
+    myTimer[cur]->setInterval(5000);
+    myTimer[cur]->start();
+//    connect(myTimer[cur], SIGNAL(timeout()), self, SLOT(timerdone()));
+//    /* 时限为5 */
+//    setTimer(5, cur);
 
-    //等信号(异步),捎带处理timeout()函数
-    if(signal(SIGALRM, timeout) == SIG_ERR){
-        puts("error");
-    }
+//    //等信号(异步),捎带处理timeout()函数
+//    if(signal(SIGALRM, timeout) == SIG_ERR){
+//        puts("error");
+//    }
 
-    //发信号
-    kill(getpid(), SIGALRM);
-
-}
-
-/*****************************************************
- * setTimer(int stime, int cur)
- * return: void
- * purpose: set a timer
- ******************************************************/
-void SimSender::setTimer(int stime, int cur) {
-    /* 这是标号为cur的timer所对应的初始时长 */
-    myTimer[cur].left_time = stime;
-    /* 这是开的timer个数的上界 */
-    end++;
-}
-
-/*****************************************************
- * timeout()
- * return: void
- * purpose: 计时器处理
- ******************************************************/
-void SimSender::timeout() {
-    int j;
-    for(j = begin; j < end; j++) {
-        /* 从第一个设置的timer开始,循环使各个timer减1s */
-        if(myTimer[j].left_time != 1) {
-            myTimer[j].left_time--;
-        }
-        //printf("Timer[%d] = %d\n", j, myTimer[j].left_time);
-    }
+//    //发信号
+//    kill(getpid(), SIGALRM);
 
 }
+
+///*****************************************************
+// * setTimer(int stime, int cur)
+// * return: void
+// * purpose: set a timer
+// ******************************************************/
+//void SimSender::setTimer(int stime, int cur) {
+//    /* 这是标号为cur的timer所对应的初始时长 */
+//    myTimer[cur].left_time = stime;
+//    /* 这是开的timer个数的上界 */
+//    end++;
+//}
+
+///*****************************************************
+// * timeout()
+// * return: void
+// * purpose: 计时器处理
+// ******************************************************/
+//void SimSender::timeout() {
+//    int j;
+//    for(j = begin; j < end; j++) {
+//        /* 从第一个设置的timer开始,循环使各个timer减1s */
+//        if(myTimer[j].left_time != 1) {
+//            myTimer[j].left_time--;
+//        }
+//        //printf("Timer[%d] = %d\n", j, myTimer[j].left_time);
+//    }
+
+//}
 
 /*****************************************************
  * process()
  * return: void
  * purpose: 使计时器正常工作
  ******************************************************/
-void SimSender::process(){
-    if(signal(SIGALRM, timeout) == SIG_ERR){
-        puts("error");
-    }
-    kill(getpid(), SIGALRM);
-}
+//void SimSender::process(){
+//    if(signal(SIGALRM, timeout) == SIG_ERR){
+//        puts("error");
+//    }
+//    kill(getpid(), SIGALRM);
+//}
 
 /*****************************************************
  * reset_process(cur)
@@ -254,7 +260,8 @@ void SimSender::reset_process(int cur){
 int SimSender::judge(int left, int right){
     int i;
     for(i = left; i < right; i++){
-        if(myTimer[i].left_time == 1){
+//        if(myTimer[i].left_time == 1){
+         if(!myTimer[i]->isActive()){
             return i;
         }
     }

@@ -33,6 +33,10 @@ private:
     void go_back_n();
     void int2char(int z);
 
+    char ss_act[10];
+    char ss_bad[20] = "Time-out ";
+signals:
+    void query();
 
 };
 
