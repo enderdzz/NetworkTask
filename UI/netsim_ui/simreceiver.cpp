@@ -78,5 +78,5 @@ void SimReceiver::go_back_n(){
 
         }
         //TODO: change to emit
-        query();
+        //query();
 }

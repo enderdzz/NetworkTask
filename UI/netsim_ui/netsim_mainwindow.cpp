@@ -8,6 +8,9 @@
 #include <QModelIndex>
 #include <QThread>
 
+#include "simreceiver.h"
+#include "simsender.h"
+
 Netsim_MainWindow::Netsim_MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::Netsim_MainWindow)
@@ -40,6 +43,8 @@ void Netsim_MainWindow::on_btnQuit_pressed()
 }
 
 void Netsim_MainWindow::on_btnOnOff_pressed(){
+    SimSender a;
+ //   SimReceiver b;
     //convert status and refresh global var
     ui->widgetConfig->setEnabled(!ui->widgetConfig->isEnabled());
     isSimulationStarted = !ui->widgetConfig->isEnabled();
@@ -61,6 +66,11 @@ void Netsim_MainWindow::on_btnOnOff_pressed(){
         //connect(frame_sender, &QTimer::timeout, this, &Netsim_MainWindow::paint_recalculate);
 
         frame_sender->start();
+
+
+      //  b.start();
+     //   a.start();
+
     }else{
         frame_sender->stop();
     }

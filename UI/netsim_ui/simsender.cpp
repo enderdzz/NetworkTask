@@ -161,7 +161,7 @@ void SimSender::go_back_n(){
             return ;
         }
         //TODO use emit
-        query();
+        //query();
     // }
 
 }
