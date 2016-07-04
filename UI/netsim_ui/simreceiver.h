@@ -2,37 +2,23 @@
 #define SIMRECEIVER_H
 
 
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
+
+#include <cstdio>
+#include <cstring>
+#include <cstdlib>
+#include <csignal>
+#include <cctype>
+#include <ctime>
 
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
-#include <time.h>     /* random value */
-#include <ctype.h>    /* atoi function */
-
 #include "including.h"
 #include <unistd.h>
 #include <QMutex>
 #include <QThread>
-
-#define Mod 8
-
-struct Initial {
-    int windowSize;     // 窗口大小
-    int total_frame;    // 总帧数
-    double error_rate;     // 差错率,为一个[0,1]之间的小数,必须保留两位小数.
-    int sim_speed;      // 模拟发送速率
-};
-
-/* 定义状态结构体 */
-struct RecvState{
-    int cur;
-}State;
-
 
 class SimReceiver : public QThread
 {
