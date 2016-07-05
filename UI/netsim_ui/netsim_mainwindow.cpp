@@ -53,7 +53,7 @@ void Netsim_MainWindow::on_btnOnOff_pressed(){
         threadSender = new QThread;
         threadReceiver = new QThread;
         workSender = new SimSender;
-        workReceiver = new SimReceiver(60,8,200);
+        workReceiver = new SimReceiver(60,8,300);
         workSender->moveToThread(threadSender);
         workReceiver->moveToThread(threadReceiver);
 

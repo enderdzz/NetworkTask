@@ -50,7 +50,7 @@ void StatusWidget::paintEvent(QPaintEvent *event)
     int curX = 0;
     curX += block_width/2;
     rectangle.setY((this->height()-block_height)/2);
-    for ( int i = draw_start ; i < draw_start+block_count ; i++){
+    for ( int i = draw_start ; i < draw_start+block_count-1 ; i++){
         rectangle.setX(curX);
         curX += block_width;
         //reset width which changed by drawText
@@ -66,7 +66,7 @@ void StatusWidget::paintEvent(QPaintEvent *event)
     bsh.setColor(Qt::red);
     bsh.setStyle(Qt::Dense7Pattern);
     painter.setBrush(bsh);
-    rectangle.setX((current_window - draw_start)*block_width);
+    rectangle.setX((current_window - draw_start + 0.5)*block_width);
     rectangle.setWidth(window_size*block_width);
     painter.drawRect(rectangle);
 
