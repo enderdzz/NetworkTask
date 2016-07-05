@@ -15,19 +15,24 @@ StatusWidget::~StatusWidget()
     delete ui;
 }
 
+void StatusWidget::init_params(int block_width,
+                               int block_height,
+                               int block_count,
+                               int window_size){
+    QMutexLocker locker(&widget_value_busy);
+    this->block_width = block_width;
+    this->block_height = block_height;
+    this->block_count = block_count;
+    this->window_size = window_size;
+}
+
 void StatusWidget::widget_update_paint_value(int draw_start,
                                              int current_window,
-                                             int block_width,
-                                             int block_height,
-                                             int block_count,
                                              int window_size)
 {
     QMutexLocker locker(&widget_value_busy);
 
-    this->block_width = block_width;
-    this->block_height = block_height;
     this->draw_start = draw_start;
-    this->block_count = block_count;
     this->current_window = current_window;
     this->window_size = window_size;
 }

@@ -33,7 +33,7 @@ private:
     QMutex* read_mutex;
 
 signals:
-    void status_update(int current_window, int window_size, int frame_count);
+    void status_update(int current_window, int window_size);
 };
 
 

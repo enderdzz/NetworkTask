@@ -24,9 +24,7 @@ private slots:
     int on_radioArqBn_pressed();
     void widget_repaint();
     //void frame_send(void);
-    void paint_recalculate(int current_window,
-                           int window_size,
-                           int frame_count);
+    void paint_recalculate(int current_window, int window_size);
     void on_spinDataLength_editingFinished();
     void on_spinWindowSize_editingFinished();
     void on_actionQuit_triggered();
@@ -37,10 +35,9 @@ private:
     Ui::Netsim_MainWindow *ui;
     QTimer* widget_refresh_timer;
     QTimer* frame_sender;
-    const int frame_begin = 0;
-    const int frame_end = 15;
-    const int window_size = 4;
-    int current_frame = 0;
+    const int frame_count = 60;
+    int block_count;
+    int window_size = 5;
     //demo threader
     QThread *threadSender, *threadReceiver;
     SimSender* workSender;

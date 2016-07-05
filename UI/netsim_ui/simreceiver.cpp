@@ -33,7 +33,7 @@ void SimReceiver::timerEvent(QTimerEvent *event){
     QMutexLocker locker(read_mutex);
     if (event->timerId() == timer_id ){
 
-        emit status_update(current_frame, window_size, frame_count);
+        emit status_update(current_frame, window_size);
         if (current_frame < frame_count )
         {
             current_frame++;

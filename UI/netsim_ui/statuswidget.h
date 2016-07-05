@@ -14,14 +14,15 @@ class StatusWidget : public QWidget
 
 public:
     explicit StatusWidget(QWidget *parent = 0);
+    void init_params(int block_width,
+                     int block_height,
+                     int block_count,
+                     int window_size);
     ~StatusWidget();
 
 public slots:
     void widget_update_paint_value(int draw_start,
                                    int current_window,
-                                   int block_width,
-                                   int block_height,
-                                   int block_count,
                                    int window_size);
 
 private:

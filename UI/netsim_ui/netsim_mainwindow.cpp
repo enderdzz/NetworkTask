@@ -27,6 +27,7 @@ Netsim_MainWindow::Netsim_MainWindow(QWidget *parent) :
     // https://doc.qt.io/qt-4.8/signalsandslots.html
 
     //ui->treeView->setModel(model);
+
 }
 
 Netsim_MainWindow::~Netsim_MainWindow()
@@ -48,12 +49,24 @@ void Netsim_MainWindow::on_btnOnOff_pressed(){
     isSimulationStarted = !ui->widgetConfig->isEnabled();
 
     if (isSimulationStarted){
-        current_frame = 0;
+        //calculate ui sizes here
+        int width = ui->widgetWindowStatus->width();
+        QString longest_str = QString::number(frame_count);
+        QFontMetrics fm = ui->widgetWindowStatus->fontMetrics();
+        int longest_length = fm.width(longest_str);
+        const int block_height_padding = 10;
+        const int block_width_padding = 5;
+        int block_height = fm.height() +block_height_padding ;
+        int block_width = longest_length + block_width_padding*2;
+        block_count = width/block_width;
+
+        ui->widgetWindowStatus->init_params(block_width, block_height, block_count, window_size);
+
 
         threadSender = new QThread;
         threadReceiver = new QThread;
         workSender = new SimSender;
-        workReceiver = new SimReceiver(60,8,300);
+        workReceiver = new SimReceiver(frame_count,window_size,100);
         workSender->moveToThread(threadSender);
         workReceiver->moveToThread(threadReceiver);
 
@@ -70,6 +83,7 @@ void Netsim_MainWindow::on_btnOnOff_pressed(){
 
         threadSender->start();
         threadReceiver->start();
+
 
 
     }else{
@@ -111,26 +125,10 @@ void Netsim_MainWindow::widget_repaint(){
 //    }
 //}
 
-void Netsim_MainWindow::paint_recalculate(int current_window, int window_size, int frame_count)
+void Netsim_MainWindow::paint_recalculate(int current_window, int window_size)
 {
     //recalculate the block image
 
-    //get device status
-    int width = ui->widgetWindowStatus->width();
-
-    //calculate longest font
-    QString longest_str = QString::number(frame_count);
-    QFontMetrics fm = ui->widgetWindowStatus->fontMetrics();
-    int longest_text_length = fm.width(longest_str);
-
-    //calculate block size
-    const int block_height_padding = 10;
-    const int block_width_padding = 5;
-    int block_height = fm.height() +block_height_padding ;
-    int block_width = longest_text_length + block_width_padding*2;
-
-    //calculate block count
-    int block_count = width/block_width;
 
     //find right position of window block
     //Situation 1: [AB]CDEFGH
@@ -140,6 +138,7 @@ void Netsim_MainWindow::paint_recalculate(int current_window, int window_size, i
     //Assume all start with 0
 
     int draw_start;
+    this->window_size = window_size;
 
     if (! (current_window + window_size == frame_count)){
         //situation 1~4
@@ -153,14 +152,13 @@ void Netsim_MainWindow::paint_recalculate(int current_window, int window_size, i
         } else {
             draw_start = current_window - (block_count/2 - window_size / 2);
         }
+    } else{
+        draw_start = frame_count - (block_count - 1);
     }
 
 
     ui->widgetWindowStatus->widget_update_paint_value(draw_start,
                                                       current_window,
-                                                      block_width,
-                                                      block_height,
-                                                      block_count,
                                                       window_size);
     emit ui->widgetWindowStatus->repaint();
 

@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_StatusWidget_t {
-    QByteArrayData data[9];
-    char stringdata0[115];
+    QByteArrayData data[6];
+    char stringdata0[78];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -34,15 +34,11 @@ QT_MOC_LITERAL(1, 13, 25), // "widget_update_paint_value"
 QT_MOC_LITERAL(2, 39, 0), // ""
 QT_MOC_LITERAL(3, 40, 10), // "draw_start"
 QT_MOC_LITERAL(4, 51, 14), // "current_window"
-QT_MOC_LITERAL(5, 66, 11), // "block_width"
-QT_MOC_LITERAL(6, 78, 12), // "block_height"
-QT_MOC_LITERAL(7, 91, 11), // "block_count"
-QT_MOC_LITERAL(8, 103, 11) // "window_size"
+QT_MOC_LITERAL(5, 66, 11) // "window_size"
 
     },
     "StatusWidget\0widget_update_paint_value\0"
-    "\0draw_start\0current_window\0block_width\0"
-    "block_height\0block_count\0window_size"
+    "\0draw_start\0current_window\0window_size"
 };
 #undef QT_MOC_LITERAL
 
@@ -60,10 +56,10 @@ static const uint qt_meta_data_StatusWidget[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    6,   19,    2, 0x0a /* Public */,
+       1,    3,   19,    2, 0x0a /* Public */,
 
  // slots: parameters
-    QMetaType::Void, QMetaType::Int, QMetaType::Int, QMetaType::Int, QMetaType::Int, QMetaType::Int, QMetaType::Int,    3,    4,    5,    6,    7,    8,
+    QMetaType::Void, QMetaType::Int, QMetaType::Int, QMetaType::Int,    3,    4,    5,
 
        0        // eod
 };
@@ -74,7 +70,7 @@ void StatusWidget::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id
         StatusWidget *_t = static_cast<StatusWidget *>(_o);
         Q_UNUSED(_t)
         switch (_id) {
-        case 0: _t->widget_update_paint_value((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2])),(*reinterpret_cast< int(*)>(_a[3])),(*reinterpret_cast< int(*)>(_a[4])),(*reinterpret_cast< int(*)>(_a[5])),(*reinterpret_cast< int(*)>(_a[6]))); break;
+        case 0: _t->widget_update_paint_value((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2])),(*reinterpret_cast< int(*)>(_a[3]))); break;
         default: ;
         }
     }
