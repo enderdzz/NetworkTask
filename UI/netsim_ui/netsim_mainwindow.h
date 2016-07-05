@@ -25,15 +25,11 @@ private slots:
     void widget_repaint();
     void frame_send(void);
     void paint_recalculate(void);
-
-
     void on_spinDataLength_editingFinished();
-
     void on_spinWindowSize_editingFinished();
-
     void on_actionQuit_triggered();
-
     void on_actionAbout_triggered();
+    void print_dbg_msg(const char* x);
 
 private:
     Ui::Netsim_MainWindow *ui;
@@ -44,7 +40,9 @@ private:
     const int window_size = 4;
     int current_frame = 0;
     //demo threader
-    QThread* athread;
+    QThread *threadSender, *threadReceiver;
+    SimSender* workSender;
+    SimReceiver* workReceiver;
 };
 
 #endif // NETSIM_MAINWINDOW_H

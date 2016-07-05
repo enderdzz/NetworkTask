@@ -1,82 +1,49 @@
 #include "simreceiver.h"
 
-void SimReceiver::int2char(int z)
-{
-    memset(ss_act, 0, sizeof(ss_act));
-    sprintf(ss_act, "%d", z);
+void SimReceiver::work(){
+    some_value_mutex = new QMutex;
+    //Here you should write your code in the new thread
+    for ( int i = 0 ; i < 10 ; i++ ){
+        qDebug("In new thread Receiver\n");
+        //and if you need, just send me something
+        if (i==4)
+            emit something_need_to_announce("ReceiverNotice!");
+        else if (i==5)//and if you want to write some var, lock it in case of I'm reading it at the same time!
+        {
+            QMutexLocker locker(some_value_mutex);
+            some_value = 233;
+            locker.unlock();
+        }
+    }
+
+    //This is a example of how to use timer
+    timer_id[0] = startTimer(1500);//trigger after 1s
+    timer_id[1] = startTimer(2500);
+    //if you need, just record this timer in somewhere else
+
+    qDebug("Still in the new thread Receiver\n");
+
 }
 
-void SimReceiver::run(){
-    s = socket(AF_INET, SOCK_STREAM, 0); /* use TCP protocol */
-    if(s == -1){
-        puts("Building a socket failed!");
-        return ;
-    }
-
-    ser.sin_family = AF_INET;
-    ser.sin_port = htons(6500);
-    ser.sin_addr.s_addr = inet_addr("127.0.0.1");
-
-    err = bind(s, (struct sockaddr *) &ser, sizeof(ser));
-    if(err != 0){
-        puts("Binding a socket failed!");
-        return ;
-    }
-
-    listen(s, 1);
-    int len = sizeof(cli);
-    sock = accept(s, (struct sockaddr *) &cli, (socklen_t*)&len);
-    puts("TCP Connection Established.");
-
-    // sseed=(unsigned int) time(NULL);
-    // srand(sseed);
-    recv(sock, ss_act, sizeof(ss_act), 0);
-    total = atoi(ss_act);
-    printf("Recv from the sender: total frame is %d.\n", total);
-    receiver.total_frame = total;
-    P1 = 100;
-    P2 = receiver.error_rate * P1;
-    printf("P1 = %d, P2 = %d\n", P1, P2);
-
-    while(1){
-        go_back_n();
-    }
-
-    close(sock);
-    close(s);
+int SimReceiver::read_some_value(void){
+    QMutexLocker locker(some_value_mutex);
+    return some_value;
 }
 
-void SimReceiver::go_back_n(){
-        recv(sock,ss_act,sizeof(ss_act), MSG_DONTWAIT);
-        //recv(sock,ss_act,sizeof(ss_act), 0);
-        sleep(1);
-        if(strcmp(ss_act, ss_bad) == 0){
-            /* if sender send ss_bad, then receiver do nothing. */
-            return ;
-        }
+void SimReceiver::timerEvent(QTimerEvent *event){
+    //When a timer triggered, get its id
+    if (event->timerId() == this->timer_id[0]){
+        qDebug("0.5s Recv reached\n");
+        //kill it if you need
+        killTimer(timer_id[0]);
+        //clear old id for safe
+        timer_id[0]=NULL;
+    }else if (event->timerId() == this->timer_id[1]){
+        qDebug("1.5s Recv reached\n");
+        //kill it if you need
+        killTimer(timer_id[1]);
+        //for your safety
+        timer_id[1]=NULL;
+    }
 
-        int check = atoi(ss_act);
-        int random = rand() % P1;
-        //printf("check = %d, random = %d\n", check, random);
-        if(random < P2 && check == cur && cur < total){
-
-            printf("Frame %d Received \n", check % Mod);
-            cur++;
-        }
-        if(check == cur && cur < total){
-            send(sock, ss_act, sizeof(ss_act), 0);
-            printf("Frame %d Received \n", check % Mod);
-            cur++;
-        }
-        if(cur >= total) {
-            int2char(cur-1);
-            send(sock, ss_act, sizeof(ss_act), 0);
-            sleep(1);
-            send(sock, ss_act, sizeof(ss_act), 0);
-            sleep(1);
-            send(sock, ss_act, sizeof(ss_act), 0);
-
-        }
-        //TODO: change to emit
-        //query();
 }

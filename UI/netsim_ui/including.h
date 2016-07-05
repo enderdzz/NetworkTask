@@ -2,6 +2,8 @@
 #define INCLUDING_H
 
 #include <QMessageBox>
+#include "simreceiver.h"
+#include "simsender.h"
 
 static bool isSimulationStarted = false;
 

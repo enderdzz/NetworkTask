@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_SimSender_t {
-    QByteArrayData data[4];
-    char stringdata0[43];
+    QByteArrayData data[5];
+    char stringdata0[55];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -32,11 +32,12 @@ static const qt_meta_stringdata_SimSender_t qt_meta_stringdata_SimSender = {
 QT_MOC_LITERAL(0, 0, 9), // "SimSender"
 QT_MOC_LITERAL(1, 10, 26), // "something_need_to_announce"
 QT_MOC_LITERAL(2, 37, 0), // ""
-QT_MOC_LITERAL(3, 38, 4) // "work"
+QT_MOC_LITERAL(3, 38, 11), // "const char*"
+QT_MOC_LITERAL(4, 50, 4) // "work"
 
     },
     "SimSender\0something_need_to_announce\0"
-    "\0work"
+    "\0const char*\0work"
 };
 #undef QT_MOC_LITERAL
 
@@ -57,10 +58,10 @@ static const uint qt_meta_data_SimSender[] = {
        1,    1,   24,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-       3,    0,   27,    2, 0x0a /* Public */,
+       4,    0,   27,    2, 0x0a /* Public */,
 
  // signals: parameters
-    QMetaType::Void, QMetaType::QString,    2,
+    QMetaType::Void, 0x80000000 | 3,    2,
 
  // slots: parameters
     QMetaType::Void,
@@ -74,7 +75,7 @@ void SimSender::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, v
         SimSender *_t = static_cast<SimSender *>(_o);
         Q_UNUSED(_t)
         switch (_id) {
-        case 0: _t->something_need_to_announce((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 0: _t->something_need_to_announce((*reinterpret_cast< const char*(*)>(_a[1]))); break;
         case 1: _t->work(); break;
         default: ;
         }
@@ -82,7 +83,7 @@ void SimSender::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, v
         int *result = reinterpret_cast<int *>(_a[0]);
         void **func = reinterpret_cast<void **>(_a[1]);
         {
-            typedef void (SimSender::*_t)(QString );
+            typedef void (SimSender::*_t)(const char * );
             if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&SimSender::something_need_to_announce)) {
                 *result = 0;
                 return;
@@ -128,7 +129,7 @@ int SimSender::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 }
 
 // SIGNAL 0
-void SimSender::something_need_to_announce(QString _t1)
+void SimSender::something_need_to_announce(const char * _t1)
 {
     void *_a[] = { Q_NULLPTR, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
     QMetaObject::activate(this, &staticMetaObject, 0, _a);

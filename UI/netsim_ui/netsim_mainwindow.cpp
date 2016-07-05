@@ -8,9 +8,6 @@
 #include <QModelIndex>
 #include <QThread>
 
-//#include "simreceiver.h"
-#include "simsender.h"
-
 Netsim_MainWindow::Netsim_MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::Netsim_MainWindow)
@@ -52,37 +49,36 @@ void Netsim_MainWindow::on_btnOnOff_pressed(){
 
     if (isSimulationStarted){
         current_frame = 0;
-        //
-        //Here should start sender and receive thread with structs
-        //correctly initalized. Now just use some example ones.
-        //
-        //When situation changed, Rx and Tx threads are required to
-        //send a event which will be passed to all related widgets.
-        //
-        //Widgets will then abstract information from the event,
-        //and update its values.
-        //
-        //During the process of event, do remeber to recalculate
-        //blocks. Originial as:
-        //connect(frame_sender, &QTimer::timeout, this, &Netsim_MainWindow::paint_recalculate);
 
-       // frame_sender->start();
-        athread = new QThread();
-         SimSender* worker = new SimSender;
-        worker->moveToThread(athread);
-        //worker.connect(athread, SIGNAL(started()), SLOT(work()));
-        connect(athread, SIGNAL(started()), worker, SLOT(work()));
-        connect(worker, SIGNAL(something_need_to_announce(QString)), this, SLOT(setWindowTitle(QString)));
-      //  b.start();
-        athread->start(QThread::LowestPriority);
+        threadSender = new QThread;
+        threadReceiver = new QThread;
+        workSender = new SimSender;
+        workReceiver = new SimReceiver;
+        workSender->moveToThread(threadSender);
+        workReceiver->moveToThread(threadReceiver);
 
-      //  athread->wait();
+        connect(threadSender, &QThread::started, workSender, &SimSender::work);
+        connect(threadReceiver, &QThread::started, workReceiver, &SimReceiver::work);
+
+        connect(workSender, &SimSender::something_need_to_announce,
+                this, &Netsim_MainWindow::print_dbg_msg);
+        connect(workReceiver, &SimReceiver::something_need_to_announce,
+                this, &Netsim_MainWindow::print_dbg_msg);
+
+        threadSender->start();
+        threadReceiver->start();
+
 
     }else{
-       // frame_sender->stop();
-       athread->quit();
-      //   athread->deleteLater();
-        delete athread;
+        threadSender->terminate();
+        threadReceiver->terminate();
+        threadSender->wait();
+        threadReceiver->wait();
+
+
+
+        delete threadSender;
+        delete threadReceiver;
     }
 
 }
@@ -186,4 +182,9 @@ void Netsim_MainWindow::on_actionAbout_triggered()
     aboutdlg->setModal(true);
     aboutdlg->show();
     aboutdlg->exec();
+}
+
+void Netsim_MainWindow::print_dbg_msg(const char* x)
+{
+    qDebug(x);
 }
