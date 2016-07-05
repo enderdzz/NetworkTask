@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_SimReceiver_t {
-    QByteArrayData data[5];
-    char stringdata0[57];
+    QByteArrayData data[7];
+    char stringdata0[71];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -30,14 +30,16 @@ struct qt_meta_stringdata_SimReceiver_t {
 static const qt_meta_stringdata_SimReceiver_t qt_meta_stringdata_SimReceiver = {
     {
 QT_MOC_LITERAL(0, 0, 11), // "SimReceiver"
-QT_MOC_LITERAL(1, 12, 26), // "something_need_to_announce"
-QT_MOC_LITERAL(2, 39, 0), // ""
-QT_MOC_LITERAL(3, 40, 11), // "const char*"
-QT_MOC_LITERAL(4, 52, 4) // "work"
+QT_MOC_LITERAL(1, 12, 13), // "status_update"
+QT_MOC_LITERAL(2, 26, 0), // ""
+QT_MOC_LITERAL(3, 27, 14), // "current_window"
+QT_MOC_LITERAL(4, 42, 11), // "window_size"
+QT_MOC_LITERAL(5, 54, 11), // "frame_count"
+QT_MOC_LITERAL(6, 66, 4) // "work"
 
     },
-    "SimReceiver\0something_need_to_announce\0"
-    "\0const char*\0work"
+    "SimReceiver\0status_update\0\0current_window\0"
+    "window_size\0frame_count\0work"
 };
 #undef QT_MOC_LITERAL
 
@@ -55,13 +57,13 @@ static const uint qt_meta_data_SimReceiver[] = {
        1,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    1,   24,    2, 0x06 /* Public */,
+       1,    3,   24,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-       4,    0,   27,    2, 0x0a /* Public */,
+       6,    0,   31,    2, 0x0a /* Public */,
 
  // signals: parameters
-    QMetaType::Void, 0x80000000 | 3,    2,
+    QMetaType::Void, QMetaType::Int, QMetaType::Int, QMetaType::Int,    3,    4,    5,
 
  // slots: parameters
     QMetaType::Void,
@@ -75,7 +77,7 @@ void SimReceiver::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id,
         SimReceiver *_t = static_cast<SimReceiver *>(_o);
         Q_UNUSED(_t)
         switch (_id) {
-        case 0: _t->something_need_to_announce((*reinterpret_cast< const char*(*)>(_a[1]))); break;
+        case 0: _t->status_update((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2])),(*reinterpret_cast< int(*)>(_a[3]))); break;
         case 1: _t->work(); break;
         default: ;
         }
@@ -83,8 +85,8 @@ void SimReceiver::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id,
         int *result = reinterpret_cast<int *>(_a[0]);
         void **func = reinterpret_cast<void **>(_a[1]);
         {
-            typedef void (SimReceiver::*_t)(const char * );
-            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&SimReceiver::something_need_to_announce)) {
+            typedef void (SimReceiver::*_t)(int , int , int );
+            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&SimReceiver::status_update)) {
                 *result = 0;
                 return;
             }
@@ -129,9 +131,9 @@ int SimReceiver::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 }
 
 // SIGNAL 0
-void SimReceiver::something_need_to_announce(const char * _t1)
+void SimReceiver::status_update(int _t1, int _t2, int _t3)
 {
-    void *_a[] = { Q_NULLPTR, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
+    void *_a[] = { Q_NULLPTR, const_cast<void*>(reinterpret_cast<const void*>(&_t1)), const_cast<void*>(reinterpret_cast<const void*>(&_t2)), const_cast<void*>(reinterpret_cast<const void*>(&_t3)) };
     QMetaObject::activate(this, &staticMetaObject, 0, _a);
 }
 QT_END_MOC_NAMESPACE

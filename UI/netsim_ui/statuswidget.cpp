@@ -15,14 +15,21 @@ StatusWidget::~StatusWidget()
     delete ui;
 }
 
-void StatusWidget::widget_update_paint_value(int block_width, int block_height, int block_start_num, int block_count)
+void StatusWidget::widget_update_paint_value(int draw_start,
+                                             int current_window,
+                                             int block_width,
+                                             int block_height,
+                                             int block_count,
+                                             int window_size)
 {
     QMutexLocker locker(&widget_value_busy);
 
     this->block_width = block_width;
     this->block_height = block_height;
-    this->block_start_num = block_start_num;
+    this->draw_start = draw_start;
     this->block_count = block_count;
+    this->current_window = current_window;
+    this->window_size = window_size;
 }
 
 void StatusWidget::paintEvent(QPaintEvent *event)
@@ -43,7 +50,7 @@ void StatusWidget::paintEvent(QPaintEvent *event)
     int curX = 0;
     curX += block_width/2;
     rectangle.setY((this->height()-block_height)/2);
-    for ( int i = 0 ; i < block_count ; i++){
+    for ( int i = draw_start ; i < draw_start+block_count ; i++){
         rectangle.setX(curX);
         curX += block_width;
         //reset width which changed by drawText
@@ -52,15 +59,15 @@ void StatusWidget::paintEvent(QPaintEvent *event)
         painter.setPen(Qt::gray);
         painter.drawRect(rectangle);
         txtopt.setAlignment(Qt::AlignCenter | Qt::AlignHCenter);
-        painter.drawText(rectangle, QString::number(i+block_start_num),txtopt);
+        painter.drawText(rectangle, QString::number(i),txtopt);
     }
     QBrush bsh;
     QPen pen;
     bsh.setColor(Qt::red);
     bsh.setStyle(Qt::Dense7Pattern);
     painter.setBrush(bsh);
-    rectangle.setX(3*block_width);
-    rectangle.setWidth(4*block_width);
+    rectangle.setX((current_window - draw_start)*block_width);
+    rectangle.setWidth(window_size*block_width);
     painter.drawRect(rectangle);
 
     //draw border

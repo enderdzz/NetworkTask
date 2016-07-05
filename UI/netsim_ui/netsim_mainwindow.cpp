@@ -17,11 +17,11 @@ Netsim_MainWindow::Netsim_MainWindow(QWidget *parent) :
 
     //add another timer, to automatically incrase
     //index 'current_frame'
-    current_frame = 0;
-    frame_sender = new QTimer(this);
-    connect(frame_sender, &QTimer::timeout, this, &Netsim_MainWindow::frame_send);
+//    current_frame = 0;
+//    frame_sender = new QTimer(this);
+//    connect(frame_sender, &QTimer::timeout, this, &Netsim_MainWindow::frame_send);
 
-    frame_sender->setInterval(700);
+//    frame_sender->setInterval(700);
     //this is an example of how to use emit
     //see more about signal and slot at
     // https://doc.qt.io/qt-4.8/signalsandslots.html
@@ -53,17 +53,20 @@ void Netsim_MainWindow::on_btnOnOff_pressed(){
         threadSender = new QThread;
         threadReceiver = new QThread;
         workSender = new SimSender;
-        workReceiver = new SimReceiver;
+        workReceiver = new SimReceiver(60,8,200);
         workSender->moveToThread(threadSender);
         workReceiver->moveToThread(threadReceiver);
 
         connect(threadSender, &QThread::started, workSender, &SimSender::work);
         connect(threadReceiver, &QThread::started, workReceiver, &SimReceiver::work);
 
+        connect(workReceiver, &SimReceiver::status_update,
+                this, &Netsim_MainWindow::paint_recalculate);
+        //        ui->widgetWindowStatus, &StatusWidget::widget_update_paint_value);
+
         connect(workSender, &SimSender::something_need_to_announce,
                 this, &Netsim_MainWindow::print_dbg_msg);
-        connect(workReceiver, &SimReceiver::something_need_to_announce,
-                this, &Netsim_MainWindow::print_dbg_msg);
+        //can just trigger repaint event here
 
         threadSender->start();
         threadReceiver->start();
@@ -74,8 +77,6 @@ void Netsim_MainWindow::on_btnOnOff_pressed(){
         threadReceiver->terminate();
         threadSender->wait();
         threadReceiver->wait();
-
-
 
         delete threadSender;
         delete threadReceiver;
@@ -99,28 +100,26 @@ void Netsim_MainWindow::widget_repaint(){
     ui->widgetWindowStatus->repaint();
 }
 
-void Netsim_MainWindow::frame_send()
-{
-    //this means a frame was sent
-    if (current_frame < frame_end){
-        current_frame++;
-        //QCoreApplication::postEvent(ui->widgetWindowStatus, new QPaintEvent(ui->widgetWindowStatus->rect()));
-        //QRect rect = ui->widgetWindowStatus->rect();
-        ui->widgetWindowStatus->repaint();
-    }
-}
+//void Netsim_MainWindow::frame_send()
+//{
+//    //this means a frame was sent
+//    if (current_frame < frame_end){
+//        current_frame++;
+//        //QCoreApplication::postEvent(ui->widgetWindowStatus, new QPaintEvent(ui->widgetWindowStatus->rect()));
+//        //QRect rect = ui->widgetWindowStatus->rect();
+//        ui->widgetWindowStatus->repaint();
+//    }
+//}
 
-void Netsim_MainWindow::paint_recalculate()
+void Netsim_MainWindow::paint_recalculate(int current_window, int window_size, int frame_count)
 {
-    //this slot means we can recalculate the bitmap at here
-    //this function will recalculate the bitmap
+    //recalculate the block image
 
     //get device status
-    int height = ui->widgetWindowStatus->height();
     int width = ui->widgetWindowStatus->width();
 
     //calculate longest font
-    QString longest_str = QString::number(frame_end);
+    QString longest_str = QString::number(frame_count);
     QFontMetrics fm = ui->widgetWindowStatus->fontMetrics();
     int longest_text_length = fm.width(longest_str);
 
@@ -133,7 +132,37 @@ void Netsim_MainWindow::paint_recalculate()
     //calculate block count
     int block_count = width/block_width;
 
-    ui->widgetWindowStatus->widget_update_paint_value(block_width, block_height, current_frame,block_count);
+    //find right position of window block
+    //Situation 1: [AB]CDEFGH
+    //Situation 2: A[BC]DEFGH
+    //Situation 3: DEF[GH]IJK
+    //Situation 4 5 is similar with 1 and 2
+    //Assume all start with 0
+
+    int draw_start;
+
+    if (! (current_window + window_size == frame_count)){
+        //situation 1~4
+        //judge situation 4
+        if (current_window > frame_count - block_count/2 - window_size / 2)
+        {
+            //in situation 4
+            draw_start = frame_count - (block_count - 1);
+        } else if (current_window < block_count/2 - window_size / 2){
+            draw_start = 0;
+        } else {
+            draw_start = current_window - (block_count/2 - window_size / 2);
+        }
+    }
+
+
+    ui->widgetWindowStatus->widget_update_paint_value(draw_start,
+                                                      current_window,
+                                                      block_width,
+                                                      block_height,
+                                                      block_count,
+                                                      window_size);
+    emit ui->widgetWindowStatus->repaint();
 
     //send block_count out for a try
 

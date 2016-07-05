@@ -17,10 +17,12 @@ public:
     ~StatusWidget();
 
 public slots:
-    void widget_update_paint_value(int block_width,
-                                   int block_heigh,
-                                   int block_start_num,
-                                   int block_count);
+    void widget_update_paint_value(int draw_start,
+                                   int current_window,
+                                   int block_width,
+                                   int block_height,
+                                   int block_count,
+                                   int window_size);
 
 private:
     Ui::StatusWidget *ui;
@@ -28,8 +30,10 @@ private:
     QMutex widget_value_busy ;
     int block_width = 0;
     int block_height = 0;
-    int block_start_num = 0;
     int block_count = 0;
+    int current_window = 0;
+    int draw_start = 0;
+    int window_size = 0;
 };
 
 #endif // STATUSWIDGET_H

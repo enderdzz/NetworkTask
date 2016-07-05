@@ -5,7 +5,6 @@
 #include "simreceiver.h"
 #include "simsender.h"
 
-static bool isSimulationStarted = false;
 
 
 struct Initial {

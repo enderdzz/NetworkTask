@@ -23,8 +23,10 @@ private slots:
     int on_radioArqSw_pressed();
     int on_radioArqBn_pressed();
     void widget_repaint();
-    void frame_send(void);
-    void paint_recalculate(void);
+    //void frame_send(void);
+    void paint_recalculate(int current_window,
+                           int window_size,
+                           int frame_count);
     void on_spinDataLength_editingFinished();
     void on_spinWindowSize_editingFinished();
     void on_actionQuit_triggered();
@@ -43,6 +45,7 @@ private:
     QThread *threadSender, *threadReceiver;
     SimSender* workSender;
     SimReceiver* workReceiver;
+    bool isSimulationStarted = false;
 };
 
 #endif // NETSIM_MAINWINDOW_H

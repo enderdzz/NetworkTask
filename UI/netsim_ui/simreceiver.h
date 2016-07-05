@@ -17,18 +17,23 @@ public slots:
     void work();
 
 public:
-    int read_some_value(void);
+    int get_status(int &current_window);
+    SimReceiver(int frame_count, int window_size, int timer_delay);
+    ~SimReceiver();
 
 protected:
     void timerEvent(QTimerEvent *event);
-    int timer_id[2];
+    int timer_id;
 
 private:
-    int some_value = 0;
-    QMutex* some_value_mutex;
+    int current_frame = 0;
+    int frame_count = 0;
+    int window_size = 0;
+    int timer_delay = 0;
+    QMutex* read_mutex;
 
 signals:
-    void something_need_to_announce(const char*);
+    void status_update(int current_window, int window_size, int frame_count);
 };
 
 
