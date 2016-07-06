@@ -292,6 +292,85 @@
       <string>Receiver's Window</string>
      </property>
     </widget>
+    <widget class="QTreeWidget" name="treeWidget">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>100</y>
+       <width>191</width>
+       <height>301</height>
+      </rect>
+     </property>
+     <property name="autoExpandDelay">
+      <number>0</number>
+     </property>
+     <property name="wordWrap">
+      <bool>false</bool>
+     </property>
+     <property name="columnCount">
+      <number>2</number>
+     </property>
+     <column>
+      <property name="text">
+       <string>Item</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Value</string>
+      </property>
+     </column>
+     <item>
+      <property name="text">
+       <string>Rx Frame</string>
+      </property>
+      <item>
+       <property name="text">
+        <string>Count</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>ACKSent</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Timeout Err</string>
+       </property>
+      </item>
+     </item>
+     <item>
+      <property name="text">
+       <string>Tx Frame</string>
+      </property>
+      <item>
+       <property name="text">
+        <string>Count</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>ACKSent</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Timeout Err</string>
+       </property>
+      </item>
+     </item>
+    </widget>
+    <widget class="graphwidget" name="widget" native="true">
+     <property name="geometry">
+      <rect>
+       <x>210</x>
+       <y>100</y>
+       <width>291</width>
+       <height>301</height>
+      </rect>
+     </property>
+    </widget>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -328,6 +407,12 @@
    <class>StatusWidget</class>
    <extends>QWidget</extends>
    <header>statuswidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>graphwidget</class>
+   <extends>QWidget</extends>
+   <header>graphwidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

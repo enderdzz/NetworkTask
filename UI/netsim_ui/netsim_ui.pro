@@ -17,14 +17,16 @@ SOURCES += main.cpp\
     statuswidget.cpp \
     dlgabout.cpp \
     simsender.cpp \
-    simreceiver.cpp
+    simreceiver.cpp \
+    graphwidget.cpp
 
 HEADERS  += netsim_mainwindow.h \
     including.h \
     statuswidget.h \
     dlgabout.h \
     simsender.h \
-    simreceiver.h
+    simreceiver.h \
+    graphwidget.h
 
 FORMS    += netsim_mainwindow.ui \
     statuswidget.ui \

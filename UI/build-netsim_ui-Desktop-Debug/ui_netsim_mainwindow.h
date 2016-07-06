@@ -26,9 +26,10 @@
 #include <QtWidgets/QRadioButton>
 #include <QtWidgets/QSlider>
 #include <QtWidgets/QSpinBox>
-#include <QtWidgets/QTreeView>
+#include <QtWidgets/QTreeWidget>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
+#include "graphwidget.h"
 #include "statuswidget.h"
 
 QT_BEGIN_NAMESPACE
@@ -64,7 +65,8 @@ public:
     QGroupBox *groupTransStatus;
     StatusWidget *widgetWindowStatus;
     QLabel *label_3;
-    QTreeView *treeView;
+    QTreeWidget *treeWidget;
+    graphwidget *widget;
     QMenuBar *menubar;
     QMenu *menu_Operation;
 
@@ -186,9 +188,23 @@ public:
         label_3 = new QLabel(groupTransStatus);
         label_3->setObjectName(QStringLiteral("label_3"));
         label_3->setGeometry(QRect(20, 30, 131, 16));
-        treeView = new QTreeView(groupTransStatus);
-        treeView->setObjectName(QStringLiteral("treeView"));
-        treeView->setGeometry(QRect(100, 130, 256, 192));
+        treeWidget = new QTreeWidget(groupTransStatus);
+        QTreeWidgetItem *__qtreewidgetitem = new QTreeWidgetItem(treeWidget);
+        new QTreeWidgetItem(__qtreewidgetitem);
+        new QTreeWidgetItem(__qtreewidgetitem);
+        new QTreeWidgetItem(__qtreewidgetitem);
+        QTreeWidgetItem *__qtreewidgetitem1 = new QTreeWidgetItem(treeWidget);
+        new QTreeWidgetItem(__qtreewidgetitem1);
+        new QTreeWidgetItem(__qtreewidgetitem1);
+        new QTreeWidgetItem(__qtreewidgetitem1);
+        treeWidget->setObjectName(QStringLiteral("treeWidget"));
+        treeWidget->setGeometry(QRect(10, 100, 191, 301));
+        treeWidget->setAutoExpandDelay(0);
+        treeWidget->setWordWrap(false);
+        treeWidget->setColumnCount(2);
+        widget = new graphwidget(groupTransStatus);
+        widget->setObjectName(QStringLiteral("widget"));
+        widget->setGeometry(QRect(210, 100, 291, 301));
         Netsim_MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(Netsim_MainWindow);
         menubar->setObjectName(QStringLiteral("menubar"));
@@ -224,6 +240,30 @@ public:
         groupSimSpeed->setTitle(QApplication::translate("Netsim_MainWindow", "Simulation Speed", 0));
         groupTransStatus->setTitle(QApplication::translate("Netsim_MainWindow", "Tx/Rx Connection Status", 0));
         label_3->setText(QApplication::translate("Netsim_MainWindow", "Receiver's Window", 0));
+        QTreeWidgetItem *___qtreewidgetitem = treeWidget->headerItem();
+        ___qtreewidgetitem->setText(1, QApplication::translate("Netsim_MainWindow", "Value", 0));
+        ___qtreewidgetitem->setText(0, QApplication::translate("Netsim_MainWindow", "Item", 0));
+
+        const bool __sortingEnabled = treeWidget->isSortingEnabled();
+        treeWidget->setSortingEnabled(false);
+        QTreeWidgetItem *___qtreewidgetitem1 = treeWidget->topLevelItem(0);
+        ___qtreewidgetitem1->setText(0, QApplication::translate("Netsim_MainWindow", "Rx Frame", 0));
+        QTreeWidgetItem *___qtreewidgetitem2 = ___qtreewidgetitem1->child(0);
+        ___qtreewidgetitem2->setText(0, QApplication::translate("Netsim_MainWindow", "Count", 0));
+        QTreeWidgetItem *___qtreewidgetitem3 = ___qtreewidgetitem1->child(1);
+        ___qtreewidgetitem3->setText(0, QApplication::translate("Netsim_MainWindow", "ACKSent", 0));
+        QTreeWidgetItem *___qtreewidgetitem4 = ___qtreewidgetitem1->child(2);
+        ___qtreewidgetitem4->setText(0, QApplication::translate("Netsim_MainWindow", "Timeout Err", 0));
+        QTreeWidgetItem *___qtreewidgetitem5 = treeWidget->topLevelItem(1);
+        ___qtreewidgetitem5->setText(0, QApplication::translate("Netsim_MainWindow", "Tx Frame", 0));
+        QTreeWidgetItem *___qtreewidgetitem6 = ___qtreewidgetitem5->child(0);
+        ___qtreewidgetitem6->setText(0, QApplication::translate("Netsim_MainWindow", "Count", 0));
+        QTreeWidgetItem *___qtreewidgetitem7 = ___qtreewidgetitem5->child(1);
+        ___qtreewidgetitem7->setText(0, QApplication::translate("Netsim_MainWindow", "ACKSent", 0));
+        QTreeWidgetItem *___qtreewidgetitem8 = ___qtreewidgetitem5->child(2);
+        ___qtreewidgetitem8->setText(0, QApplication::translate("Netsim_MainWindow", "Timeout Err", 0));
+        treeWidget->setSortingEnabled(__sortingEnabled);
+
         menu_Operation->setTitle(QApplication::translate("Netsim_MainWindow", "Ope&ration", 0));
     } // retranslateUi
 

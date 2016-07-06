@@ -53,22 +53,26 @@ SOURCES       = ../netsim_ui/main.cpp \
 		../netsim_ui/statuswidget.cpp \
 		../netsim_ui/dlgabout.cpp \
 		../netsim_ui/simsender.cpp \
-		../netsim_ui/simreceiver.cpp moc_netsim_mainwindow.cpp \
+		../netsim_ui/simreceiver.cpp \
+		../netsim_ui/graphwidget.cpp moc_netsim_mainwindow.cpp \
 		moc_statuswidget.cpp \
 		moc_dlgabout.cpp \
 		moc_simsender.cpp \
-		moc_simreceiver.cpp
+		moc_simreceiver.cpp \
+		moc_graphwidget.cpp
 OBJECTS       = main.o \
 		netsim_mainwindow.o \
 		statuswidget.o \
 		dlgabout.o \
 		simsender.o \
 		simreceiver.o \
+		graphwidget.o \
 		moc_netsim_mainwindow.o \
 		moc_statuswidget.o \
 		moc_dlgabout.o \
 		moc_simsender.o \
-		moc_simreceiver.o
+		moc_simreceiver.o \
+		moc_graphwidget.o
 DIST          = /usr/lib/qt/mkspecs/features/spec_pre.prf \
 		/usr/lib/qt/mkspecs/common/unix.conf \
 		/usr/lib/qt/mkspecs/common/linux.conf \
@@ -286,6 +290,7 @@ DIST          = /usr/lib/qt/mkspecs/features/spec_pre.prf \
 		/usr/lib/qt/mkspecs/features/qt_config.prf \
 		/usr/lib/qt/mkspecs/linux-g++/qmake.conf \
 		/usr/lib/qt/mkspecs/features/spec_post.prf \
+		../netsim_ui/.qmake.stash \
 		/usr/lib/qt/mkspecs/features/exclusive_builds.prf \
 		/usr/lib/qt/mkspecs/features/default_pre.prf \
 		/usr/lib/qt/mkspecs/features/resolve_config.prf \
@@ -308,12 +313,14 @@ DIST          = /usr/lib/qt/mkspecs/features/spec_pre.prf \
 		../netsim_ui/statuswidget.h \
 		../netsim_ui/dlgabout.h \
 		../netsim_ui/simsender.h \
-		../netsim_ui/simreceiver.h ../netsim_ui/main.cpp \
+		../netsim_ui/simreceiver.h \
+		../netsim_ui/graphwidget.h ../netsim_ui/main.cpp \
 		../netsim_ui/netsim_mainwindow.cpp \
 		../netsim_ui/statuswidget.cpp \
 		../netsim_ui/dlgabout.cpp \
 		../netsim_ui/simsender.cpp \
-		../netsim_ui/simreceiver.cpp
+		../netsim_ui/simreceiver.cpp \
+		../netsim_ui/graphwidget.cpp
 QMAKE_TARGET  = netsim_ui
 DESTDIR       = 
 TARGET        = netsim_ui
@@ -542,6 +549,7 @@ Makefile: ../netsim_ui/netsim_ui.pro /usr/lib/qt/mkspecs/linux-g++/qmake.conf /u
 		/usr/lib/qt/mkspecs/features/qt_config.prf \
 		/usr/lib/qt/mkspecs/linux-g++/qmake.conf \
 		/usr/lib/qt/mkspecs/features/spec_post.prf \
+		.qmake.stash \
 		/usr/lib/qt/mkspecs/features/exclusive_builds.prf \
 		/usr/lib/qt/mkspecs/features/default_pre.prf \
 		/usr/lib/qt/mkspecs/features/resolve_config.prf \
@@ -781,6 +789,7 @@ Makefile: ../netsim_ui/netsim_ui.pro /usr/lib/qt/mkspecs/linux-g++/qmake.conf /u
 /usr/lib/qt/mkspecs/features/qt_config.prf:
 /usr/lib/qt/mkspecs/linux-g++/qmake.conf:
 /usr/lib/qt/mkspecs/features/spec_post.prf:
+.qmake.stash:
 /usr/lib/qt/mkspecs/features/exclusive_builds.prf:
 /usr/lib/qt/mkspecs/features/default_pre.prf:
 /usr/lib/qt/mkspecs/features/resolve_config.prf:
@@ -816,8 +825,8 @@ dist: distdir FORCE
 distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
-	$(COPY_FILE) --parents ../netsim_ui/netsim_mainwindow.h ../netsim_ui/including.h ../netsim_ui/statuswidget.h ../netsim_ui/dlgabout.h ../netsim_ui/simsender.h ../netsim_ui/simreceiver.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../netsim_ui/main.cpp ../netsim_ui/netsim_mainwindow.cpp ../netsim_ui/statuswidget.cpp ../netsim_ui/dlgabout.cpp ../netsim_ui/simsender.cpp ../netsim_ui/simreceiver.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../netsim_ui/netsim_mainwindow.h ../netsim_ui/including.h ../netsim_ui/statuswidget.h ../netsim_ui/dlgabout.h ../netsim_ui/simsender.h ../netsim_ui/simreceiver.h ../netsim_ui/graphwidget.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../netsim_ui/main.cpp ../netsim_ui/netsim_mainwindow.cpp ../netsim_ui/statuswidget.cpp ../netsim_ui/dlgabout.cpp ../netsim_ui/simsender.cpp ../netsim_ui/simreceiver.cpp ../netsim_ui/graphwidget.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../netsim_ui/netsim_mainwindow.ui ../netsim_ui/statuswidget.ui ../netsim_ui/dlgabout.ui $(DISTDIR)/
 
 
@@ -844,10 +853,12 @@ benchmark: first
 
 compiler_rcc_make_all:
 compiler_rcc_clean:
-compiler_moc_header_make_all: moc_netsim_mainwindow.cpp moc_statuswidget.cpp moc_dlgabout.cpp moc_simsender.cpp moc_simreceiver.cpp
+compiler_moc_header_make_all: moc_netsim_mainwindow.cpp moc_statuswidget.cpp moc_dlgabout.cpp moc_simsender.cpp moc_simreceiver.cpp moc_graphwidget.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_netsim_mainwindow.cpp moc_statuswidget.cpp moc_dlgabout.cpp moc_simsender.cpp moc_simreceiver.cpp
+	-$(DEL_FILE) moc_netsim_mainwindow.cpp moc_statuswidget.cpp moc_dlgabout.cpp moc_simsender.cpp moc_simreceiver.cpp moc_graphwidget.cpp
 moc_netsim_mainwindow.cpp: ../netsim_ui/including.h \
+		../netsim_ui/simreceiver.h \
+		../netsim_ui/simsender.h \
 		../netsim_ui/netsim_mainwindow.h \
 		/usr/lib/qt/bin/moc
 	/usr/lib/qt/bin/moc $(DEFINES) -I/usr/lib/qt/mkspecs/linux-g++ -I/home/bbmagnum/FinalWork2016B/NetworkTask/UI/netsim_ui -I/usr/include/qt -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtGui -I/usr/include/qt/QtCore -I. -I/usr/include/c++/6.1.1 -I/usr/include/c++/6.1.1/x86_64-pc-linux-gnu -I/usr/include/c++/6.1.1/backward -I/usr/lib/gcc/x86_64-pc-linux-gnu/6.1.1/include -I/usr/local/include -I/usr/lib/gcc/x86_64-pc-linux-gnu/6.1.1/include-fixed -I/usr/include ../netsim_ui/netsim_mainwindow.h -o moc_netsim_mainwindow.cpp
@@ -861,14 +872,22 @@ moc_dlgabout.cpp: ../netsim_ui/dlgabout.h \
 	/usr/lib/qt/bin/moc $(DEFINES) -I/usr/lib/qt/mkspecs/linux-g++ -I/home/bbmagnum/FinalWork2016B/NetworkTask/UI/netsim_ui -I/usr/include/qt -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtGui -I/usr/include/qt/QtCore -I. -I/usr/include/c++/6.1.1 -I/usr/include/c++/6.1.1/x86_64-pc-linux-gnu -I/usr/include/c++/6.1.1/backward -I/usr/lib/gcc/x86_64-pc-linux-gnu/6.1.1/include -I/usr/local/include -I/usr/lib/gcc/x86_64-pc-linux-gnu/6.1.1/include-fixed -I/usr/include ../netsim_ui/dlgabout.h -o moc_dlgabout.cpp
 
 moc_simsender.cpp: ../netsim_ui/including.h \
+		../netsim_ui/simreceiver.h \
+		../netsim_ui/simsender.h \
 		../netsim_ui/simsender.h \
 		/usr/lib/qt/bin/moc
 	/usr/lib/qt/bin/moc $(DEFINES) -I/usr/lib/qt/mkspecs/linux-g++ -I/home/bbmagnum/FinalWork2016B/NetworkTask/UI/netsim_ui -I/usr/include/qt -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtGui -I/usr/include/qt/QtCore -I. -I/usr/include/c++/6.1.1 -I/usr/include/c++/6.1.1/x86_64-pc-linux-gnu -I/usr/include/c++/6.1.1/backward -I/usr/lib/gcc/x86_64-pc-linux-gnu/6.1.1/include -I/usr/local/include -I/usr/lib/gcc/x86_64-pc-linux-gnu/6.1.1/include-fixed -I/usr/include ../netsim_ui/simsender.h -o moc_simsender.cpp
 
 moc_simreceiver.cpp: ../netsim_ui/including.h \
 		../netsim_ui/simreceiver.h \
+		../netsim_ui/simsender.h \
+		../netsim_ui/simreceiver.h \
 		/usr/lib/qt/bin/moc
 	/usr/lib/qt/bin/moc $(DEFINES) -I/usr/lib/qt/mkspecs/linux-g++ -I/home/bbmagnum/FinalWork2016B/NetworkTask/UI/netsim_ui -I/usr/include/qt -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtGui -I/usr/include/qt/QtCore -I. -I/usr/include/c++/6.1.1 -I/usr/include/c++/6.1.1/x86_64-pc-linux-gnu -I/usr/include/c++/6.1.1/backward -I/usr/lib/gcc/x86_64-pc-linux-gnu/6.1.1/include -I/usr/local/include -I/usr/lib/gcc/x86_64-pc-linux-gnu/6.1.1/include-fixed -I/usr/include ../netsim_ui/simreceiver.h -o moc_simreceiver.cpp
+
+moc_graphwidget.cpp: ../netsim_ui/graphwidget.h \
+		/usr/lib/qt/bin/moc
+	/usr/lib/qt/bin/moc $(DEFINES) -I/usr/lib/qt/mkspecs/linux-g++ -I/home/bbmagnum/FinalWork2016B/NetworkTask/UI/netsim_ui -I/usr/include/qt -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtGui -I/usr/include/qt/QtCore -I. -I/usr/include/c++/6.1.1 -I/usr/include/c++/6.1.1/x86_64-pc-linux-gnu -I/usr/include/c++/6.1.1/backward -I/usr/lib/gcc/x86_64-pc-linux-gnu/6.1.1/include -I/usr/local/include -I/usr/lib/gcc/x86_64-pc-linux-gnu/6.1.1/include-fixed -I/usr/include ../netsim_ui/graphwidget.h -o moc_graphwidget.cpp
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
@@ -877,7 +896,8 @@ compiler_uic_clean:
 	-$(DEL_FILE) ui_netsim_mainwindow.h ui_statuswidget.h ui_dlgabout.h
 ui_netsim_mainwindow.h: ../netsim_ui/netsim_mainwindow.ui \
 		/usr/lib/qt/bin/uic \
-		../netsim_ui/statuswidget.h
+		../netsim_ui/statuswidget.h \
+		../netsim_ui/graphwidget.h
 	/usr/lib/qt/bin/uic ../netsim_ui/netsim_mainwindow.ui -o ui_netsim_mainwindow.h
 
 ui_statuswidget.h: ../netsim_ui/statuswidget.ui \
@@ -899,14 +919,18 @@ compiler_clean: compiler_moc_header_clean compiler_uic_clean
 ####### Compile
 
 main.o: ../netsim_ui/main.cpp ../netsim_ui/netsim_mainwindow.h \
-		../netsim_ui/including.h
+		../netsim_ui/including.h \
+		../netsim_ui/simreceiver.h \
+		../netsim_ui/simsender.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../netsim_ui/main.cpp
 
 netsim_mainwindow.o: ../netsim_ui/netsim_mainwindow.cpp ../netsim_ui/netsim_mainwindow.h \
 		../netsim_ui/including.h \
+		../netsim_ui/simreceiver.h \
+		../netsim_ui/simsender.h \
 		ui_netsim_mainwindow.h \
-		../netsim_ui/dlgabout.h \
-		../netsim_ui/simsender.h
+		../netsim_ui/statuswidget.h \
+		../netsim_ui/dlgabout.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o netsim_mainwindow.o ../netsim_ui/netsim_mainwindow.cpp
 
 statuswidget.o: ../netsim_ui/statuswidget.cpp ../netsim_ui/statuswidget.h \
@@ -918,12 +942,17 @@ dlgabout.o: ../netsim_ui/dlgabout.cpp ../netsim_ui/dlgabout.h \
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o dlgabout.o ../netsim_ui/dlgabout.cpp
 
 simsender.o: ../netsim_ui/simsender.cpp ../netsim_ui/simsender.h \
-		../netsim_ui/including.h
+		../netsim_ui/including.h \
+		../netsim_ui/simreceiver.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o simsender.o ../netsim_ui/simsender.cpp
 
 simreceiver.o: ../netsim_ui/simreceiver.cpp ../netsim_ui/simreceiver.h \
-		../netsim_ui/including.h
+		../netsim_ui/including.h \
+		../netsim_ui/simsender.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o simreceiver.o ../netsim_ui/simreceiver.cpp
+
+graphwidget.o: ../netsim_ui/graphwidget.cpp ../netsim_ui/graphwidget.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o graphwidget.o ../netsim_ui/graphwidget.cpp
 
 moc_netsim_mainwindow.o: moc_netsim_mainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_netsim_mainwindow.o moc_netsim_mainwindow.cpp
@@ -939,6 +968,9 @@ moc_simsender.o: moc_simsender.cpp
 
 moc_simreceiver.o: moc_simreceiver.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_simreceiver.o moc_simreceiver.cpp
+
+moc_graphwidget.o: moc_graphwidget.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_graphwidget.o moc_graphwidget.cpp
 
 ####### Install
 
