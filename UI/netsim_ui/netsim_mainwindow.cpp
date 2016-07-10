@@ -65,7 +65,9 @@ void Netsim_MainWindow::on_btnOnOff_pressed(){
 
         threadSender = new QThread;
         threadReceiver = new QThread;
-        workSender = new SimSender;
+        // have a fix
+        workSender = new SimSender(frame_count,window_size,100);
+
         workReceiver = new SimReceiver(frame_count,window_size,100);
         workSender->moveToThread(threadSender);
         workReceiver->moveToThread(threadReceiver);
@@ -89,8 +91,12 @@ void Netsim_MainWindow::on_btnOnOff_pressed(){
     }else{
         threadSender->terminate();
         threadReceiver->terminate();
-        threadSender->wait();
-        threadReceiver->wait();
+        qDebug("terminated");
+        threadSender->wait(100);
+        threadReceiver->wait(100);
+        qDebug("waiting");
+        threadSender->quit();
+        threadReceiver->quit();
 
         delete threadSender;
         delete threadReceiver;

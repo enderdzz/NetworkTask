@@ -17,7 +17,9 @@ SOURCES += main.cpp\
     statuswidget.cpp \
     dlgabout.cpp \
     simsender.cpp \
-    simreceiver.cpp
+    simreceiver.cpp \
+    testSend.cpp \
+    testRecv.cpp
 
 HEADERS  += netsim_mainwindow.h \
     including.h \

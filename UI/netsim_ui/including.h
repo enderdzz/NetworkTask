@@ -5,7 +5,17 @@
 #include "simreceiver.h"
 #include "simsender.h"
 
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+
+#include <time.h>
+#include <ctype.h>
 
 struct Initial {
     int windowSize;          // 窗口大小
