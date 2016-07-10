@@ -35,6 +35,9 @@ continue_send:
           if(cur < total) {
                     origin_cur = cur;
                     
+                    // care !!
+                    emit sendwindow_status(left);
+
                     for(i = 0; i < WindowSize; i++) {
                         int random = rand() % P1;
                         if(cur < total) {
@@ -58,7 +61,7 @@ continue_send:
                             cur++;
 
                             // care here, cur is the next frame to be sended !!
-                            emit send_status(cur);
+                            // emit send_status(cur);
                         }
                     }
 
@@ -80,8 +83,8 @@ continue_send:
                         origin_left = origin_cur;
                     }
 
-                    // care !!
-                    emit sendwindow_status(left);
+                   // the frame that needs to be ack !
+                    emit send_status(0);
 
                     while(1){   //  for(i = 0; i < WindowSize; i++) {
 
@@ -109,6 +112,8 @@ continue_send:
                                 if(left >= total)  cur = total;
                                    /* 待确认帧更新 */
                                 origin_left = now + 1;
+
+                                emit send_status(origin_left);
 
                             }
 
