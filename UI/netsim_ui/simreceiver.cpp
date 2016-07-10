@@ -36,7 +36,7 @@ void SimReceiver::work(){
     qDebug("Recv from the sender: total frame is %d.\n", total);
 
     P1 = 100;
-    P2 = 0.1000 * P1;
+    P2 = 0.2000 * P1;
     qDebug("P1 = %d, P2 = %d\n", P1, P2);
 
     while(1){

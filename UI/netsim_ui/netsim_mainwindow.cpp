@@ -89,6 +89,8 @@ void Netsim_MainWindow::on_btnOnOff_pressed(){
         threadReceiver->start(QThread::LowestPriority);
         threadSender->start(QThread::LowestPriority);
 
+//        on_btnOnOff_pressed();
+
 
 
     }else{
@@ -103,6 +105,8 @@ void Netsim_MainWindow::on_btnOnOff_pressed(){
 
         delete threadSender;
         delete threadReceiver;
+
+  //      on_btnOnOff_pressed();
     }
 
 }

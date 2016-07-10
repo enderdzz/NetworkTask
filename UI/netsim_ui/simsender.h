@@ -60,6 +60,7 @@ signals:
     void send_status(int current_frame);
     void sendwindow_status(int current_left);
     void timeout_send(int timeout_frame);
+    void finish_send();
 };
 
 #endif // SIMSENDER_H
