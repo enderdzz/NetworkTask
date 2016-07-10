@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>693</width>
-    <height>445</height>
+    <width>702</width>
+    <height>476</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -23,8 +23,8 @@
    <widget class="QWidget" name="gridLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>500</x>
-      <y>360</y>
+      <x>518</x>
+      <y>400</y>
       <width>176</width>
       <height>41</height>
      </rect>
@@ -46,133 +46,12 @@
      </item>
     </layout>
    </widget>
-   <widget class="QWidget" name="verticalLayoutWidget">
-    <property name="geometry">
-     <rect>
-      <x>510</x>
-      <y>0</y>
-      <width>143</width>
-      <height>341</height>
-     </rect>
-    </property>
-    <layout class="QVBoxLayout" name="verticalLayout">
-     <item>
-      <widget class="QGroupBox" name="groupBox">
-       <property name="title">
-        <string>Datasource</string>
-       </property>
-       <widget class="QRadioButton" name="radioButton">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>30</y>
-          <width>101</width>
-          <height>20</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Ra&amp;ndom</string>
-        </property>
-        <property name="checked">
-         <bool>true</bool>
-        </property>
-       </widget>
-       <widget class="QRadioButton" name="radioButton_2">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>50</y>
-          <width>101</width>
-          <height>20</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>User Input</string>
-        </property>
-       </widget>
-      </widget>
-     </item>
-     <item>
-      <widget class="QGroupBox" name="groupBox_3">
-       <property name="title">
-        <string>Frame Length</string>
-       </property>
-       <widget class="QSpinBox" name="spinBox">
-        <property name="geometry">
-         <rect>
-          <x>20</x>
-          <y>30</y>
-          <width>111</width>
-          <height>29</height>
-         </rect>
-        </property>
-       </widget>
-      </widget>
-     </item>
-     <item>
-      <widget class="QGroupBox" name="groupBox_2">
-       <property name="title">
-        <string>ARQ Type</string>
-       </property>
-       <widget class="QRadioButton" name="radioButton_3">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>20</y>
-          <width>101</width>
-          <height>20</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Stop-Wait</string>
-        </property>
-        <property name="checked">
-         <bool>true</bool>
-        </property>
-       </widget>
-       <widget class="QRadioButton" name="radioButton_4">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>40</y>
-          <width>101</width>
-          <height>20</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Bac&amp;k N</string>
-        </property>
-       </widget>
-      </widget>
-     </item>
-     <item>
-      <widget class="QGroupBox" name="groupBox_4">
-       <property name="title">
-        <string>Simulation Speed</string>
-       </property>
-       <widget class="QSlider" name="horizontalSlider">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>40</y>
-          <width>121</width>
-          <height>20</height>
-         </rect>
-        </property>
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-       </widget>
-      </widget>
-     </item>
-    </layout>
-   </widget>
    <widget class="QProgressBar" name="progressBar">
     <property name="geometry">
      <rect>
-      <x>530</x>
-      <y>340</y>
-      <width>118</width>
+      <x>536</x>
+      <y>370</y>
+      <width>131</width>
       <height>23</height>
      </rect>
     </property>
@@ -180,52 +59,363 @@
      <number>24</number>
     </property>
    </widget>
+   <widget class="QWidget" name="widgetConfig" native="true">
+    <property name="geometry">
+     <rect>
+      <x>526</x>
+      <y>0</y>
+      <width>151</width>
+      <height>371</height>
+     </rect>
+    </property>
+    <widget class="QWidget" name="verticalLayoutWidget">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>151</width>
+       <height>371</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="layoutConfig">
+      <item>
+       <widget class="QGroupBox" name="groupDataLength">
+        <property name="title">
+         <string>Data Length</string>
+        </property>
+        <widget class="QSpinBox" name="spinDataLength">
+         <property name="geometry">
+          <rect>
+           <x>16</x>
+           <y>22</y>
+           <width>111</width>
+           <height>29</height>
+          </rect>
+         </property>
+         <property name="minimum">
+          <number>10</number>
+         </property>
+         <property name="maximum">
+          <number>200</number>
+         </property>
+        </widget>
+       </widget>
+      </item>
+      <item>
+       <widget class="QGroupBox" name="groupWindowSize">
+        <property name="title">
+         <string>Send Window size</string>
+        </property>
+        <widget class="QSpinBox" name="spinWindowSize">
+         <property name="geometry">
+          <rect>
+           <x>16</x>
+           <y>25</y>
+           <width>111</width>
+           <height>29</height>
+          </rect>
+         </property>
+         <property name="minimum">
+          <number>1</number>
+         </property>
+         <property name="maximum">
+          <number>199</number>
+         </property>
+        </widget>
+       </widget>
+      </item>
+      <item>
+       <widget class="QGroupBox" name="groupARQType">
+        <property name="title">
+         <string>ARQ Type</string>
+        </property>
+        <widget class="QRadioButton" name="radioArqSw">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>40</y>
+           <width>101</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Stop-Wait</string>
+         </property>
+         <property name="checked">
+          <bool>false</bool>
+         </property>
+        </widget>
+        <widget class="QRadioButton" name="radioArqBn">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>20</y>
+           <width>101</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Bac&amp;k N</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </widget>
+      </item>
+      <item>
+       <widget class="QGroupBox" name="groupErrorCon">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>100</height>
+         </size>
+        </property>
+        <property name="title">
+         <string>Error Percentage</string>
+        </property>
+        <widget class="QDoubleSpinBox" name="spinUpError">
+         <property name="geometry">
+          <rect>
+           <x>70</x>
+           <y>30</y>
+           <width>69</width>
+           <height>29</height>
+          </rect>
+         </property>
+         <property name="maximum">
+          <double>0.800000000000000</double>
+         </property>
+         <property name="singleStep">
+          <double>0.100000000000000</double>
+         </property>
+        </widget>
+        <widget class="QDoubleSpinBox" name="spinDownError">
+         <property name="geometry">
+          <rect>
+           <x>70</x>
+           <y>60</y>
+           <width>69</width>
+           <height>29</height>
+          </rect>
+         </property>
+         <property name="maximum">
+          <double>0.800000000000000</double>
+         </property>
+         <property name="singleStep">
+          <double>0.100000000000000</double>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label">
+         <property name="geometry">
+          <rect>
+           <x>16</x>
+           <y>38</y>
+           <width>41</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Uplink</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_2">
+         <property name="geometry">
+          <rect>
+           <x>8</x>
+           <y>67</y>
+           <width>61</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Downlink</string>
+         </property>
+        </widget>
+       </widget>
+      </item>
+      <item>
+       <widget class="QGroupBox" name="groupSimSpeed">
+        <property name="title">
+         <string>Simulation Speed</string>
+        </property>
+        <widget class="QSlider" name="slidSimSpeed">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>36</y>
+           <width>121</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="groupTransStatus">
+    <property name="geometry">
+     <rect>
+      <x>7</x>
+      <y>0</y>
+      <width>511</width>
+      <height>411</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Tx/Rx Connection Status</string>
+    </property>
+    <widget class="StatusWidget" name="widgetWindowStatus" native="true">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>50</y>
+       <width>451</width>
+       <height>41</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_3">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>30</y>
+       <width>131</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Sender's Window</string>
+     </property>
+    </widget>
+    <widget class="QTreeWidget" name="treeWidget">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>100</y>
+       <width>191</width>
+       <height>301</height>
+      </rect>
+     </property>
+     <property name="autoExpandDelay">
+      <number>0</number>
+     </property>
+     <property name="wordWrap">
+      <bool>false</bool>
+     </property>
+     <property name="columnCount">
+      <number>2</number>
+     </property>
+     <column>
+      <property name="text">
+       <string>Item</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Value</string>
+      </property>
+     </column>
+     <item>
+      <property name="text">
+       <string>Rx Frame</string>
+      </property>
+      <item>
+       <property name="text">
+        <string>Count</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>ACKSent</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Timeout Err</string>
+       </property>
+      </item>
+     </item>
+     <item>
+      <property name="text">
+       <string>Tx Frame</string>
+      </property>
+      <item>
+       <property name="text">
+        <string>Count</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>ACKSent</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Timeout Err</string>
+       </property>
+      </item>
+     </item>
+    </widget>
+    <widget class="graphwidget" name="widget" native="true">
+     <property name="geometry">
+      <rect>
+       <x>210</x>
+       <y>100</y>
+       <width>291</width>
+       <height>301</height>
+      </rect>
+     </property>
+    </widget>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>693</width>
+     <width>702</width>
      <height>27</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_Operation">
     <property name="title">
-     <string>Sta&amp;rt/Stop</string>
+     <string>Ope&amp;ration</string>
     </property>
-   </widget>
-   <widget class="QMenu" name="menuAbout">
-    <property name="title">
-     <string>Abo&amp;ut</string>
-    </property>
-   </widget>
-   <widget class="QMenu" name="menuHelp">
-    <property name="title">
-     <string>He&amp;lp</string>
-    </property>
-   </widget>
-   <widget class="QMenu" name="menuQuit">
-    <property name="title">
-     <string>&amp;Quit</string>
-    </property>
+    <addaction name="actionAbout"/>
+    <addaction name="actionQuit"/>
    </widget>
    <addaction name="menu_Operation"/>
-   <addaction name="menuHelp"/>
-   <addaction name="menuAbout"/>
-   <addaction name="menuQuit"/>
   </widget>
-  <action name="actionStart_Stop">
+  <action name="actionAbout">
    <property name="text">
-    <string>Start/Stop</string>
+    <string>&amp;About</string>
    </property>
   </action>
   <action name="actionQuit">
    <property name="text">
-    <string>Quit</string>
+    <string>&amp;Quit</string>
    </property>
   </action>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>StatusWidget</class>
+   <extends>QWidget</extends>
+   <header>statuswidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>graphwidget</class>
+   <extends>QWidget</extends>
+   <header>graphwidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>
