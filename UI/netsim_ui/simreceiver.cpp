@@ -7,8 +7,7 @@
 // struct Initial receiver cannot be used as parameter
 void SimReceiver::work(){
     this->current_frame = 0;
-    timer_id = startTimer(timer_delay);
-    /*************************************/
+/*************************************/
     s = socket(AF_INET, SOCK_STREAM, 0); /* use TCP protocol */
         if(s == -1){
             qDebug("Building a socket failed!");
@@ -29,47 +28,58 @@ void SimReceiver::work(){
         socklen_t len = sizeof(cli);
         sock = accept(s, (struct sockaddr *) &cli, &len);
         // Socket
+
     qDebug("Recv TCP Connection Established. ");
     recv(sock, ack, sizeof(ack), 0);
-        total = atoi(ack);
-        qDebug("Recv from the sender: total frame is %d.\n", total);
+    total = atoi(ack);
+    qDebug("Recv from the sender: total frame is %d.\n", total);
 
-        P1 = 100;
-        P2 = 0.00 * P1;
-        qDebug("P1 = %d, P2 = %d\n", P1, P2);
+    P1 = 100;
+    P2 = 0.00 * P1;
+    qDebug("P1 = %d, P2 = %d\n", P1, P2);
 
-        while(1){
-            if (need_stop)
-                break;
-                // go_back_n( query );
-            recv(sock,ack,sizeof(ack), MSG_DONTWAIT);
-                    //recv(sock,ack,sizeof(ack), 0);
-                    sleep(1);
+    while(1){
+          if (need_stop)
+               break;
+          // go_back_n( query );
+          recv(sock,ack,sizeof(ack), MSG_DONTWAIT);
+          //recv(sock,ack,sizeof(ack), 0);
+          sleep(1);
 
-                    int check = atoi(ack);
-                    int random = rand() % P1;
-                    //printf("check = %d, random = %d\n", check, random);
-                    if(random < P2 && check == cur && cur < total){
+          int check = atoi(ack);
+          int random = rand() % P1;
+          //printf("check = %d, random = %d\n", check, random);
+          if(random < P2 && check == cur && cur < total){
+                qDebug("Frame %d Received \n", check % Mod);
+                cur++;
+                // care
+                this->current_frame = cur;
+                emit receiver_status_update(this->current_frame);
+          }
+          if(check == cur && cur < total){
+                send(sock, ack, sizeof(ack), 0);
+                qDebug("Frame %d Received \n", check % Mod);
+                cur++;
 
-                        qDebug("Frame %d Received \n", check % Mod);
-                        cur++;
-                    }
-                    if(check == cur && cur < total){
-                        send(sock, ack, sizeof(ack), 0);
-                        qDebug("Frame %d Received \n", check % Mod);
-                        cur++;
-                    }
-                    if(cur >= total) {
-                        int2char(cur-1);
-                        send(sock, ack, sizeof(ack), 0);
-                        sleep(1);
-                        send(sock, ack, sizeof(ack), 0);
-                        sleep(1);
-                        send(sock, ack, sizeof(ack), 0);
+                // care
+                this->current_frame = cur;
+                emit receiver_status_update(this->current_frame);
+          }
+          if(cur == total) { // make sure the last frame's ack is sended successfully!
+                int2char(cur-1);
+                send(sock, ack, sizeof(ack), 0);
+                sleep(1);
+                send(sock, ack, sizeof(ack), 0);
+                sleep(1);
+                send(sock, ack, sizeof(ack), 0);
 
-                    }
-        }
-    /*************************************/
+                emit something_need_to_announce("Recv ALL!");
+                need_stop = true;
+          }
+     }
+     close(sock);
+     close(s);
+/*************************************/
 }
 
 int SimReceiver::get_status(int &current_window)
@@ -99,6 +109,7 @@ SimReceiver::~SimReceiver()
     delete read_mutex;
 }
 
+// receiver needn't to use the timer!
 void SimReceiver::timerEvent(QTimerEvent *event){
     //When a timer triggered, get its id
     QMutexLocker locker(read_mutex);
@@ -117,8 +128,7 @@ void SimReceiver::timerEvent(QTimerEvent *event){
     }
 }
 
-void
-SimReceiver::int2char(int z)
+void SimReceiver::int2char(int z)
 {
     memset(ack, 0, sizeof(ack));
     sprintf(ack, "%d", z);

@@ -50,7 +50,9 @@ private:
     QMutex* read_mutex;
 
 signals:
-    void status_update(int current_window, int window_size);
+    void status_update(int current_frame, int current_window);
+    void receiver_status_update(int current_frame);
+    void something_need_to_announce(const char*);
 };
 
 

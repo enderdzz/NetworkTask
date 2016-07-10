@@ -37,7 +37,7 @@ private:
     QTimer* frame_sender;
     const int frame_count = 60;
     int block_count;
-    int window_size = 5;
+    int window_size = 8;
     //demo threader
     QThread *threadSender, *threadReceiver;
     SimSender* workSender;

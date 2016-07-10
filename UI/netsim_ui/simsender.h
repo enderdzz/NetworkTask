@@ -31,7 +31,7 @@ public:
 
 protected:
     void timerEvent(QTimerEvent *event);
-    int timer_id[2];
+    int timer_send;
 
 private:
     bool need_stop = false;
@@ -44,7 +44,7 @@ private:
     int begin = 0, end = 0, debug = 0, cur = 0; // begin与end均为现存计时器的标号 debug为窗口内第一个超时的计时器标号 cur为待发送帧标号
     int WindowSize = 0, P1 = 0, P2 = 0;     // 从宏定义转过来开成了全局变量
     char ack[20]={};
-    int current_frame = 0;
+
     int frame_count = 0;
     int window_size = 0;
     int timer_delay = 0;
@@ -57,6 +57,8 @@ private:
 
 signals:
     void something_need_to_announce(const char*);
+    void send_status(int current_frame);
+    void sendwindow_status(int current_left);
 };
 
 #endif // SIMSENDER_H

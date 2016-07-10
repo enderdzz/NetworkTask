@@ -3,20 +3,19 @@
 
 
 void SimSender::work(){
-    /**********************************************/
-
+/**********************************************/
     s = socket(AF_INET, SOCK_STREAM, 0); /* use TCP protocol */
-        if(s == -1){
-            qDebug("Building a socket failed!");
-            return ;
-        }
+    if(s ==  -1){
+         qDebug("Building a socket failed!");
+         return ;
+    }
 
-        ser.sin_family = AF_INET;
-        ser.sin_port = htons(6500);
-        ser.sin_addr.s_addr = inet_addr("127.0.0.1");
+    ser.sin_family = AF_INET;
+    ser.sin_port = htons(6500);
+    ser.sin_addr.s_addr = inet_addr("127.0.0.1");
 
-        ::connect(s, (struct sockaddr *) &ser, sizeof(ser));
-     // Socket
+    ::connect(s, (struct sockaddr *) &ser, sizeof(ser));
+    // Socket
     qDebug("Sender TCP Connection Established.");
     sseed=(unsigned int) time(NULL);
     srand(sseed);
@@ -28,48 +27,43 @@ void SimSender::work(){
     P2 = 0.00 * P1;
     int2char(total);
     send(s, ack, sizeof(ack), 0);
-    // qDebug("%s\n", ack);
-    qDebug("P1 = %d, P2 = %d\n", P1, P2);
 
     while(1){
-        if (need_stop)
-            break;
-          //go_back_n();
+          if (need_stop)
+                    break;
+continue_send:
           if(cur < total) {
                     origin_cur = cur;
-                    /* 每次循环窗口大小全部发送 */
+                    
                     for(i = 0; i < WindowSize; i++) {
                         int random = rand() % P1;
-
-                        /* 若还能继续发就发 */
                         if(cur < total) {
                             /* 封包 */
                             int2char(cur);
                             /* 一定概率丢包 */
-                            qDebug("cur = %d, random = %d\n", cur, random);
-                            if(random < P2){}
-                                // send(s, bad, sizeof(bad), 0);
-                            else
-                                send(s, ack, sizeof(ack), 0);
-
-                            /* 打开标号为cur的timer */
-                            // timer_on(cur);
-
+                            //qDebug("cur = %d, random = %d\n", cur, random);
+                            if(random < P2){ }//do nothing
+                            else send(s, ack, sizeof(ack), 0);
 
                         }
                         /* 不能发直接退 */
                         else break;
-
+                        
                         /* 停一秒,可以进行速率模拟 */
                         sleep(1);
 
                         /* 这里虽然显示发出,但有可能是丢包 */
                         if(cur < total) {
                             qDebug("Frame %d Sent\n",cur % Mod);
-                            /* 标号加1,表示下一待发帧 */
                             cur++;
+
+                            // care here, cur is the next frame to be sended !!
+                            emit send_status(cur);
                         }
                     }
+
+                    /* 打开标号为cur的timer */
+                    timer_send = startTimer(5000);
 
                     /* 接受ACK的过程 */
                     // 定义实时窗口的左右墙
@@ -79,33 +73,30 @@ void SimSender::work(){
                     // 定义待接收ACK的帧标号
                     origin_left = left;
                     // 如果已经全部发送完,最后一个窗口可能会是残缺的.
+
                     if(cur == total) {
                         left = origin_cur;
                         lleft = origin_cur;
                         origin_left = origin_cur;
                     }
 
-                    /* 每次最多进行WindowSize次操作 */
-                    for(i = 0; i < WindowSize; i++) {
-                        // 维持timer工作
-                        // process();
+                    // care !!
+                    emit sendwindow_status(left);
 
+                    while(1){   //  for(i = 0; i < WindowSize; i++) {
+
+                        // recv twice!!
                         if(recv(s, ack, sizeof(ack), MSG_DONTWAIT) < 0) {
-                            sleep(1);
-                            recv(s, ack, sizeof(ack), MSG_DONTWAIT);
-
-                        }
-                        /* 我想查看下是否收到东西 */
-                        // puts(ack);
+                            // sleep(1);
+                            // recv(s, ack, sizeof(ack), MSG_DONTWAIT);
+                           if (timer_send != -1)
+                            continue;
+                           else{
+                              cur = origin_left;
+                              goto continue_send;
+                           }
+                        } else {
                         int now = atoi(ack);
-
-                        // printf("left = %d right = %d\n", left, right);
-
-                        /* 判断当前窗口内的第一个超时帧,无则返回-1 */
-                        // int debug = judge(left, right);
-
-                        // printf("origin_left = %d debug = %d\n", origin_left, debug);
-
                             if(now >= left && now < right && now >= origin_left) { // add && now >= origin_left
                                 /* 累计应答 */
                                 qDebug("The %d frame got ACK.\n", now % Mod);
@@ -115,21 +106,25 @@ void SimSender::work(){
                                 left += delta;
                                 right += delta;
                                 if(right > total) right = total;
-                                if(left >= total) {
-                                    cur = total;
-                                    origin_left = now + 1;
-                                }
+                                if(left >= total)  cur = total;
+                                   /* 待确认帧更新 */
+                                origin_left = now + 1;
 
-                                /* 待确认帧更新 */
-                                else origin_left = now + 1;
                             }
 
                         /* 如果非正常顺序到达,已在循环结束之前将窗口跑完则直接退出 */
                         if(left - lleft >= WindowSize) break;
 
-                        //printf("待确认帧origin_left = %d cur = %d\n", origin_left, cur);
                         if(cur >= total) break;
+
+                        if (origin_left >= cur)
+                            goto continue_send;
+                        else
+                            continue;
+
                     }
+
+          }
                     /* 如果此时待确认帧还没到cur,说明在循环内没进行完确认 */
                     if(origin_left < cur){
                         qDebug("Time-out on # %d, resent\n", origin_left % Mod);
@@ -137,13 +132,14 @@ void SimSender::work(){
                     }
                     if(cur >= total) break ;
                     /* 重置窗口所有timer */
-                    // reset_process(cur);
+
                 }
                 else if(origin_left == total){
 
                     break;
                 }
      }
+    close(s);
     /**********************************************/
 
 //    some_value_mutex = new QMutex;
@@ -187,18 +183,13 @@ int SimSender::read_some_value(void){
 
 void SimSender::timerEvent(QTimerEvent *event){
     //When a timer triggered, get its id
-    if (event->timerId() == this->timer_id[0]){
-        qDebug("0s Sender reached\n");
+    if (event->timerId() == this->timer_send){
+        qDebug("- Sender reached\n");
         //kill it if you need
-        killTimer(timer_id[0]);
+        killTimer(timer_send);
+        // startTimer()
         //clear old id for safe
-        timer_id[0]=NULL;
-    }else if (event->timerId() == this->timer_id[1]){
-        qDebug("1s Sender reached\n");
-        //kill it if you need
-        killTimer(timer_id[1]);
-        //for your safety
-        timer_id[1]=NULL;
+        timer_send = -1;
     }
 }
 
@@ -207,13 +198,12 @@ SimSender::SimSender(int frame_count, int window_size, int timer_delay)
     this->frame_count = frame_count;
     this->window_size = window_size;
     this->timer_delay = timer_delay;
-    this->current_frame = 0;
+
     some_value_mutex = new QMutex;
     need_stop = false;
 }
 
-void
-SimSender::int2char(int z)
+void SimSender::int2char(int z)
 {
     memset(ack, 0, sizeof(ack));
     sprintf(ack, "%d", z);
