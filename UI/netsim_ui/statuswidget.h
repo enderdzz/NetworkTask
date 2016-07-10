@@ -23,6 +23,7 @@ public:
 public slots:
     void widget_update_paint_value(int draw_start,
                                    int current_window,
+                                   int current_trig,
                                    int window_size);
 
 private:
@@ -35,6 +36,7 @@ private:
     int current_window = 0;
     int draw_start = 0;
     int window_size = 0;
+    int current_trig = 0;
 };
 
 #endif // STATUSWIDGET_H

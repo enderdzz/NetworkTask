@@ -75,8 +75,9 @@ void Netsim_MainWindow::on_btnOnOff_pressed(){
         connect(threadReceiver, &QThread::started, workReceiver, &SimReceiver::work);
 
         connect(workSender, &SimSender::sendwindow_status,
-                this, &Netsim_MainWindow::paint_recalculate);
-
+                this, &Netsim_MainWindow::paint_update_gtt);
+        connect(workSender, &SimSender::send_status,
+                this, &Netsim_MainWindow::paint_update_gts);
         /*
         void send_status(int current_frame);
         void sendwindow_status(int current_left);*/
@@ -85,19 +86,19 @@ void Netsim_MainWindow::on_btnOnOff_pressed(){
         connect(workSender, &SimSender::something_need_to_announce,
                 this, &Netsim_MainWindow::print_dbg_msg);
         //can just trigger repaint event here
-        threadReceiver->start();
-        threadSender->start();
+        threadReceiver->start(QThread::LowestPriority);
+        threadSender->start(QThread::LowestPriority);
 
 
 
     }else{
-        threadSender->terminate();
         threadReceiver->terminate();
-        workSender->request_stop();
         workReceiver->request_stop();
+        threadReceiver->wait(100);
         qDebug("terminated");
-        threadSender->wait(1000);
-        threadReceiver->wait(1000);
+        threadSender->terminate();
+        workSender->request_stop();
+        threadSender->wait(100);
         qDebug("waiting");
 
         delete threadSender;
@@ -133,7 +134,7 @@ void Netsim_MainWindow::widget_repaint(){
 //    }
 //}
 
-void Netsim_MainWindow::paint_recalculate(int current_window)
+void Netsim_MainWindow::paint_recalculate()
 {
     //recalculate the block image
 
@@ -144,7 +145,7 @@ void Netsim_MainWindow::paint_recalculate(int current_window)
     //Situation 3: DEF[GH]IJK
     //Situation 4 5 is similar with 1 and 2
     //Assume all start with 0
-
+    int current_window = this->going_to_trigger;
     int draw_start;
     // this->window_size = window_size;
 
@@ -167,11 +168,24 @@ void Netsim_MainWindow::paint_recalculate(int current_window)
 
     ui->widgetWindowStatus->widget_update_paint_value(draw_start,
                                                       current_window,
+                                                      this->going_to_send,
                                                       window_size);
     emit ui->widgetWindowStatus->repaint();
 
     //send block_count out for a try
 
+}
+
+void Netsim_MainWindow::paint_update_gts(int current_window)
+{
+    this->going_to_send = current_window;
+    paint_recalculate();
+}
+
+void Netsim_MainWindow::paint_update_gtt(int current_window)
+{
+    this->going_to_trigger = current_window;
+    paint_recalculate();
 }
 
 void Netsim_MainWindow::on_spinDataLength_editingFinished()

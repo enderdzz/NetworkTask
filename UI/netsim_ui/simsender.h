@@ -10,7 +10,7 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 /**************************************/
-
+#include <QObject>
 #include <QMutex>
 #include <QThread>
 #include <QTimer>
@@ -29,9 +29,9 @@ public:
     void request_stop();
     SimSender(int frame_count, int window_size, int timer_delay);
 
+
 protected:
-    void timerEvent(QTimerEvent *event);
-    int timer_send;
+    int timer_send = -1;
 
 private:
     bool need_stop = false;

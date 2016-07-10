@@ -28,6 +28,7 @@ void StatusWidget::init_params(int block_width,
 
 void StatusWidget::widget_update_paint_value(int draw_start,
                                              int current_window,
+                                             int current_trig,
                                              int window_size)
 {
     QMutexLocker locker(&widget_value_busy);
@@ -35,6 +36,7 @@ void StatusWidget::widget_update_paint_value(int draw_start,
     this->draw_start = draw_start;
     this->current_window = current_window;
     this->window_size = window_size;
+    this->current_trig=current_trig;
 }
 
 void StatusWidget::paintEvent(QPaintEvent *event)
@@ -68,12 +70,18 @@ void StatusWidget::paintEvent(QPaintEvent *event)
     }
     QBrush bsh;
     QPen pen;
-    bsh.setColor(Qt::red);
+    bsh.setColor(Qt::green);
     bsh.setStyle(Qt::Dense7Pattern);
     painter.setBrush(bsh);
     rectangle.setX((current_window - draw_start + 0.5)*block_width);
-    rectangle.setWidth(window_size*block_width);
+    rectangle.setWidth((current_trig - current_window)*block_width);
     painter.drawRect(rectangle);
+    bsh.setColor(Qt::red);
+    painter.setBrush(bsh);
+    rectangle.setX((current_trig - draw_start + 0.5)*block_width);
+    rectangle.setWidth((window_size-(current_trig-current_window))*block_width);
+    painter.drawRect(rectangle);
+
 
     //draw border
     //bsh

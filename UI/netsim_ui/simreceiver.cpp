@@ -6,6 +6,7 @@
 
 // struct Initial receiver cannot be used as parameter
 void SimReceiver::work(){
+    cur = 0;
     this->current_frame = 0;
     /*************************************/
     s = socket(AF_INET, SOCK_STREAM, 0); /* use TCP protocol */
@@ -35,7 +36,7 @@ void SimReceiver::work(){
     qDebug("Recv from the sender: total frame is %d.\n", total);
 
     P1 = 100;
-    P2 = 0.00 * P1;
+    P2 = 0.1000 * P1;
     qDebug("P1 = %d, P2 = %d\n", P1, P2);
 
     while(1){
@@ -44,7 +45,7 @@ void SimReceiver::work(){
         // go_back_n( query );
         recv(sock,ack,sizeof(ack), MSG_DONTWAIT);
         //recv(sock,ack,sizeof(ack), 0);
-        sleep(1);
+       // sleep(1);
 
         int check = atoi(ack);
         int random = rand() % P1;
@@ -57,21 +58,29 @@ void SimReceiver::work(){
             emit receiver_status_update(this->current_frame);
         }
         if(check == cur && cur < total){
-            send(sock, ack, sizeof(ack), 0);
+
+            QTimer *tim = new QTimer;
+            tim->setInterval(200);
+            tim->setSingleShot(true);
+            tim->start();
+            while(tim->remainingTime()>1);
+            delete tim;
+            tim=NULL;
+
             qDebug("Frame %d Received \n", check % Mod);
             cur++;
-
             // care
             this->current_frame = cur;
             emit receiver_status_update(this->current_frame);
+            send(sock, ack, sizeof(ack), 0);
         }
         if(cur == total) { // make sure the last frame's ack is sended successfully!
             int2char(cur-1);
-            send(sock, ack, sizeof(ack), 0);
+            send(sock, ack, sizeof(ack), MSG_NOSIGNAL);
             sleep(1);
-            send(sock, ack, sizeof(ack), 0);
+            send(sock, ack, sizeof(ack), MSG_NOSIGNAL);
             sleep(1);
-            send(sock, ack, sizeof(ack), 0);
+            send(sock, ack, sizeof(ack), MSG_NOSIGNAL);
 
             emit something_need_to_announce("Recv ALL!");
             break;

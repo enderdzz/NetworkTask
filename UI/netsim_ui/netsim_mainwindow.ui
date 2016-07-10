@@ -289,7 +289,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Receiver's Window</string>
+      <string>Sender's Window</string>
      </property>
     </widget>
     <widget class="QTreeWidget" name="treeWidget">
