@@ -26,7 +26,7 @@ public slots:
 public:
     ~SimSender();
     int read_some_value(void);
-
+    void request_stop();
     SimSender(int frame_count, int window_size, int timer_delay);
 
 protected:
@@ -34,6 +34,8 @@ protected:
     int timer_id[2];
 
 private:
+    bool need_stop = false;
+
     /****************************************/
     struct sockaddr_in ser;
     unsigned int sseed = 0;

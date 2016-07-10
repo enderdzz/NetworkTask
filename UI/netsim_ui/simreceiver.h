@@ -26,6 +26,7 @@ public slots:
 public:
     int get_status(int &current_window);
     SimReceiver(int frame_count, int window_size, int timer_delay);
+    void request_stop();
     ~SimReceiver();
 
 protected:
@@ -33,7 +34,7 @@ protected:
     int timer_id;
 
 private:
-
+    bool need_stop = false;
 
     int s, err, sock, total, i, cur;
     struct sockaddr_in ser, cli;

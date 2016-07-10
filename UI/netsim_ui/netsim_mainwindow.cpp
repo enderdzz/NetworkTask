@@ -82,21 +82,20 @@ void Netsim_MainWindow::on_btnOnOff_pressed(){
         connect(workSender, &SimSender::something_need_to_announce,
                 this, &Netsim_MainWindow::print_dbg_msg);
         //can just trigger repaint event here
-
-        threadSender->start();
         threadReceiver->start();
+        threadSender->start();
 
 
 
     }else{
         threadSender->terminate();
         threadReceiver->terminate();
+        workSender->request_stop();
+        workReceiver->request_stop();
         qDebug("terminated");
-        threadSender->wait(100);
-        threadReceiver->wait(100);
+        threadSender->wait(1000);
+        threadReceiver->wait(1000);
         qDebug("waiting");
-        threadSender->quit();
-        threadReceiver->quit();
 
         delete threadSender;
         delete threadReceiver;

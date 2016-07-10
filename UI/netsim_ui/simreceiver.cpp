@@ -39,6 +39,8 @@ void SimReceiver::work(){
         qDebug("P1 = %d, P2 = %d\n", P1, P2);
 
         while(1){
+            if (need_stop)
+                break;
                 // go_back_n( query );
             recv(sock,ack,sizeof(ack), MSG_DONTWAIT);
                     //recv(sock,ack,sizeof(ack), 0);
@@ -84,6 +86,12 @@ SimReceiver::SimReceiver(int frame_count, int window_size, int timer_delay)
     this->timer_delay = timer_delay;
     this->current_frame = 0;
     read_mutex = new QMutex;
+    need_stop = false;
+}
+
+void SimReceiver::request_stop()
+{
+    need_stop = true;
 }
 
 SimReceiver::~SimReceiver()
