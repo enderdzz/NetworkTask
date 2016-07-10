@@ -52,7 +52,7 @@ void SimReceiver::work(){
         //printf("check = %d, random = %d\n", check, random);
         if(random < P2 && check == cur && cur < total){
             qDebug("Frame %d Received \n", check % Mod);
-            cur++;
+            if(window_size != 1) cur++;
             // care
             this->current_frame = cur;
             emit receiver_status_update(this->current_frame);
