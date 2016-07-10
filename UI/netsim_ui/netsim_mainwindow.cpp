@@ -17,11 +17,11 @@ Netsim_MainWindow::Netsim_MainWindow(QWidget *parent) :
 
     //add another timer, to automatically incrase
     //index 'current_frame'
-//    current_frame = 0;
-//    frame_sender = new QTimer(this);
-//    connect(frame_sender, &QTimer::timeout, this, &Netsim_MainWindow::frame_send);
+    //    current_frame = 0;
+    //    frame_sender = new QTimer(this);
+    //    connect(frame_sender, &QTimer::timeout, this, &Netsim_MainWindow::frame_send);
 
-//    frame_sender->setInterval(700);
+    //    frame_sender->setInterval(700);
     //this is an example of how to use emit
     //see more about signal and slot at
     // https://doc.qt.io/qt-4.8/signalsandslots.html
@@ -43,7 +43,7 @@ void Netsim_MainWindow::on_btnQuit_pressed()
 void Netsim_MainWindow::on_btnOnOff_pressed(){
 
 
- //   SimReceiver b;
+    //   SimReceiver b;
     //convert status and refresh global var
     ui->widgetConfig->setEnabled(!ui->widgetConfig->isEnabled());
     isSimulationStarted = !ui->widgetConfig->isEnabled();
@@ -61,7 +61,6 @@ void Netsim_MainWindow::on_btnOnOff_pressed(){
         block_count = width/block_width;
 
         ui->widgetWindowStatus->init_params(block_width, block_height, block_count, window_size);
-
 
         threadSender = new QThread;
         threadReceiver = new QThread;
@@ -147,7 +146,7 @@ void Netsim_MainWindow::paint_recalculate(int current_window)
     //Assume all start with 0
 
     int draw_start;
-   // this->window_size = window_size;
+    // this->window_size = window_size;
 
     if (! (current_window + window_size == frame_count)){
         //situation 1~4
@@ -212,7 +211,7 @@ void Netsim_MainWindow::on_actionQuit_triggered()
 
 void Netsim_MainWindow::on_actionAbout_triggered()
 {
-  //  dlgAbout aboutdlg;
+    //  dlgAbout aboutdlg;
     QDialog *aboutdlg = new dlgAbout(this);
 
     aboutdlg->setModal(true);
