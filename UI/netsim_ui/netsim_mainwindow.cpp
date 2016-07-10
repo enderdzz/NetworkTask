@@ -17,11 +17,11 @@ Netsim_MainWindow::Netsim_MainWindow(QWidget *parent) :
 
     //add another timer, to automatically incrase
     //index 'current_frame'
-//    current_frame = 0;
-//    frame_sender = new QTimer(this);
-//    connect(frame_sender, &QTimer::timeout, this, &Netsim_MainWindow::frame_send);
+    //    current_frame = 0;
+    //    frame_sender = new QTimer(this);
+    //    connect(frame_sender, &QTimer::timeout, this, &Netsim_MainWindow::frame_send);
 
-//    frame_sender->setInterval(700);
+    //    frame_sender->setInterval(700);
     //this is an example of how to use emit
     //see more about signal and slot at
     // https://doc.qt.io/qt-4.8/signalsandslots.html
@@ -43,7 +43,7 @@ void Netsim_MainWindow::on_btnQuit_pressed()
 void Netsim_MainWindow::on_btnOnOff_pressed(){
 
 
- //   SimReceiver b;
+    //   SimReceiver b;
     //convert status and refresh global var
     ui->widgetConfig->setEnabled(!ui->widgetConfig->isEnabled());
     isSimulationStarted = !ui->widgetConfig->isEnabled();
@@ -62,10 +62,11 @@ void Netsim_MainWindow::on_btnOnOff_pressed(){
 
         ui->widgetWindowStatus->init_params(block_width, block_height, block_count, window_size);
 
-
         threadSender = new QThread;
         threadReceiver = new QThread;
-        workSender = new SimSender;
+        // have a fix
+        workSender = new SimSender(frame_count,window_size,100);
+
         workReceiver = new SimReceiver(frame_count,window_size,100);
         workSender->moveToThread(threadSender);
         workReceiver->moveToThread(threadReceiver);
@@ -73,24 +74,31 @@ void Netsim_MainWindow::on_btnOnOff_pressed(){
         connect(threadSender, &QThread::started, workSender, &SimSender::work);
         connect(threadReceiver, &QThread::started, workReceiver, &SimReceiver::work);
 
-        connect(workReceiver, &SimReceiver::status_update,
+        connect(workSender, &SimSender::sendwindow_status,
                 this, &Netsim_MainWindow::paint_recalculate);
+
+        /*
+        void send_status(int current_frame);
+        void sendwindow_status(int current_left);*/
         //        ui->widgetWindowStatus, &StatusWidget::widget_update_paint_value);
 
         connect(workSender, &SimSender::something_need_to_announce,
                 this, &Netsim_MainWindow::print_dbg_msg);
         //can just trigger repaint event here
-
-        threadSender->start();
         threadReceiver->start();
+        threadSender->start();
 
 
 
     }else{
         threadSender->terminate();
         threadReceiver->terminate();
-        threadSender->wait();
-        threadReceiver->wait();
+        workSender->request_stop();
+        workReceiver->request_stop();
+        qDebug("terminated");
+        threadSender->wait(1000);
+        threadReceiver->wait(1000);
+        qDebug("waiting");
 
         delete threadSender;
         delete threadReceiver;
@@ -125,7 +133,7 @@ void Netsim_MainWindow::widget_repaint(){
 //    }
 //}
 
-void Netsim_MainWindow::paint_recalculate(int current_window, int window_size)
+void Netsim_MainWindow::paint_recalculate(int current_window)
 {
     //recalculate the block image
 
@@ -138,7 +146,7 @@ void Netsim_MainWindow::paint_recalculate(int current_window, int window_size)
     //Assume all start with 0
 
     int draw_start;
-    this->window_size = window_size;
+    // this->window_size = window_size;
 
     if (! (current_window + window_size == frame_count)){
         //situation 1~4
@@ -203,7 +211,7 @@ void Netsim_MainWindow::on_actionQuit_triggered()
 
 void Netsim_MainWindow::on_actionAbout_triggered()
 {
-  //  dlgAbout aboutdlg;
+    //  dlgAbout aboutdlg;
     QDialog *aboutdlg = new dlgAbout(this);
 
     aboutdlg->setModal(true);

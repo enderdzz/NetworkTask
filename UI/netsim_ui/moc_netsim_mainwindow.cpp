@@ -1,18 +1,18 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'netsim_mainwindow.h'
 **
-** Created by: The Qt Meta Object Compiler version 67 (Qt 5.7.0)
+** Created by: The Qt Meta Object Compiler version 67 (Qt 5.2.1)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
 
-#include "../netsim_ui/netsim_mainwindow.h"
+#include "netsim_mainwindow.h"
 #include <QtCore/qbytearray.h>
 #include <QtCore/qmetatype.h>
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'netsim_mainwindow.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 67
-#error "This file was generated using the moc from 5.7.0. It"
+#error "This file was generated using the moc from 5.2.1. It"
 #error "cannot be used with the include files from this version of Qt."
 #error "(The moc has changed too much.)"
 #endif
@@ -20,33 +20,32 @@
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_Netsim_MainWindow_t {
     QByteArrayData data[17];
-    char stringdata0[307];
+    char stringdata[308];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
-    qptrdiff(offsetof(qt_meta_stringdata_Netsim_MainWindow_t, stringdata0) + ofs \
-        - idx * sizeof(QByteArrayData)) \
+    offsetof(qt_meta_stringdata_Netsim_MainWindow_t, stringdata) + ofs \
+        - idx * sizeof(QByteArrayData) \
     )
 static const qt_meta_stringdata_Netsim_MainWindow_t qt_meta_stringdata_Netsim_MainWindow = {
     {
-QT_MOC_LITERAL(0, 0, 17), // "Netsim_MainWindow"
-QT_MOC_LITERAL(1, 18, 18), // "on_btnQuit_pressed"
-QT_MOC_LITERAL(2, 37, 0), // ""
-QT_MOC_LITERAL(3, 38, 19), // "on_btnOnOff_pressed"
-QT_MOC_LITERAL(4, 58, 21), // "on_radioArqSw_pressed"
-QT_MOC_LITERAL(5, 80, 21), // "on_radioArqBn_pressed"
-QT_MOC_LITERAL(6, 102, 14), // "widget_repaint"
-QT_MOC_LITERAL(7, 117, 17), // "paint_recalculate"
-QT_MOC_LITERAL(8, 135, 14), // "current_window"
-QT_MOC_LITERAL(9, 150, 11), // "window_size"
-QT_MOC_LITERAL(10, 162, 33), // "on_spinDataLength_editingFini..."
-QT_MOC_LITERAL(11, 196, 33), // "on_spinWindowSize_editingFini..."
-QT_MOC_LITERAL(12, 230, 23), // "on_actionQuit_triggered"
-QT_MOC_LITERAL(13, 254, 24), // "on_actionAbout_triggered"
-QT_MOC_LITERAL(14, 279, 13), // "print_dbg_msg"
-QT_MOC_LITERAL(15, 293, 11), // "const char*"
-QT_MOC_LITERAL(16, 305, 1) // "x"
-
+QT_MOC_LITERAL(0, 0, 17),
+QT_MOC_LITERAL(1, 18, 18),
+QT_MOC_LITERAL(2, 37, 0),
+QT_MOC_LITERAL(3, 38, 19),
+QT_MOC_LITERAL(4, 58, 21),
+QT_MOC_LITERAL(5, 80, 21),
+QT_MOC_LITERAL(6, 102, 14),
+QT_MOC_LITERAL(7, 117, 17),
+QT_MOC_LITERAL(8, 135, 14),
+QT_MOC_LITERAL(9, 150, 11),
+QT_MOC_LITERAL(10, 162, 33),
+QT_MOC_LITERAL(11, 196, 33),
+QT_MOC_LITERAL(12, 230, 23),
+QT_MOC_LITERAL(13, 254, 24),
+QT_MOC_LITERAL(14, 279, 13),
+QT_MOC_LITERAL(15, 293, 11),
+QT_MOC_LITERAL(16, 305, 1)
     },
     "Netsim_MainWindow\0on_btnQuit_pressed\0"
     "\0on_btnOnOff_pressed\0on_radioArqSw_pressed\0"
@@ -56,7 +55,7 @@ QT_MOC_LITERAL(16, 305, 1) // "x"
     "on_spinWindowSize_editingFinished\0"
     "on_actionQuit_triggered\0"
     "on_actionAbout_triggered\0print_dbg_msg\0"
-    "const char*\0x"
+    "const char*\0x\0"
 };
 #undef QT_MOC_LITERAL
 
@@ -74,17 +73,17 @@ static const uint qt_meta_data_Netsim_MainWindow[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    0,   69,    2, 0x08 /* Private */,
-       3,    0,   70,    2, 0x08 /* Private */,
-       4,    0,   71,    2, 0x08 /* Private */,
-       5,    0,   72,    2, 0x08 /* Private */,
-       6,    0,   73,    2, 0x08 /* Private */,
-       7,    2,   74,    2, 0x08 /* Private */,
-      10,    0,   79,    2, 0x08 /* Private */,
-      11,    0,   80,    2, 0x08 /* Private */,
-      12,    0,   81,    2, 0x08 /* Private */,
-      13,    0,   82,    2, 0x08 /* Private */,
-      14,    1,   83,    2, 0x08 /* Private */,
+       1,    0,   69,    2, 0x08,
+       3,    0,   70,    2, 0x08,
+       4,    0,   71,    2, 0x08,
+       5,    0,   72,    2, 0x08,
+       6,    0,   73,    2, 0x08,
+       7,    2,   74,    2, 0x08,
+      10,    0,   79,    2, 0x08,
+      11,    0,   80,    2, 0x08,
+      12,    0,   81,    2, 0x08,
+      13,    0,   82,    2, 0x08,
+      14,    1,   83,    2, 0x08,
 
  // slots: parameters
     QMetaType::Void,
@@ -106,7 +105,6 @@ void Netsim_MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, in
 {
     if (_c == QMetaObject::InvokeMetaMethod) {
         Netsim_MainWindow *_t = static_cast<Netsim_MainWindow *>(_o);
-        Q_UNUSED(_t)
         switch (_id) {
         case 0: _t->on_btnQuit_pressed(); break;
         case 1: _t->on_btnOnOff_pressed(); break;
@@ -128,7 +126,7 @@ void Netsim_MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, in
 
 const QMetaObject Netsim_MainWindow::staticMetaObject = {
     { &QMainWindow::staticMetaObject, qt_meta_stringdata_Netsim_MainWindow.data,
-      qt_meta_data_Netsim_MainWindow,  qt_static_metacall, Q_NULLPTR, Q_NULLPTR}
+      qt_meta_data_Netsim_MainWindow,  qt_static_metacall, 0, 0}
 };
 
 
@@ -139,8 +137,8 @@ const QMetaObject *Netsim_MainWindow::metaObject() const
 
 void *Netsim_MainWindow::qt_metacast(const char *_clname)
 {
-    if (!_clname) return Q_NULLPTR;
-    if (!strcmp(_clname, qt_meta_stringdata_Netsim_MainWindow.stringdata0))
+    if (!_clname) return 0;
+    if (!strcmp(_clname, qt_meta_stringdata_Netsim_MainWindow.stringdata))
         return static_cast<void*>(const_cast< Netsim_MainWindow*>(this));
     return QMainWindow::qt_metacast(_clname);
 }

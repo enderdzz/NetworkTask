@@ -1,18 +1,18 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'simsender.h'
 **
-** Created by: The Qt Meta Object Compiler version 67 (Qt 5.7.0)
+** Created by: The Qt Meta Object Compiler version 67 (Qt 5.2.1)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
 
-#include "../netsim_ui/simsender.h"
+#include "simsender.h"
 #include <QtCore/qbytearray.h>
 #include <QtCore/qmetatype.h>
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'simsender.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 67
-#error "This file was generated using the moc from 5.7.0. It"
+#error "This file was generated using the moc from 5.2.1. It"
 #error "cannot be used with the include files from this version of Qt."
 #error "(The moc has changed too much.)"
 #endif
@@ -20,24 +20,23 @@
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_SimSender_t {
     QByteArrayData data[5];
-    char stringdata0[55];
+    char stringdata[56];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
-    qptrdiff(offsetof(qt_meta_stringdata_SimSender_t, stringdata0) + ofs \
-        - idx * sizeof(QByteArrayData)) \
+    offsetof(qt_meta_stringdata_SimSender_t, stringdata) + ofs \
+        - idx * sizeof(QByteArrayData) \
     )
 static const qt_meta_stringdata_SimSender_t qt_meta_stringdata_SimSender = {
     {
-QT_MOC_LITERAL(0, 0, 9), // "SimSender"
-QT_MOC_LITERAL(1, 10, 26), // "something_need_to_announce"
-QT_MOC_LITERAL(2, 37, 0), // ""
-QT_MOC_LITERAL(3, 38, 11), // "const char*"
-QT_MOC_LITERAL(4, 50, 4) // "work"
-
+QT_MOC_LITERAL(0, 0, 9),
+QT_MOC_LITERAL(1, 10, 26),
+QT_MOC_LITERAL(2, 37, 0),
+QT_MOC_LITERAL(3, 38, 11),
+QT_MOC_LITERAL(4, 50, 4)
     },
     "SimSender\0something_need_to_announce\0"
-    "\0const char*\0work"
+    "\0const char*\0work\0"
 };
 #undef QT_MOC_LITERAL
 
@@ -55,10 +54,10 @@ static const uint qt_meta_data_SimSender[] = {
        1,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    1,   24,    2, 0x06 /* Public */,
+       1,    1,   24,    2, 0x06,
 
  // slots: name, argc, parameters, tag, flags
-       4,    0,   27,    2, 0x0a /* Public */,
+       4,    0,   27,    2, 0x0a,
 
  // signals: parameters
     QMetaType::Void, 0x80000000 | 3,    2,
@@ -73,7 +72,6 @@ void SimSender::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, v
 {
     if (_c == QMetaObject::InvokeMetaMethod) {
         SimSender *_t = static_cast<SimSender *>(_o);
-        Q_UNUSED(_t)
         switch (_id) {
         case 0: _t->something_need_to_announce((*reinterpret_cast< const char*(*)>(_a[1]))); break;
         case 1: _t->work(); break;
@@ -86,7 +84,6 @@ void SimSender::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, v
             typedef void (SimSender::*_t)(const char * );
             if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&SimSender::something_need_to_announce)) {
                 *result = 0;
-                return;
             }
         }
     }
@@ -94,7 +91,7 @@ void SimSender::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, v
 
 const QMetaObject SimSender::staticMetaObject = {
     { &QObject::staticMetaObject, qt_meta_stringdata_SimSender.data,
-      qt_meta_data_SimSender,  qt_static_metacall, Q_NULLPTR, Q_NULLPTR}
+      qt_meta_data_SimSender,  qt_static_metacall, 0, 0}
 };
 
 
@@ -105,8 +102,8 @@ const QMetaObject *SimSender::metaObject() const
 
 void *SimSender::qt_metacast(const char *_clname)
 {
-    if (!_clname) return Q_NULLPTR;
-    if (!strcmp(_clname, qt_meta_stringdata_SimSender.stringdata0))
+    if (!_clname) return 0;
+    if (!strcmp(_clname, qt_meta_stringdata_SimSender.stringdata))
         return static_cast<void*>(const_cast< SimSender*>(this));
     return QObject::qt_metacast(_clname);
 }
@@ -131,7 +128,7 @@ int SimSender::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 // SIGNAL 0
 void SimSender::something_need_to_announce(const char * _t1)
 {
-    void *_a[] = { Q_NULLPTR, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
+    void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
     QMetaObject::activate(this, &staticMetaObject, 0, _a);
 }
 QT_END_MOC_NAMESPACE
