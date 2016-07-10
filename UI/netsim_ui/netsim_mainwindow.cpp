@@ -75,8 +75,12 @@ void Netsim_MainWindow::on_btnOnOff_pressed(){
         connect(threadSender, &QThread::started, workSender, &SimSender::work);
         connect(threadReceiver, &QThread::started, workReceiver, &SimReceiver::work);
 
-        connect(workReceiver, &SimReceiver::status_update,
+        connect(workSender, &SimSender::sendwindow_status,
                 this, &Netsim_MainWindow::paint_recalculate);
+
+        /*
+        void send_status(int current_frame);
+        void sendwindow_status(int current_left);*/
         //        ui->widgetWindowStatus, &StatusWidget::widget_update_paint_value);
 
         connect(workSender, &SimSender::something_need_to_announce,
@@ -130,7 +134,7 @@ void Netsim_MainWindow::widget_repaint(){
 //    }
 //}
 
-void Netsim_MainWindow::paint_recalculate(int current_window, int window_size)
+void Netsim_MainWindow::paint_recalculate(int current_window)
 {
     //recalculate the block image
 
@@ -143,7 +147,7 @@ void Netsim_MainWindow::paint_recalculate(int current_window, int window_size)
     //Assume all start with 0
 
     int draw_start;
-    this->window_size = window_size;
+   // this->window_size = window_size;
 
     if (! (current_window + window_size == frame_count)){
         //situation 1~4

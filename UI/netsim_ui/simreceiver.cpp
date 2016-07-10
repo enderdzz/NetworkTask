@@ -74,7 +74,7 @@ void SimReceiver::work(){
                 send(sock, ack, sizeof(ack), 0);
 
                 emit something_need_to_announce("Recv ALL!");
-                need_stop = true;
+                break;
           }
      }
      close(sock);

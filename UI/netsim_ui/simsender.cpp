@@ -29,9 +29,9 @@ void SimSender::work(){
     send(s, ack, sizeof(ack), 0);
 
     while(1){
+continue_send:
           if (need_stop)
                     break;
-continue_send:
           if(cur < total) {
                     origin_cur = cur;
                     
