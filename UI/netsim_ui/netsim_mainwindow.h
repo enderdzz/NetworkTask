@@ -38,7 +38,7 @@ private:
     QTimer* frame_sender;
     const int frame_count = 60;
     int block_count;
-    int window_size = 8;
+    int window_size = 1;
     int going_to_send = 0;
     int going_to_trigger = 0;
     //demo threader

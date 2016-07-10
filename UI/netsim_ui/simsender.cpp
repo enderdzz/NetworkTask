@@ -26,7 +26,7 @@ void SimSender::work(){
     total = this->frame_count;
     WindowSize = this->window_size;
     P1 = 100;
-    P2 = 0.1500 * P1;
+    P2 = 0.1000 * P1;
     int2char(total);
 
     ::connect(s,(struct sockaddr*)&ser, sizeof(ser));
@@ -74,7 +74,7 @@ continue_send:
 
             /* 打开标号为cur的timer */
             tim = new QTimer;
-            tim->setInterval(5000);
+            tim->setInterval(2000);
             tim->setSingleShot(true);
             tim->start();
 
@@ -105,7 +105,14 @@ continue_send:
                     }
                     else{
                         cur = origin_left;
+
+                        // care !!
+                        emit timeout_send(cur);
+
                         qDebug("RELOAD!!!!!");
+
+
+
                         tim->stop();
                         delete tim;
                         tim=NULL;
@@ -124,6 +131,8 @@ continue_send:
                         if(left >= total)  cur = total;
                         /* 待确认帧更新 */
                         origin_left = now + 1;
+
+                        // care !!
                         emit send_status(origin_left);
                     }
 

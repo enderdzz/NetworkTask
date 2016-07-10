@@ -59,6 +59,7 @@ signals:
     void something_need_to_announce(const char*);
     void send_status(int current_frame);
     void sendwindow_status(int current_left);
+    void timeout_send(int timeout_frame);
 };
 
 #endif // SIMSENDER_H
