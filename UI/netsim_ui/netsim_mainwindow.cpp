@@ -68,6 +68,7 @@ void Netsim_MainWindow::on_btnOnOff_pressed(){
         workSender = new SimSender(frame_count,window_size,100);
 
         workReceiver = new SimReceiver(frame_count,window_size,100);
+        ui->widget->graph_init(frame_count);
         workSender->moveToThread(threadSender);
         workReceiver->moveToThread(threadReceiver);
 
@@ -82,13 +83,16 @@ void Netsim_MainWindow::on_btnOnOff_pressed(){
                 ui->widgetWindowStatus, &StatusWidget::finish_paint);
         connect(workSender, &SimSender::timeout_send,
                 ui->widgetWindowStatus, &StatusWidget::trigger_blink);
+
+        connect(workSender, &SimSender::send_status,
+                ui->widget, &graphwidget::yvalue_insert);
         /*
         void send_status(int current_frame);
         void sendwindow_status(int current_left);*/
         //        ui->widgetWindowStatus, &StatusWidget::widget_update_paint_value);
 
-        connect(workSender, &SimSender::something_need_to_announce,
-                this, &Netsim_MainWindow::print_dbg_msg);
+//        connect(workSender, &SimSender::something_need_to_announce,
+//                this, &Netsim_MainWindow::print_dbg_msg);
         //can just trigger repaint event here
         threadReceiver->start(QThread::LowestPriority);
         threadSender->start(QThread::LowestPriority);
@@ -106,6 +110,16 @@ void Netsim_MainWindow::on_btnOnOff_pressed(){
         workSender->request_stop();
         threadSender->wait(100);
         qDebug("waiting");
+
+
+        disconnect(workSender, &SimSender::sendwindow_status,
+                this, &Netsim_MainWindow::paint_update_gtt);
+        disconnect(workSender, &SimSender::send_status,
+                this, &Netsim_MainWindow::paint_update_gts);
+        disconnect(workSender, &SimSender::finish_send,
+                ui->widgetWindowStatus, &StatusWidget::finish_paint);
+        disconnect(workSender, &SimSender::timeout_send,
+                ui->widgetWindowStatus, &StatusWidget::trigger_blink);
 
         delete threadSender;
         delete threadReceiver;

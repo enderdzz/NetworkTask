@@ -55,6 +55,7 @@ void StatusWidget::finish_paint()
 {
     this->current_window = 0xffff;
     this->repaint();
+
 }
 
 void StatusWidget::trigger_blink()

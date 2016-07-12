@@ -5,14 +5,21 @@ graphwidget::graphwidget(QWidget *parent) : QWidget(parent)
 
 }
 
-void graphwidget::graph_init()
+void graphwidget::graph_init(int max_y)
 {
-    yvalue_len = 0;
+    this->max_y = max_y;
+    this->list_len = 0;
 }
 
 void graphwidget::yvalue_insert(int yvalue){
-    yvalue_list[yvalue_len++] = yvalue;
-    emit this->repaint();
+    struct timeval start;
+    gettimeofday(&start, NULL);
+    unsigned int t = start.tv_sec * 100 + start.tv_usec / 10000;
+    data_list[list_len].calculated=false;
+    data_list[list_len].time = t;
+    data_list[list_len].data = yvalue;
+    list_len++;
+    this->repaint();
 }
 
 void graphwidget::paintEvent(QPaintEvent *event)
@@ -63,5 +70,23 @@ void graphwidget::paintEvent(QPaintEvent *event)
     painter.setBrush(QBrush(Qt::black, Qt::SolidPattern));
     painter.drawPolygon(xaxis_arrowhead);
     painter.drawPolygon(yaxis_arrowhead);
+
+    //now paint points
+
+    int x_size = this->width()-margin-margin;
+    int y_size = this->height()-margin-margin;
+
+    for ( int i = 0 ; i < list_len ; i++ ){
+        if ( ! data_list[i].calculated ){
+            data_list[i].ypos = this->height() - margin-
+                            double(data_list[i].data*y_size) / (double)max_y ;
+            data_list[i].xpos = margin + x_size * double(data_list[i].time - data_list[0].time) / (double)(data_list[list_len-1].time - data_list[0].time);
+        }
+        painter.drawEllipse(QPoint(data_list[i].xpos, data_list[i].ypos), 2, 2);
+        painter.drawLine(QPoint(data_list[i].xpos, data_list[i].ypos),
+                         i==0 ? QPoint(data_list[i].xpos, data_list[i].ypos)
+                                :
+                                QPoint(data_list[i-1].xpos, data_list[i-1].ypos));
+    }
 
 }
