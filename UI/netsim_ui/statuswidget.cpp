@@ -53,40 +53,62 @@ void StatusWidget::paintEvent(QPaintEvent *event)
     QPainter painter(this);
     QRect rectangle;
     QTextOption txtopt;
+    QBrush bsh;
+    QPen pen;
 
-    int curX = 0;
-    curX += block_width/2;
-    rectangle.setY((this->height()-block_height)/2);
-    for ( int i = draw_start ; i < draw_start+block_count-1 ; i++){
+    //Four areas are concerned:
+    // [Succeed] [Succeed in this session] [Not okay yet] [Not sent yet]
+    int curX = block_width/2;   //have left margin
+    int curY = (this->height()-block_height)/2;
+    rectangle.setX(curX); rectangle.setY(curY);
+
+    for ( int i = draw_start ; i < draw_start+block_count-1; i++){
+
+        //set pen style
+        if (i>=0 && i<current_window){
+            //succeed area
+            bsh.setStyle(Qt::NoBrush);
+            pen.setStyle(Qt::SolidLine);
+            pen.setColor(Qt::gray);
+        }else if (i >= current_window && i < current_trig ){
+            //succeed_in_this_session
+            bsh.setStyle(Qt::SolidPattern);
+            bsh.setColor(QColor(0,255,0,160));
+            pen.setStyle(Qt::SolidLine);
+            pen.setColor(Qt::black);
+        }else if (i >= current_trig && i < window_size + current_window ){
+            //not_okay_yet
+            bsh.setStyle(Qt::SolidPattern);
+            bsh.setColor(QColor(255,0,0,160));
+            pen.setStyle(Qt::SolidLine);
+            pen.setColor(Qt::black);
+        }else{
+            //not_sent_yet
+            bsh.setStyle(Qt::NoBrush);
+            pen.setStyle(Qt::SolidLine);
+            pen.setColor(Qt::black);
+        }
+        painter.setPen(pen);
+        painter.setBrush(bsh);
+
+        //draw rectangle and number
         rectangle.setX(curX);
         curX += block_width;
         //reset width which changed by drawText
         rectangle.setWidth(block_width);
         rectangle.setHeight(block_height);
-        painter.setPen(Qt::gray);
         painter.drawRect(rectangle);
         txtopt.setAlignment(Qt::AlignCenter | Qt::AlignHCenter);
         painter.drawText(rectangle, QString::number(i),txtopt);
-    }
-    QBrush bsh;
-    QPen pen;
-    bsh.setColor(Qt::green);
-    bsh.setStyle(Qt::Dense7Pattern);
-    painter.setBrush(bsh);
-    rectangle.setX((current_window - draw_start + 0.5)*block_width);
-    rectangle.setWidth((current_trig - current_window)*block_width);
-    painter.drawRect(rectangle);
-    bsh.setColor(Qt::red);
-    painter.setBrush(bsh);
-    rectangle.setX((current_trig - draw_start + 0.5)*block_width);
-    rectangle.setWidth((window_size-(current_trig-current_window))*block_width);
-    painter.drawRect(rectangle);
 
+    }
 
     //draw border
     //bsh
+
     bsh.setStyle(Qt::NoBrush);
     pen.setStyle(Qt::DotLine);
+    pen.setColor(Qt::gray);
     pen.setWidthF(1.25);
     painter.setPen(pen);
     painter.setBrush(bsh);
