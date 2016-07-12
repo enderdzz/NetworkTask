@@ -26,7 +26,7 @@ void SimSender::work(){
     total = this->frame_count;
     WindowSize = this->window_size;
     P1 = 100;
-    P2 = 0.1500 * P1;
+    P2 = error_rate * P1;
     int2char(total);
 
     ::connect(s,(struct sockaddr*)&ser, sizeof(ser));
@@ -188,12 +188,12 @@ int SimSender::read_some_value(void){
 }
 
 
-SimSender::SimSender(int frame_count, int window_size, int timer_delay)
+SimSender::SimSender(int frame_count, int window_size, int timer_delay, double error_rate)
 {
     this->frame_count = frame_count;
     this->window_size = window_size;
     this->timer_delay = timer_delay;
-
+    this->error_rate = error_rate;
     some_value_mutex = new QMutex;
     need_stop = false;
 }

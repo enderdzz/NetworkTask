@@ -27,7 +27,7 @@ public:
     ~SimSender();
     int read_some_value(void);
     void request_stop();
-    SimSender(int frame_count, int window_size, int timer_delay);
+    SimSender(int frame_count, int window_size, int timer_delay, double error_rate);
 
 
 protected:
@@ -35,6 +35,7 @@ protected:
 
 private:
     bool need_stop = false;
+    double error_rate = 0;
 
     /****************************************/
     struct sockaddr_in ser;

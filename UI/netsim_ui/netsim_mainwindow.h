@@ -36,7 +36,7 @@ private:
     Ui::Netsim_MainWindow *ui;
     QTimer* widget_refresh_timer;
     QTimer* frame_sender;
-    const int frame_count = 76;
+    int frame_count = 76;
     int block_count;
     int window_size = 7;
     int going_to_send = 0;

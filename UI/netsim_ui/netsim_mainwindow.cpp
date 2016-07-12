@@ -28,6 +28,7 @@ Netsim_MainWindow::Netsim_MainWindow(QWidget *parent) :
 
     //ui->treeView->setModel(model);
 
+
 }
 
 Netsim_MainWindow::~Netsim_MainWindow()
@@ -49,6 +50,18 @@ void Netsim_MainWindow::on_btnOnOff_pressed(){
     isSimulationStarted = !ui->widgetConfig->isEnabled();
 
     if (isSimulationStarted){
+        //read values from ui now
+        int window_size = ui->spinWindowSize->value();
+        double uplink_err = ui->spinUpError->value();
+        double downlnk_err = ui->spinDownError->value();
+        int data_len = ui->spinDataLength->value();
+
+        int speed = 100 * ((double)100/(double)ui->slidSimSpeed->value());
+
+        frame_count = data_len;
+        this->window_size = window_size;
+
+
         //calculate ui sizes here
         int width = ui->widgetWindowStatus->width();
         QString longest_str = QString::number(frame_count);
@@ -65,9 +78,9 @@ void Netsim_MainWindow::on_btnOnOff_pressed(){
         threadSender = new QThread;
         threadReceiver = new QThread;
         // have a fix
-        workSender = new SimSender(frame_count,window_size,100);
+        workSender = new SimSender(frame_count,this->window_size,speed, uplink_err);
 
-        workReceiver = new SimReceiver(frame_count,window_size,100);
+        workReceiver = new SimReceiver(frame_count,this->window_size,speed, downlnk_err);
         ui->widget->graph_init(frame_count);
         workSender->moveToThread(threadSender);
         workReceiver->moveToThread(threadReceiver);
