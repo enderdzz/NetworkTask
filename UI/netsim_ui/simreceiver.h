@@ -25,7 +25,7 @@ public slots:
 
 public:
     int get_status(int &current_window);
-    SimReceiver(int frame_count, int window_size, int timer_delay);
+    SimReceiver(int frame_count, int window_size, int timer_delay, double error_rate);
     void request_stop();
     ~SimReceiver();
 
@@ -35,7 +35,7 @@ protected:
 
 private:
     bool need_stop = false;
-
+    double error_rate = 0;
     int s, err, sock, total, i, cur;
     struct sockaddr_in ser, cli;
     char ack[20]={};
@@ -47,12 +47,15 @@ private:
     int timer_delay = 0;
 
     void int2char(int z);
-    QMutex* read_mutex;
+
 
 signals:
     void status_update(int current_frame, int current_window);
     void receiver_status_update(int current_frame);
     void something_need_to_announce(const char*);
+
+    void sent_succeed();
+    void sent_failed();
 };
 
 

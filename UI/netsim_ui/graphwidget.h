@@ -8,18 +8,28 @@
 #include <QPainter>
 #include <cmath>
 #include <QBrush>
+#include <sys/time.h>
 
 class graphwidget : public QWidget
 {
     Q_OBJECT
 public:
     explicit graphwidget(QWidget *parent = 0);
-    void graph_init();
+    void graph_init(int max_y);
 
 private:
+    typedef struct STRUCT_node{
+        bool calculated = false;
+        int xpos;
+        int ypos;
+        int time;
+        int data;
+    } nodes;
+
     QMutex widget_value_busy;
-    int yvalue_list[200];
-    int yvalue_len = 0;
+    int list_len = 0;
+    nodes data_list[200];
+    int max_y = 0;
 
 signals:
 

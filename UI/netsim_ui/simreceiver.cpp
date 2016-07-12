@@ -36,7 +36,7 @@ void SimReceiver::work(){
     qDebug("Recv from the sender: total frame is %d.\n", total);
 
     P1 = 100;
-    P2 = 0.2000 * P1;
+    P2 = error_rate * P1;
     qDebug("P1 = %d, P2 = %d\n", P1, P2);
 
     while(1){
@@ -55,6 +55,7 @@ void SimReceiver::work(){
             if(window_size != 1) cur++;
             // care
             this->current_frame = cur;
+            emit sent_failed();
             emit receiver_status_update(this->current_frame);
         }
         if(check == cur && cur < total){
@@ -72,6 +73,7 @@ void SimReceiver::work(){
             // care
             this->current_frame = cur;
             emit receiver_status_update(this->current_frame);
+            emit sent_succeed();
             send(sock, ack, sizeof(ack), 0);
         }
         if(cur == total) { // make sure the last frame's ack is sended successfully!
@@ -82,7 +84,6 @@ void SimReceiver::work(){
             sleep(1);
             send(sock, ack, sizeof(ack), MSG_NOSIGNAL);
 
-            emit something_need_to_announce("Recv ALL!");
             break;
         }
     }
@@ -93,18 +94,19 @@ void SimReceiver::work(){
 
 int SimReceiver::get_status(int &current_window)
 {
-    QMutexLocker locker(read_mutex);
+
     current_window = current_frame;
     return current_frame;
 }
 
-SimReceiver::SimReceiver(int frame_count, int window_size, int timer_delay)
+SimReceiver::SimReceiver(int frame_count, int window_size, int timer_delay, double error_rate)
 {
     this->frame_count = frame_count;
     this->window_size = window_size;
     this->timer_delay = timer_delay;
     this->current_frame = 0;
-    read_mutex = new QMutex;
+    this->error_rate = error_rate;
+
     need_stop = false;
 }
 
@@ -115,13 +117,13 @@ void SimReceiver::request_stop()
 
 SimReceiver::~SimReceiver()
 {
-    delete read_mutex;
+
 }
 
 // receiver needn't to use the timer!
 void SimReceiver::timerEvent(QTimerEvent *event){
     //When a timer triggered, get its id
-    QMutexLocker locker(read_mutex);
+
     if (event->timerId() == timer_id ){
 
         emit status_update(current_frame, window_size);

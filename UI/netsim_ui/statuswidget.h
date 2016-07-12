@@ -25,6 +25,12 @@ public slots:
                                    int current_window,
                                    int current_trig,
                                    int window_size);
+    void finish_paint();
+    void trigger_blink();
+
+private slots:
+    void blinker_timeout();
+    void blinkercontroller_timeout();
 
 private:
     Ui::StatusWidget *ui;
@@ -37,6 +43,10 @@ private:
     int draw_start = 0;
     int window_size = 0;
     int current_trig = 0;
+    QTimer *blinker;
+    QTimer *blinkcontroller;
+    bool show_blink_block = false;
+
 };
 
 #endif // STATUSWIDGET_H
