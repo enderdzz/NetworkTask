@@ -1,13 +1,25 @@
 #include "statuswidget.h"
 #include "ui_statuswidget.h"
 #include <QPainter>
+#include <unistd.h>
 #include <QMutexLocker>
+#include <QTimer>
 
 StatusWidget::StatusWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::StatusWidget)
 {
     ui->setupUi(this);
+    blinker = new QTimer;
+    blinkcontroller = new QTimer;
+    blinker->setInterval(100);
+    blinker->stop();
+    blinkcontroller->stop();
+    connect(blinker, &QTimer::timeout,
+            this, &StatusWidget::blinker_timeout);
+    connect(blinkcontroller, &QTimer::timeout,
+            this, &StatusWidget::blinkercontroller_timeout);
+
 }
 
 StatusWidget::~StatusWidget()
@@ -42,8 +54,15 @@ void StatusWidget::widget_update_paint_value(int draw_start,
 void StatusWidget::finish_paint()
 {
     this->current_window = 0xffff;
-
     this->repaint();
+}
+
+void StatusWidget::trigger_blink()
+{
+    blinkcontroller->setSingleShot(true);
+    blinkcontroller->setInterval(500);
+    blinkcontroller->start();
+    blinker->start();
 }
 
 void StatusWidget::paintEvent(QPaintEvent *event)
@@ -112,7 +131,19 @@ void StatusWidget::paintEvent(QPaintEvent *event)
 
     //draw border
     //bsh
-
+    if (show_blink_block){
+        rectangle.setX(0);
+        rectangle.setY(0);
+        rectangle.setWidth(this->width());
+        rectangle.setHeight(this->height());
+        painter.setCompositionMode(QPainter::CompositionMode_Darken);
+        bsh.setStyle(Qt::SolidPattern);
+        bsh.setColor(QColor(0,0,0,60));
+        painter.setPen(pen);
+        painter.setBrush(bsh);
+        painter.drawRect(rectangle);
+        painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
+    }
     bsh.setStyle(Qt::NoBrush);
     pen.setStyle(Qt::DotLine);
     pen.setColor(Qt::gray);
@@ -124,5 +155,16 @@ void StatusWidget::paintEvent(QPaintEvent *event)
     rectangle.setWidth(this->width());
     rectangle.setHeight(this->height());
     painter.drawRect(rectangle);
+}
 
+void StatusWidget::blinker_timeout()
+{
+    show_blink_block = !show_blink_block;
+    this->repaint();
+}
+
+void StatusWidget::blinkercontroller_timeout(){
+    blinker->stop();
+    show_blink_block = false;
+    this->repaint();
 }

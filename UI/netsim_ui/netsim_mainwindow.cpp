@@ -80,6 +80,8 @@ void Netsim_MainWindow::on_btnOnOff_pressed(){
                 this, &Netsim_MainWindow::paint_update_gts);
         connect(workSender, &SimSender::finish_send,
                 ui->widgetWindowStatus, &StatusWidget::finish_paint);
+        connect(workSender, &SimSender::timeout_send,
+                ui->widgetWindowStatus, &StatusWidget::trigger_blink);
         /*
         void send_status(int current_frame);
         void sendwindow_status(int current_left);*/
