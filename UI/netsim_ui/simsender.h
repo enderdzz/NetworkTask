@@ -25,7 +25,6 @@ public slots:
 
 public:
     ~SimSender();
-    int read_some_value(void);
     void request_stop();
     SimSender(int frame_count, int window_size, int timer_delay, double error_rate);
 
@@ -52,9 +51,7 @@ private:
 
     void int2char(int z);
     /****************************************/
-    int some_value = 0;
-    QMutex* some_value_mutex;
-    // QMutex* read_mutex;
+
 
 signals:
     void something_need_to_announce(const char*);
@@ -62,6 +59,9 @@ signals:
     void sendwindow_status(int current_left);
     void timeout_send(int timeout_frame);
     void finish_send();
+
+    void send_succeed();
+    void send_failed();
 };
 
 #endif // SIMSENDER_H

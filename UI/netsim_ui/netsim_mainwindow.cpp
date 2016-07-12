@@ -28,7 +28,6 @@ Netsim_MainWindow::Netsim_MainWindow(QWidget *parent) :
 
     //ui->treeView->setModel(model);
 
-
 }
 
 Netsim_MainWindow::~Netsim_MainWindow()
@@ -60,6 +59,11 @@ void Netsim_MainWindow::on_btnOnOff_pressed(){
 
         frame_count = data_len;
         this->window_size = window_size;
+
+        value_matrix[0][0]=0;
+        value_matrix[0][1]=0;
+        value_matrix[1][0]=0;
+        value_matrix[1][1]=0;
 
 
         //calculate ui sizes here
@@ -99,6 +103,19 @@ void Netsim_MainWindow::on_btnOnOff_pressed(){
 
         connect(workSender, &SimSender::send_status,
                 ui->widget, &graphwidget::yvalue_insert);
+
+        //here we'll define some values to trigger update event of tree view
+        connect(workSender, &SimSender::send_succeed,
+                this, &Netsim_MainWindow::tree_sender_succeed);
+        connect(workSender, &SimSender::send_failed,
+                this, &Netsim_MainWindow::tree_sender_failed);
+        connect(workReceiver, &SimReceiver::sent_succeed,
+                this, &Netsim_MainWindow::tree_recver_succeed);
+        connect(workReceiver, &SimReceiver::sent_failed,
+                this, &Netsim_MainWindow::tree_recver_failed);
+
+
+
         /*
         void send_status(int current_frame);
         void sendwindow_status(int current_left);*/
@@ -134,8 +151,24 @@ void Netsim_MainWindow::on_btnOnOff_pressed(){
         disconnect(workSender, &SimSender::timeout_send,
                 ui->widgetWindowStatus, &StatusWidget::trigger_blink);
 
+        disconnect(workSender, &SimSender::send_status,
+                ui->widget, &graphwidget::yvalue_insert);
+
+        //here we'll define some values to trigger update event of tree view
+        disconnect(workSender, &SimSender::send_succeed,
+                this, &Netsim_MainWindow::tree_sender_succeed);
+        disconnect(workSender, &SimSender::send_failed,
+                this, &Netsim_MainWindow::tree_sender_failed);
+        disconnect(workReceiver, &SimReceiver::sent_succeed,
+                this, &Netsim_MainWindow::tree_recver_succeed);
+        disconnect(workReceiver, &SimReceiver::sent_failed,
+                this, &Netsim_MainWindow::tree_recver_failed);
+        delete workSender;
+        delete workReceiver;
+
         delete threadSender;
         delete threadReceiver;
+
 
   //      on_btnOnOff_pressed();
     }
@@ -211,10 +244,29 @@ void Netsim_MainWindow::paint_recalculate()
 
 }
 
+void Netsim_MainWindow::update_treeview()
+{
+    ui->tableWidget->setColumnCount(2);
+    ui->tableWidget->setRowCount(3);
+
+    QStringList headers;
+    headers << "Item" << "Value";
+    ui->tableWidget->setHorizontalHeaderLabels(headers);
+    ui->tableWidget->setItem(0, 0, new QTableWidgetItem(QString("Sent(pkt)")));
+    ui->tableWidget->setItem(0, 1, new QTableWidgetItem(QString::number(value_matrix[0][0])));
+    ui->tableWidget->setItem(1, 0, new QTableWidgetItem(QString("Lost(pkt)")));
+    ui->tableWidget->setItem(1, 1, new QTableWidgetItem(QString::number(value_matrix[0][1])));
+    ui->tableWidget->setItem(2, 0, new QTableWidgetItem(QString("Quality(%)")));
+    ui->tableWidget->setItem(2, 1, new QTableWidgetItem(QString::number(value_matrix[0][0]*100/(value_matrix[0][0]+value_matrix[0][1]))));
+}
+
 void Netsim_MainWindow::paint_update_gts(int current_window)
 {
     this->going_to_send = current_window;
     paint_recalculate();
+    this->ui->progressBar->setValue(100*current_window/(frame_count-1));
+    if (current_window == frame_count)
+    {};//    this->ui->btnOnOff->click();
 }
 
 void Netsim_MainWindow::paint_update_gtt(int current_window)
@@ -272,3 +324,29 @@ void Netsim_MainWindow::print_dbg_msg(const char* x)
 {
     qDebug(x);
 }
+
+void Netsim_MainWindow::tree_sender_succeed()
+{
+    value_matrix[0][0]++;
+    update_treeview();
+}
+
+void Netsim_MainWindow::tree_recver_succeed()
+{
+    value_matrix[1][0]++;
+    update_treeview();
+}
+void Netsim_MainWindow::tree_sender_failed()
+{
+    value_matrix[0][1]++;
+    update_treeview();
+}
+
+void Netsim_MainWindow::tree_recver_failed()
+{
+    value_matrix[1][1]++;
+    update_treeview();
+}
+
+
+

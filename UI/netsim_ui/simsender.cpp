@@ -50,11 +50,12 @@ continue_send:
                     int2char(cur);
                     /* 一定概率丢包 */
                     //qDebug("cur = %d, random = %d\n", cur, random);
-                    if(random < P2){ }//do nothing
+                    if(random < P2){
+                        emit send_failed();
+                    }//do nothing
                     else
                         send(s, ack, sizeof(ack), MSG_NOSIGNAL);
-
-
+                        emit send_succeed();
                 }
                 /* 不能发直接退 */
                 else break;
@@ -108,7 +109,7 @@ continue_send:
 
                         // care !!
                         emit timeout_send(cur);
-
+                        emit send_failed();
                         qDebug("RELOAD!!!!!");
 
 
@@ -134,6 +135,7 @@ continue_send:
 
                         // care !!
                         emit send_status(origin_left);
+                        emit send_succeed();
                     }
 
                     /* 如果非正常顺序到达,已在循环结束之前将窗口跑完则直接退出 */
@@ -174,7 +176,7 @@ continue_send:
 
 SimSender::~SimSender()
 {
-    delete some_value_mutex;
+
 }
 
 void SimSender::request_stop()
@@ -182,10 +184,6 @@ void SimSender::request_stop()
     need_stop = true;
 }
 
-int SimSender::read_some_value(void){
-    QMutexLocker locker(some_value_mutex);
-    return some_value;
-}
 
 
 SimSender::SimSender(int frame_count, int window_size, int timer_delay, double error_rate)
@@ -194,7 +192,7 @@ SimSender::SimSender(int frame_count, int window_size, int timer_delay, double e
     this->window_size = window_size;
     this->timer_delay = timer_delay;
     this->error_rate = error_rate;
-    some_value_mutex = new QMutex;
+
     need_stop = false;
 }
 

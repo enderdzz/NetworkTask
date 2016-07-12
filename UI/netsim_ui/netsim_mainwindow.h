@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "including.h"
+#include <QTreeWidgetItem>
 extern int showmsg();
 
 namespace Ui {
@@ -32,6 +33,11 @@ private slots:
     void on_actionAbout_triggered();
     void print_dbg_msg(const char* x);
 
+    void tree_sender_succeed();
+    void tree_sender_failed();
+    void tree_recver_succeed();
+    void tree_recver_failed();
+
 private:
     Ui::Netsim_MainWindow *ui;
     QTimer* widget_refresh_timer;
@@ -47,6 +53,9 @@ private:
     SimReceiver* workReceiver;
     bool isSimulationStarted = false;
     void paint_recalculate();
+
+    int value_matrix[2][2];//(0,0/1):sender succeed/failed, (1,0/1):recver
+    void update_treeview();
 };
 
 #endif // NETSIM_MAINWINDOW_H

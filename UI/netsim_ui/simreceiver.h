@@ -47,12 +47,15 @@ private:
     int timer_delay = 0;
 
     void int2char(int z);
-    QMutex* read_mutex;
+
 
 signals:
     void status_update(int current_frame, int current_window);
     void receiver_status_update(int current_frame);
     void something_need_to_announce(const char*);
+
+    void sent_succeed();
+    void sent_failed();
 };
 
 
