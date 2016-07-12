@@ -73,14 +73,14 @@ void graphwidget::paintEvent(QPaintEvent *event)
 
     //now paint points
 
-    int x_size = this->width()-margin-margin;
-    int y_size = this->height()-margin-margin;
+    int x_size = this->width()-3*margin;
+    int y_size = this->height()-3*margin;
 
     for ( int i = 0 ; i < list_len ; i++ ){
         if ( ! data_list[i].calculated ){
-            data_list[i].ypos = this->height() - margin-
+            data_list[i].ypos = this->height() - 2*margin-
                             double(data_list[i].data*y_size) / (double)max_y ;
-            data_list[i].xpos = margin + x_size * double(data_list[i].time - data_list[0].time) / (double)(data_list[list_len-1].time - data_list[0].time);
+            data_list[i].xpos = 2*margin + x_size * double(data_list[i].time - data_list[0].time) / (double)(data_list[list_len-1].time - data_list[0].time);
         }
         painter.drawEllipse(QPoint(data_list[i].xpos, data_list[i].ypos), 2, 2);
         painter.drawLine(QPoint(data_list[i].xpos, data_list[i].ypos),
