@@ -39,6 +39,13 @@ void StatusWidget::widget_update_paint_value(int draw_start,
     this->current_trig=current_trig;
 }
 
+void StatusWidget::finish_paint()
+{
+    this->current_window = 0xffff;
+
+    this->repaint();
+}
+
 void StatusWidget::paintEvent(QPaintEvent *event)
 {
     QMutexLocker locker(&widget_value_busy);

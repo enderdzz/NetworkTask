@@ -25,6 +25,8 @@ public slots:
                                    int current_window,
                                    int current_trig,
                                    int window_size);
+    void finish_paint();
+    //void trigger_blink();
 
 private:
     Ui::StatusWidget *ui;
